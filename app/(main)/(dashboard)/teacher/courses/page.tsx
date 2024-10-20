@@ -1,11 +1,11 @@
 import HeaderPage from "@/components/ui/header-page";
 import { PageParamasProps } from "@/dtype";
-import { getCourses } from "@/features/courses/actions/get-courses";
+import { getCoursesOfTeacher } from "@/features/courses/actions/get-courses-of-teacher";
 import CoursesList from "@/features/courses/components/courses-list";
 
 
 export default async function CoursesPage(searchParams: PageParamasProps) {
-  const { courses, pagination } = await getCourses(searchParams)
+  const { courses, pagination } = await getCoursesOfTeacher(searchParams)
   return (
     <div className="space-y-3 py-4 lg:py-8">
       <HeaderPage

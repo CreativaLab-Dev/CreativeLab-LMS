@@ -22,10 +22,10 @@ import { Button } from "@/components/ui/button"
 import { Course } from "@prisma/client"
 import { UploadDropzone } from "@/utils/uploadthing"
 import { PencilIcon, X } from "lucide-react"
-import { AddNewCourse } from "../actions/add-new-course"
+import { AddNewCourseOfTeacher } from "../actions/add-new-course-of-teacher"
 import { NewCourseSchema } from "../schemas"
 import { FormError } from "@/components/ui/form-error"
-import { UpdateCourseById } from "../actions/update-course-by-id"
+import { UpdateCourseOfTeacherById } from "../actions/update-course-of-teacher-by-id"
 
 interface CourseFormAddProps {
   course?: Course
@@ -52,7 +52,7 @@ export const CourseForm = ({ course }: CourseFormAddProps) => {
 
     startTransition(() => {
       if (course?.id) {
-        UpdateCourseById(course.id, values)
+        UpdateCourseOfTeacherById(course.id, values)
           .then((response) => {
             if (response?.error) {
               setError(response.error)
@@ -63,14 +63,14 @@ export const CourseForm = ({ course }: CourseFormAddProps) => {
             }
           })
       } else {
-        AddNewCourse(values)
+        AddNewCourseOfTeacher(values)
           .then((response) => {
             if (response?.error) {
               setError(response.error)
             }
             if (response?.success) {
               toast.success("Curso creado exitosamente")
-              router.push(`/courses`)
+              router.push(`/teacher/courses`)
             }
           })
       }
@@ -121,7 +121,7 @@ export const CourseForm = ({ course }: CourseFormAddProps) => {
                 </div>
                 : <div className="relative">
 
-                  <div className="relative w-96 h-72">
+                  <div className="relative w-96 h-56">
                     <Image
                       src={form.getValues('imagePath') || "https://github.com/shadcn.png"}
                       className="rounded"

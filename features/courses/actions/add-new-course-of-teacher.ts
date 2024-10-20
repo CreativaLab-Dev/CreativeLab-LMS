@@ -1,12 +1,11 @@
 'use server'
 
 import * as z from "zod"
-import { auth } from "@/auth"
-import { db } from "@/lib/db"
+import { NewCourseSchema } from "../schemas";
+import { db } from "@/lib/db";
+import { auth } from "@/auth";
 
-import { NewCourseSchema } from "../schemas"
-
-export const UpdateCourseById = async (courseId: string, values: z.infer<typeof NewCourseSchema>) => {
+export const AddNewCourseOfTeacher = async (values: z.infer<typeof NewCourseSchema>) => {
   const validateFields = NewCourseSchema.safeParse(values)
 
   if (!validateFields.success) {
@@ -28,10 +27,7 @@ export const UpdateCourseById = async (courseId: string, values: z.infer<typeof 
     return { error: "El actual usuario no es profesor" }
   }
 
-  const courseUpdated = await db.course.update({
-    where: {
-      id: courseId,
-    },
+  const newCourse = await db.course.create({
     data: {
       name: values.name,
       description: values.description,
@@ -42,9 +38,9 @@ export const UpdateCourseById = async (courseId: string, values: z.infer<typeof 
     }
   })
 
-  if (!courseUpdated) {
-    return { error: "Error al editar el curso" }
+  if (!newCourse) {
+    return { error: "Error al crear el curso" }
   }
 
-  return { success: true }
+  return { success: true, id: newCourse.id }
 }

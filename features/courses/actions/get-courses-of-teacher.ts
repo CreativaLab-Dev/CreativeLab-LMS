@@ -10,7 +10,7 @@ export type GetCourseList = {
   pagination: PaginationResults
 }
 
-export const getCourses = async (searchParams: PageParamasProps) => {
+export const getCoursesOfTeacher = async (searchParams: PageParamasProps) => {
   const session = await auth()
   if (!session) {
     return {
@@ -30,8 +30,6 @@ export const getCourses = async (searchParams: PageParamasProps) => {
     isDesc,
     search
   } = getParams(searchParams)
-
-  console.log('searchParams', searchParams)
 
   const [courses, total] = await db.$transaction([
     db.course.findMany({

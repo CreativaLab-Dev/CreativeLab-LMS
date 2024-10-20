@@ -46,11 +46,11 @@ const CoursesList = ({ courses, pagination }: CourseProps) => {
 
   useEffect(() => {
     const url = qs.stringifyUrl({
-      url: '/courses',
+      url: '/teacher/courses',
       query: {
         search: debouncedValue || null,
         page: Number(params.get('page') ?? 1),
-        sizePage: Number(params.get('sizePage') ?? 100)
+        sizePage: Number(params.get('sizePage') ?? 10)
       }
     }, { skipEmptyString: true, skipNull: true })
     router.push(url)
@@ -74,7 +74,7 @@ const CoursesList = ({ courses, pagination }: CourseProps) => {
         <Button variant="default"
           size='sm'
           className='flex items-center px-3'
-          onClick={() => router.push('/courses/new')}>
+          onClick={() => router.push('/teacher/courses/new')}>
           <Plus size={15} />
           <span className='pl-2'>Curso</span>
         </Button>
@@ -99,7 +99,7 @@ const CoursesList = ({ courses, pagination }: CourseProps) => {
               </TableCell>
               <TableCell className="flex items-center justify-center">
                 <div className="w-36 h-24 md:w-80 md:h-44 relative cursor-pointer hover:scale-105 transform transition-transform"
-                  onClick={() => router.push(`/courses/${course.id}/edit`)}
+                  onClick={() => router.push(`/teacher/courses/${course.id}/detail`)}
                 >
                   <Image
                     src={course.imagePath || '/placeholder.png'}
@@ -137,7 +137,7 @@ const CoursesList = ({ courses, pagination }: CourseProps) => {
                     variant="link"
                     size='sm'
                     className='text-green-400 px-2'
-                    onClick={() => router.push(`/courses/${course.id}/edit`)}>
+                    onClick={() => router.push(`/teacher/courses/${course.id}/edit`)}>
                     <Edit2 size={15} />
                   </Button>
                 </TooltipContainer>
@@ -146,6 +146,7 @@ const CoursesList = ({ courses, pagination }: CourseProps) => {
                     variant="link"
                     size='sm'
                     className='text-blue-400 px-2'
+                    onClick={() => router.push(`/teacher/courses/${course.id}/detail`)}
                   >
                     <Menu size={15} />
                   </Button>

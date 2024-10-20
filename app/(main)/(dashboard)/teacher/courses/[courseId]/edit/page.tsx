@@ -1,5 +1,5 @@
 import HeaderPage from "@/components/ui/header-page"
-import { getCourseById } from "@/features/courses/actions/get-course-by-id"
+import { getCourseOfTeacherById } from "@/features/courses/actions/get-course-of-teacher-by-id"
 import { CourseForm } from "@/features/courses/components/course-form"
 import { redirect } from "next/navigation"
 
@@ -13,9 +13,9 @@ export default async function CourseIdPage({
   params
 }: CourseIdPageProps) {
   const courseId = params.courseId
-  const course = await getCourseById(courseId)
+  const course = await getCourseOfTeacherById(courseId)
   if (!course) {
-    return redirect('/courses')
+    return redirect('/teacher/courses')
   }
   return (
     <div className="space-y-3 py-4 lg:py-8 h-full">

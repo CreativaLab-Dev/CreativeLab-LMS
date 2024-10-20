@@ -1,8 +1,8 @@
 'use client'
 
 import { NavbarRoutes } from "@/components/ui/navbar-routes";
-import MobileSidebar from "./mobile-sidebar";
 import { User } from "@prisma/client";
+import MobileSidebar from "./mobile-sidebar";
 
 interface NavbarProps {
   currentUser: User;

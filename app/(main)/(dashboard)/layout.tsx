@@ -21,7 +21,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
         <Navbar currentUser={currentUser} />
       </div>
       <div className="hidden md:flex w-56 flex-col fixed inset-y-0">
-        <Sidebar />
+        <Sidebar currentUser={currentUser} />
       </div>
       <main className="md:pl-56 pt-20">
         {children}
