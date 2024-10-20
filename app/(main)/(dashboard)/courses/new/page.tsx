@@ -1,5 +1,5 @@
 import HeaderPage from "@/components/ui/header-page";
-import { CourseFormAdd } from "@/features/courses/components/course-form-add";
+import { CourseForm } from "@/features/courses/components/course-form";
 
 const CourseNewPage = () => {
   return (
@@ -12,7 +12,7 @@ const CourseNewPage = () => {
         iconColor="text-sky-500"
       />
       <div className="px-10 md:px-8">
-        <CourseFormAdd />
+        <CourseForm />
       </div>
     </div>
   );

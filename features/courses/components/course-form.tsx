@@ -28,7 +28,7 @@ interface CourseFormAddProps {
   course?: Course
 }
 
-export const CourseFormAdd = ({ course }: CourseFormAddProps) => {
+export const CourseForm = ({ course }: CourseFormAddProps) => {
   const [isPending, startTransition] = useTransition()
   const [isEdittingImage, setIsEdittingImage] = useState(false);
   const [error, setError] = useState('');
@@ -49,9 +49,9 @@ export const CourseFormAdd = ({ course }: CourseFormAddProps) => {
     startTransition(() => {
       AddNewCourse(values)
         .then((response) => {
-          // if (response?.error) {
-          //   setError(response.error)
-          // }
+          if (response?.error) {
+            setError(response.error)
+          }
           // if (response?.success) {
           //   // TODO: TOAST
           //   // toast({
