@@ -1,9 +1,9 @@
 import { auth } from "@/auth"
-import { PaginationResults } from "@/components/ui/pagination-list"
-import { PageParamasProps } from "@/dtype"
 import { db } from "@/lib/db"
-import { getParams } from "@/utils/getParams"
 import { Course } from "@prisma/client"
+import { PageParamasProps } from "@/dtype"
+import { getParams } from "@/utils/getParams"
+import { PaginationResults } from "@/components/ui/pagination-list"
 
 export type GetCourseList = {
   courses: Course[],
@@ -31,15 +31,29 @@ export const getCourses = async (searchParams: PageParamasProps) => {
     search
   } = getParams(searchParams)
 
+  console.log('searchParams', searchParams)
+
   const [courses, total] = await db.$transaction([
     db.course.findMany({
       where: {
-        teacher: {
-          userId: session.user.id,
-        },
-        name: {
-          contains: search,
-        },
+        AND: [
+          {
+            teacher: {
+              userId: session.user.id
+            }
+          },
+          {
+            name: {
+              contains: search,
+            },
+          },
+          {
+            description: {
+              contains: search,
+              mode: 'insensitive'
+            }
+          }
+        ]
       },
       orderBy: {
         [sortBy || 'createdAt']: isDesc ? 'desc' : 'asc',
@@ -49,12 +63,23 @@ export const getCourses = async (searchParams: PageParamasProps) => {
     }),
     db.course.count({
       where: {
-        teacher: {
-          userId: session.user.id,
-        },
-        name: {
-          contains: search,
-        },
+        AND: [
+          {
+            teacher: {
+              userId: session.user.id
+            }
+          },
+          {
+            name: {
+              contains: search,
+            },
+          },
+          {
+            description: {
+              contains: search,
+            }
+          }
+        ]
       }
     }),
   ])

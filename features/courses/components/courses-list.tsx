@@ -2,7 +2,7 @@
 
 import { Edit2, Menu, Plus, Search, Trash2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { format } from 'date-fns';
 import qs from "query-string"
 
@@ -22,6 +22,7 @@ import TooltipContainer from "@/components/ui/tooltip-container";
 import { PaginationList, PaginationResults } from "@/components/ui/pagination-list";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
+import { useDebounce } from "@/hooks/use-debounce";
 
 interface CourseProps {
   courses: Course[]
@@ -29,8 +30,10 @@ interface CourseProps {
 }
 
 const CoursesList = ({ courses, pagination }: CourseProps) => {
+  const [search, setSearch] = useState('');
   const router = useRouter()
   const params = useSearchParams()
+  const debouncedValue = useDebounce(search)
 
   const [ConfirmRemoveCourse, confirmRemoveCourse] = useConfirm(
     'Eliminar curso',
@@ -41,22 +44,17 @@ const CoursesList = ({ courses, pagination }: CourseProps) => {
     // Todo: Implement delete course
   }
 
-  const onFilter = (e: any) => {
-    const value = e.target.value;
+  useEffect(() => {
     const url = qs.stringifyUrl({
       url: '/courses',
       query: {
-        search: value || null,
+        search: debouncedValue || null,
         page: Number(params.get('page') ?? 1),
         sizePage: Number(params.get('sizePage') ?? 100)
       }
     }, { skipEmptyString: true, skipNull: true })
     router.push(url)
-  }
-
-  useEffect(() => {
-    onFilter({ target: { value: params.get('search') } })
-  }, [])
+  }, [debouncedValue, router])
   return (
     <>
       <div className="flex justify-between items-center mb-4">
@@ -65,7 +63,7 @@ const CoursesList = ({ courses, pagination }: CourseProps) => {
             <input
               type="text"
               placeholder="Buscar..."
-              onChange={onFilter}
+              onChange={(e) => setSearch(e.target.value)}
               className="pl-10 py-1 border rounded w-full"
             />
             <span className="absolute left-2 top-1/2 transform -translate-y-1/2">
