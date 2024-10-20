@@ -3,7 +3,7 @@ import { auth } from "@/auth";
 import Navbar from "@/features/dashboard/components/navbar";
 import Sidebar from "@/features/dashboard/components/sidebar";
 import { getCurrentUser } from "@/lib/get-current-user";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/sonner";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await auth()
@@ -26,7 +26,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
       <main className="md:pl-56 pt-20">
         {children}
       </main>
-      <Toaster />
+      <Toaster richColors />
     </div>
   );
 }

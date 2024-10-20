@@ -5,11 +5,13 @@ import * as z from "zod"
 import { useForm } from "react-hook-form"
 import { useRouter } from "next/navigation"
 import { useState, useTransition } from "react"
+import { toast } from "sonner"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -23,6 +25,7 @@ import { PencilIcon, X } from "lucide-react"
 import { AddNewCourse } from "../actions/add-new-course"
 import { NewCourseSchema } from "../schemas"
 import { FormError } from "@/components/ui/form-error"
+import { UpdateCourseById } from "../actions/update-course-by-id"
 
 interface CourseFormAddProps {
   course?: Course
@@ -40,27 +43,38 @@ export const CourseForm = ({ course }: CourseFormAddProps) => {
       name: course?.name || "",
       description: course?.description || "",
       imagePath: course?.imagePath || "",
-      isFeatured: false,
-      isNew: false,
+      isFeatured: course?.isFeatured || false,
+      isNew: course?.isNew || false,
     }
   })
 
   const onSubmit = (values: z.infer<typeof NewCourseSchema>) => {
+
     startTransition(() => {
-      AddNewCourse(values)
-        .then((response) => {
-          if (response?.error) {
-            setError(response.error)
-          }
-          // if (response?.success) {
-          //   // TODO: TOAST
-          //   // toast({
-          //   //   description: "Perfil actualizado correctamente!!",
-          //   //   variant: "success",
-          //   // })
-          router.push(`/courses`)
-          // }
-        })
+      if (course?.id) {
+        UpdateCourseById(course.id, values)
+          .then((response) => {
+            if (response?.error) {
+              setError(response.error)
+            }
+            if (response?.success) {
+              toast.success("Curso actualizado exitosamente")
+              router.refresh()
+            }
+          })
+      } else {
+        AddNewCourse(values)
+          .then((response) => {
+            if (response?.error) {
+              setError(response.error)
+            }
+            if (response?.success) {
+              toast.success("Curso creado exitosamente")
+              router.push(`/courses`)
+            }
+          })
+      }
+
     })
   }
 
@@ -110,6 +124,7 @@ export const CourseForm = ({ course }: CourseFormAddProps) => {
                   <div className="relative w-96 h-72">
                     <Image
                       src={form.getValues('imagePath') || "https://github.com/shadcn.png"}
+                      className="rounded"
                       objectFit="cover"
                       alt="user"
                       fill
@@ -181,16 +196,19 @@ export const CourseForm = ({ course }: CourseFormAddProps) => {
               name='isFeatured'
               render={({ field }) => (
                 <FormControl>
-                  <FormItem>
-                    <FormLabel>Principal</FormLabel>
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                     <FormControl>
                       <Checkbox
-                        className="ml-2"
-                        onClick={() => {
-                          field.onChange(!field.value)
+                        checked={field.value}
+                        onCheckedChange={(value) => {
+                          field.onChange(value);
                         }}
-                        disabled={isPending} />
+                      />
                     </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>Principal</FormLabel>
+                      <FormDescription>Mostrar en la sección de destacados</FormDescription>
+                    </div>
                     <FormMessage />
                   </FormItem>
                 </FormControl>
@@ -201,16 +219,19 @@ export const CourseForm = ({ course }: CourseFormAddProps) => {
               name='isNew'
               render={({ field }) => (
                 <FormControl>
-                  <FormItem>
-                    <FormLabel>Es nuevo</FormLabel>
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                     <FormControl>
                       <Checkbox
-                        className="ml-2"
-                        onClick={() => {
-                          field.onChange(!field.value)
+                        checked={field.value}
+                        onCheckedChange={(value) => {
+                          field.onChange(value);
                         }}
-                        disabled={isPending} />
+                      />
                     </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>Nuevo</FormLabel>
+                      <FormDescription>Mostrar en la sección de nuevos</FormDescription>
+                    </div>
                     <FormMessage />
                   </FormItem>
                 </FormControl>
