@@ -1,9 +1,11 @@
 import HeaderPage from "@/components/ui/header-page";
+import { PageParamasProps } from "@/dtype";
 import { getCourses } from "@/features/courses/actions/get-courses";
 import CoursesList from "@/features/courses/components/courses-list";
 
-export default async function CoursesPage() {
-  const courses = await getCourses()
+
+export default async function CoursesPage(searchParams: PageParamasProps) {
+  const { courses, pagination } = await getCourses(searchParams)
   return (
     <div className="space-y-3 py-4 lg:py-8">
       <HeaderPage
@@ -14,7 +16,7 @@ export default async function CoursesPage() {
         iconColor="text-sky-500"
       />
       <div className="px-10 md:px-8">
-        <CoursesList courses={courses} />
+        <CoursesList courses={courses} pagination={pagination} />
       </div>
     </div>
   );

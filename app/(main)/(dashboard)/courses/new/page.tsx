@@ -3,7 +3,7 @@ import { CourseFormAdd } from "@/features/courses/components/course-form-add";
 
 const CourseNewPage = () => {
   return (
-    <div className="space-y-3 py-4 lg:py-8">
+    <div className="space-y-3 py-4 lg:py-8 h-full">
       <HeaderPage
         title="Agregar curso"
         description="Aquí podrás agregar un nuevo curso"

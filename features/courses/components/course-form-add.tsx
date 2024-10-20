@@ -49,17 +49,17 @@ export const CourseFormAdd = ({ course }: CourseFormAddProps) => {
     startTransition(() => {
       AddNewCourse(values)
         .then((response) => {
-          if (response?.error) {
-            setError(response.error)
-          }
-          if (response?.success) {
-            // TODO: TOAST
-            // toast({
-            //   description: "Perfil actualizado correctamente!!",
-            //   variant: "success",
-            // })
-            router.push(`/courses/${response.id}`)
-          }
+          // if (response?.error) {
+          //   setError(response.error)
+          // }
+          // if (response?.success) {
+          //   // TODO: TOAST
+          //   // toast({
+          //   //   description: "Perfil actualizado correctamente!!",
+          //   //   variant: "success",
+          //   // })
+          router.push(`/courses`)
+          // }
         })
     })
   }
@@ -107,10 +107,10 @@ export const CourseFormAdd = ({ course }: CourseFormAddProps) => {
                 </div>
                 : <div className="relative">
 
-                  <div className="relative w-80 h-80">
+                  <div className="relative w-96 h-72">
                     <Image
                       src={form.getValues('imagePath') || "https://github.com/shadcn.png"}
-                      className="object-fit"
+                      objectFit="cover"
                       alt="user"
                       fill
                     />

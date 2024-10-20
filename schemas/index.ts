@@ -18,5 +18,8 @@ export const RegisterSchema = z.object({
   }),
   name: z.string().min(1, {
     message: "El nombre es requerido"
+  }),
+  role: z.enum(["student", "teacher"], {
+    message: "El rol es requerido"
   })
 })

@@ -19,34 +19,26 @@ import {
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button";
 import TooltipContainer from "@/components/ui/tooltip-container";
-import { PaginationList } from "@/components/ui/pagination-list";
+import { PaginationList, PaginationResults } from "@/components/ui/pagination-list";
+import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
 
 interface CourseProps {
   courses: Course[]
+  pagination: PaginationResults
 }
 
-const CoursesList = ({ courses }: CourseProps) => {
+const CoursesList = ({ courses, pagination }: CourseProps) => {
   const router = useRouter()
   const params = useSearchParams()
 
   const [ConfirmRemoveCourse, confirmRemoveCourse] = useConfirm(
-    'Eliminar requerimiento',
-    '¿Estas seguro de eliminar este requerimiento?')
+    'Eliminar curso',
+    '¿Estas seguro de eliminar este curso?')
 
   const onDeleteCourse = async (id: string) => {
     const ok = await confirmRemoveCourse()
-    if (!ok) {
-      return
-    }
-    fetch(`/api/v1/requirements/${id}`, {
-      method: 'DELETE',
-    }).then(() => {
-      // toast.success("Requerimiento eliminado");
-      router.replace('/requirements')
-    }).catch((error) => {
-      // toast.error("Error eliminando requerimiento");
-      console.log('Error deleting requirement', error)
-    })
+    // Todo: Implement delete course
   }
 
   const onFilter = (e: any) => {
@@ -93,20 +85,48 @@ const CoursesList = ({ courses }: CourseProps) => {
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px] text-center">Item</TableHead>
+            <TableHead className="text-center">Miniatura</TableHead>
             <TableHead className="text-center">Nombre</TableHead>
-            <TableHead className="text-center">Fecha</TableHead>
+            <TableHead className="text-center">Nuevo</TableHead>
+            <TableHead className="text-center">Principal</TableHead>
+            <TableHead className="text-center">Fecha C.</TableHead>
             <TableHead className="text-center">Acciones</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {courses.map((course, index) => (
-            <TableRow key={course.id + '-' + index}>
+            <TableRow key={course.id + '-' + index} className="h-24 md:h-52">
               <TableCell className="font-medium text-center">
-                {/* {(pagination.page - 1) * pagination.sizePage + index + 1} */}
-                {index + 1}
+                {(pagination.page - 1) * pagination.sizePage + index + 1}
+              </TableCell>
+              <TableCell className="flex items-center justify-center">
+                <div className="w-36 h-24 md:w-80 md:h-44 relative cursor-pointer hover:scale-105 transform transition-transform"
+                  onClick={() => router.push(`/courses/${course.id}`)}
+                >
+                  <Image
+                    src={course.imagePath || '/placeholder.png'}
+                    alt={course.name}
+                    objectFit="cover"
+                    fill
+                    className='rounded' />
+                  <div
+                    className="absolute inset-0 bg-black bg-opacity-50 rounded flex items-center justify-center">
+                    <span className="text-white text-sm">Ver</span>
+                  </div>
+                </div>
               </TableCell>
               <TableCell className="text-center">
                 {course.name}
+              </TableCell>
+              <TableCell className="text-center">
+                <Badge variant={course.isNew ? 'default' : 'destructive'}>
+                  {course.isNew ? 'Si' : 'No'}
+                </Badge>
+              </TableCell>
+              <TableCell className="text-center">
+                <Badge variant={course.isFeatured ? 'default' : 'destructive'}>
+                  {course.isNew ? 'Si' : 'No'}
+                </Badge>
               </TableCell>
               <TableCell className="text-center">
                 {
@@ -146,7 +166,7 @@ const CoursesList = ({ courses }: CourseProps) => {
           ))}
         </TableBody>
       </Table>
-      <PaginationList result={{ page: 1, sizePage: 100, total: 1 }} path={'/courses'} />
+      <PaginationList result={pagination} path={'/courses'} />
       <ConfirmRemoveCourse />
     </>
   );

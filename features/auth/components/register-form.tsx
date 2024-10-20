@@ -17,8 +17,8 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { FormError } from "@/components/ui/form-error"
 import { FormSuccess } from "@/components/ui/form-success"
-import { login } from "../actions/login"
 import { register } from "../actions/register"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 export const RegisterForm = () => {
   const [isPending, startTransition] = useTransition()
@@ -30,7 +30,8 @@ export const RegisterForm = () => {
     defaultValues: {
       email: "",
       password: "",
-      name: ""
+      name: "",
+      role: "student"
     }
   })
 
@@ -65,7 +66,9 @@ export const RegisterForm = () => {
               render={({ field }) => (
                 <FormControl>
                   <FormItem>
-                    <FormLabel>Nombre</FormLabel>
+                    <FormLabel>Nombre
+                      <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         {...field}
@@ -80,11 +83,39 @@ export const RegisterForm = () => {
             />
             <FormField
               control={form.control}
+              name='role'
+              render={({ field }) => (
+                <FormControl>
+                  <FormItem>
+                    <FormLabel>Rol
+                      <span className="text-red-500">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Escoger rol" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="student">Estudiante</SelectItem>
+                          <SelectItem value="teacher">Docente</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                  </FormItem>
+                </FormControl>
+              )}
+            />
+            <FormField
+              control={form.control}
               name='email'
               render={({ field }) => (
                 <FormControl>
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>Email
+                      <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         {...field}
@@ -103,7 +134,9 @@ export const RegisterForm = () => {
               render={({ field }) => (
                 <FormControl>
                   <FormItem>
-                    <FormLabel>Contraseña</FormLabel>
+                    <FormLabel>Contraseña
+                      <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         {...field}

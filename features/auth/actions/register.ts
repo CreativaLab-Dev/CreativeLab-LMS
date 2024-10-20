@@ -9,6 +9,7 @@ import { signIn } from "@/auth"
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes"
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
+  console.log(values)
   const validateFields = RegisterSchema.safeParse(values)
   if (!validateFields.success) {
     return { error: "Credenciales invalidas" }
@@ -26,12 +27,31 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     return { error: "Este correo ya esta siendo usado" }
   }
 
-  await db.user.create({
-    data: {
-      name,
-      email,
-      password: hashedPassword,
+  await db.$transaction(async (tx) => {
+    const newUser = await tx.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+      }
+    })
+
+    if (values.role === "teacher") {
+      await tx.teacher.create({
+        data: {
+          userId: newUser.id,
+        }
+      })
     }
+
+    if (values.role === "student") {
+      await tx.student.create({
+        data: {
+          userId: newUser.id,
+        }
+      })
+    }
+
   })
 
   await signIn("credentials", {
