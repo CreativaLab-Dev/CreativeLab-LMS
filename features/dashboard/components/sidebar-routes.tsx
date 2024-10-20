@@ -1,6 +1,6 @@
 'use client';
 
-import { Compass, Layout, Settings, UserIcon } from "lucide-react"
+import { BookUser, Compass, Layout, Settings, UserIcon } from "lucide-react"
 import SidebarItem from "./sidebar-item";
 
 const guestRoutes = [
@@ -13,6 +13,11 @@ const guestRoutes = [
     icon: Compass,
     label: "Browse",
     href: "/search",
+  },
+  {
+    icon: BookUser,
+    label: "Cursos",
+    href: "/courses",
   },
   {
     icon: UserIcon,

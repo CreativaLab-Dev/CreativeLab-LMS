@@ -54,10 +54,9 @@ model Account {
 }
 
 model Student {
-  id     String @id @default(cuid())
-  userId String @unique @map("user_id")
-  user   User?
-
+  id         String          @id @default(cuid())
+  userId     String          @unique @map("user_id")
+  user       User?
   courses    StudentCourse[]
   answers    StudentAnswer[]
   attendance Attendance[]
@@ -76,14 +75,19 @@ model Teacher {
 }
 
 model Course {
-  id         String          @id @default(cuid())
-  name       String
-  teacherId  String          @map("teacher_id")
-  teacher    Teacher         @relation(fields: [teacherId], references: [id])
-  students   StudentCourse[]
-  exams      Exam[]
-  content    Content[]
-  Attendance Attendance[]
+  id          String          @id @default(cuid())
+  name        String
+  description String
+  imagePath   String          @map("image_path")
+  isFeatured  Boolean         @default(false) @map("is_featured")
+  isNew       Boolean         @default(false) @map("is_new")
+  teacherId   String          @map("teacher_id")
+  createdAt   DateTime        @default(now()) @map("created_at")
+  teacher     Teacher         @relation(fields: [teacherId], references: [id])
+  students    StudentCourse[]
+  exams       Exam[]
+  content     Content[]
+  Attendance  Attendance[]
 
   @@map("courses")
 }
@@ -102,6 +106,7 @@ model Exam {
   id             String          @id @default(cuid())
   name           String          @map("name")
   courseId       String
+  createdAt      DateTime        @default(now()) @map("created_at")
   course         Course          @relation(fields: [courseId], references: [id])
   questions      Question[]
   studentAnswers StudentAnswer[]
@@ -110,11 +115,13 @@ model Exam {
 }
 
 model Question {
-  id      String          @id @default(cuid())
-  text    String
-  examId  String          @map("exam_id")
-  exam    Exam            @relation(fields: [examId], references: [id])
-  answers StudentAnswer[]
+  id        String          @id @default(cuid())
+  text      String
+  examId    String          @map("exam_id")
+  createdAt DateTime        @default(now()) @map("created_at")
+  number    Int
+  exam      Exam            @relation(fields: [examId], references: [id])
+  answers   StudentAnswer[]
 
   @@map("questions")
 }
@@ -125,6 +132,7 @@ model StudentAnswer {
   questionId String   @map("question_id")
   answer     String
   examId     String?
+  createdAt  DateTime @default(now()) @map("created_at")
   student    Student  @relation(fields: [studentId], references: [id])
   question   Question @relation(fields: [questionId], references: [id])
   Exam       Exam?    @relation(fields: [examId], references: [id])
@@ -145,11 +153,12 @@ model Attendance {
 }
 
 model Content {
-  id       String @id @default(cuid())
-  courseId String
-  title    String
-  body     String
-  course   Course @relation(fields: [courseId], references: [id])
+  id        String   @id @default(cuid())
+  courseId  String
+  title     String
+  body      String
+  createdAt DateTime @default(now()) @map("created_at")
+  course    Course   @relation(fields: [courseId], references: [id])
 
   @@map("content")
 }
