@@ -1,5 +1,5 @@
 import HeaderPage from "@/components/ui/header-page";
-import { CourseForm } from "@/features/courses/components/course-form";
+import { CourseForm } from "@/features/courses/components/teachers/course-form";
 
 const CourseNewPage = () => {
   return (

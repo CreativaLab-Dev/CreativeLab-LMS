@@ -1,7 +1,7 @@
 import HeaderPage from "@/components/ui/header-page";
 import { PageParamasProps } from "@/dtype";
 import { getCoursesOfTeacher } from "@/features/courses/actions/teachers/get-courses-of-teacher";
-import CoursesList from "@/features/courses/components/courses-list";
+import CoursesList from "@/features/courses/components/teachers/courses-list";
 
 
 export default async function CoursesPage(searchParams: PageParamasProps) {

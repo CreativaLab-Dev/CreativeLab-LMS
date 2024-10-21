@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs"
 import { db } from "@/lib/db"
 import { RegisterSchema } from "@/schemas"
 import { signIn } from "@/auth"
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes"
+import { DEFAULT_LOGIN_TEACHER_REDIRECT, DEFAULT_LOGIN_STUDENT_REDIRECT } from "@/routes"
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
   console.log(values)
@@ -53,12 +53,21 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     }
 
   })
+  if (values.role === "teacher") {
+    await signIn("credentials", {
+      email,
+      password,
+      redirectTo: DEFAULT_LOGIN_TEACHER_REDIRECT
+    })
+  }
 
-  await signIn("credentials", {
-    email,
-    password,
-    redirectTo: DEFAULT_LOGIN_REDIRECT
-  })
+  if (values.role === "student") {
+    await signIn("credentials", {
+      email,
+      password,
+      redirectTo: DEFAULT_LOGIN_STUDENT_REDIRECT
+    })
+  }
 
   //Todo verification token
 

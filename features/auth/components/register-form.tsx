@@ -19,6 +19,7 @@ import { FormError } from "@/components/ui/form-error"
 import { FormSuccess } from "@/components/ui/form-success"
 import { register } from "../actions/register"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { toast } from "sonner"
 
 export const RegisterForm = () => {
   const [isPending, startTransition] = useTransition()
@@ -43,6 +44,9 @@ export const RegisterForm = () => {
         .then((data) => {
           setError(data?.error)
           setSuccess(data?.success)
+          if (data?.success) {
+            toast.success("Usuario registrado")
+          }
         })
     })
   }

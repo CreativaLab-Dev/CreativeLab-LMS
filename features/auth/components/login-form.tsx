@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from "next/navigation"
 import { useState, useTransition } from "react"
 import * as z from "zod"
 import { useForm } from "react-hook-form"
@@ -18,7 +19,7 @@ import { Button } from "@/components/ui/button"
 import { FormError } from "@/components/ui/form-error"
 import { FormSuccess } from "@/components/ui/form-success"
 import { login } from "../actions/login"
-import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 export const LoginForm = () => {
   const [isPending, startTransition] = useTransition()
@@ -41,7 +42,11 @@ export const LoginForm = () => {
     startTransition(() => {
       login(values)
         .then((data) => {
-          setError(data?.error)
+          if (data?.error) {
+            setError(data.error)
+            return
+          }
+          toast.success("Bienvenido")
           router.refresh()
         })
     })

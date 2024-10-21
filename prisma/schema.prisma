@@ -15,21 +15,24 @@ enum UserRole {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  studentId     String?   @unique @map("student_id")
-  teacherId     String?   @unique @map("teacher_id")
+  id            String       @id @default(cuid())
+  studentId     String?      @unique @map("student_id")
+  teacherId     String?      @unique @map("teacher_id")
   name          String?
   age           Int?
-  aboutMe       String?   @map("about_me")
-  email         String    @unique
-  emailVerified DateTime? @map("email_verified")
+  aboutMe       String?      @map("about_me")
+  email         String       @unique
+  emailVerified DateTime?    @map("email_verified")
   image         String?
   password      String?
-  role          UserRole  @default(USER_BASIC)
-  createdAt     DateTime  @default(now()) @map("created_at")
+  role          UserRole     @default(USER_BASIC)
+  isAdmin       Boolean      @default(false) @map("is_admin")
+  createdAt     DateTime     @default(now()) @map("created_at")
+  memberships   Membership[]
   accounts      Account[]
-  student       Student?  @relation(fields: [studentId], references: [id])
-  teacher       Teacher?  @relation(fields: [teacherId], references: [id])
+  valorations   Valoration[]
+  student       Student?     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  teacher       Teacher?     @relation(fields: [teacherId], references: [id], onDelete: Cascade)
 
   @@map("users")
 }
@@ -54,113 +57,145 @@ model Account {
 }
 
 model Student {
-  id         String          @id @default(cuid())
-  userId     String          @unique @map("user_id")
-  user       User?
-  courses    StudentCourse[]
-  answers    StudentAnswer[]
-  attendance Attendance[]
+  id       String          @id @default(cuid())
+  userId   String          @unique @map("user_id")
+  user     User?
+  courses  StudentCourse[]
+  comments LessonComment[]
 
   @@map("students")
 }
 
-model Teacher {
-  id     String @id @default(cuid())
-  userId String @unique @map("user_id")
-  user   User?
+model Membership {
+  id             String       @id @default(cuid())
+  userId         String       @map("user_id")
+  paymentOrderId String       @unique @map("payment_order_id")
+  type           String
+  status         String
+  expiresAt      DateTime     @map("expires_at")
+  createdAt      DateTime     @default(now()) @map("created_at")
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  paymentOrders  PaymentOrder @relation(fields: [paymentOrderId], references: [id], onDelete: Cascade)
 
+  @@map("memberships")
+}
+
+model PaymentOrder {
+  id         String      @id @default(cuid())
+  status     String
+  amount     Float
+  isPaid     Boolean     @default(false)
+  phone      String      @default("")
+  address    String      @default("")
+  createdAt  DateTime    @default(now())
+  membership Membership?
+
+  @@map("payment_orders")
+}
+
+model Teacher {
+  id      String   @id @default(cuid())
+  userId  String   @unique @map("user_id")
+  user    User?
   courses Course[]
 
   @@map("teachers")
 }
 
+model Category {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  description String? // Campo opcional
+  slug        String   @unique
+  status      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  imageUrl    String? // Campo opcional para una imagen o icono
+  priority    Int? // Campo opcional para ordenar las categorías
+
+  // Relación con cursos (una categoría puede tener muchos cursos)
+  courses Course[]
+
+  @@map("categories")
+}
+
 model Course {
   id          String          @id @default(cuid())
+  teacherId   String          @map("teacher_id")
+  categoryId  Int?
   name        String
-  description String
-  imagePath   String          @map("image_path")
+  description String?
+  imagePath   String?         @map("image_path")
   isFeatured  Boolean         @default(false) @map("is_featured")
   isNew       Boolean         @default(false) @map("is_new")
-  teacherId   String          @map("teacher_id")
+  isPremium   Boolean         @default(false) @map("is_premium")
   createdAt   DateTime        @default(now()) @map("created_at")
-  teacher     Teacher         @relation(fields: [teacherId], references: [id])
+  teacher     Teacher         @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  Category    Category?       @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   students    StudentCourse[]
-  exams       Exam[]
-  content     Content[]
-  Attendance  Attendance[]
+  modules     Module[]
+  valorations Valoration[]
 
   @@map("courses")
+}
+
+model Valoration {
+  id        String   @id @default(cuid())
+  courseId  String   @map("course_id")
+  userId    String   @map("user_id")
+  value     Int
+  createdAt DateTime @default(now()) @map("created_at")
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("valorations")
 }
 
 model StudentCourse {
   studentId String  @map("student_id")
   courseId  String  @map("course_id")
-  student   Student @relation(fields: [studentId], references: [id])
-  course    Course  @relation(fields: [courseId], references: [id])
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  course    Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   @@id([studentId, courseId])
   @@map("student_courses")
 }
 
-model Exam {
-  id             String          @id @default(cuid())
-  name           String          @map("name")
-  courseId       String
-  createdAt      DateTime        @default(now()) @map("created_at")
-  course         Course          @relation(fields: [courseId], references: [id])
-  questions      Question[]
-  studentAnswers StudentAnswer[]
+model Module {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  courseId    String   @map("course_id")
+  courses     Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons     Lesson[]
 
-  @@map("exams")
+  @@map("modules")
 }
 
-model Question {
-  id        String          @id @default(cuid())
-  text      String
-  examId    String          @map("exam_id")
-  createdAt DateTime        @default(now()) @map("created_at")
-  number    Int
-  exam      Exam            @relation(fields: [examId], references: [id])
-  answers   StudentAnswer[]
+model Lesson {
+  id          String          @id @default(cuid())
+  moduleId    String          @map("module_id")
+  title       String
+  description String
+  content     String?         @db.Text
+  videoUrl    String?         @map("video_url")
+  seen        Boolean         @default(false)
+  module      Module          @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  createdAt   DateTime        @default(now()) @map("created_at")
+  comments    LessonComment[]
 
-  @@map("questions")
+  @@map("lessons")
 }
 
-model StudentAnswer {
-  id         String   @id @default(cuid())
-  studentId  String   @map("student_id")
-  questionId String   @map("question_id")
-  answer     String
-  examId     String?
-  createdAt  DateTime @default(now()) @map("created_at")
-  student    Student  @relation(fields: [studentId], references: [id])
-  question   Question @relation(fields: [questionId], references: [id])
-  Exam       Exam?    @relation(fields: [examId], references: [id])
-
-  @@map("student_answers")
-}
-
-model Attendance {
+model LessonComment {
   id        String   @id @default(cuid())
-  studentId String
-  courseId  String
-  status    String // Example: PRESENT, ABSENT, LATE
-  date      DateTime @default(now())
-  student   Student  @relation(fields: [studentId], references: [id])
-  course    Course   @relation(fields: [courseId], references: [id])
-
-  @@map("attendance")
-}
-
-model Content {
-  id        String   @id @default(cuid())
-  courseId  String
-  title     String
-  videoUrl  String?  @map("video_url")
-  imageUrl  String?  @map("image_url")
-  body      String
+  lessonId  String   @map("lesson_id")
+  userId    String   @map("user_id")
+  content   String
   createdAt DateTime @default(now()) @map("created_at")
-  course    Course   @relation(fields: [courseId], references: [id])
+  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  Student   Student? @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  studentId String?
 
-  @@map("content")
+  @@map("lesson_comments")
 }

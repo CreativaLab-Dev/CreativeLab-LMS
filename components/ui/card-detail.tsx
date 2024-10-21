@@ -3,8 +3,8 @@
 import { Course } from "@prisma/client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs";
-import CourseDetail from "@/features/courses/components/course-detail";
-import CourseContentList from "@/features/courses/components/course-content-list";
+import CourseDetail from "@/features/courses/components/teachers/course-detail";
+import CourseContentList from "@/features/courses/components/teachers/course-content-list";
 
 interface CardDetailProps {
   course: Course

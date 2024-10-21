@@ -33,4 +33,16 @@ export const apiUploadThingPrefix = "/api/uploadthing"
  * The default route to redirect to after login
  * @type {string}
  */
-export const DEFAULT_LOGIN_REDIRECT = "/dashboard"
+export const DEFAULT_LOGIN_STUDENT_REDIRECT = "/student/dashboard"
+
+/**
+ * The default route to redirect to after login
+ * @type {string}
+ */
+export const DEFAULT_LOGIN_TEACHER_REDIRECT = "/teacher/dashboard"
+
+/**
+ * The default route to redirect any role to after login
+ * @type {string}
+ */
+export const DEFAULT_LOGIN_REDIRECT = "/profile"
