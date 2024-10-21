@@ -1,9 +1,10 @@
 'use client'
 
 import { Course } from "@prisma/client";
-import Image from "next/image";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs";
-import { Badge } from "./badge";
+import CourseDetail from "@/features/courses/components/course-detail";
+import CourseContentList from "@/features/courses/components/course-content-list";
 
 interface CardDetailProps {
   course: Course
@@ -17,34 +18,11 @@ const CardDetail = ({ course }: CardDetailProps) => {
         <TabsTrigger value="password">Contenido</TabsTrigger>
       </TabsList>
       <TabsContent value="account">
-        <div className="bg-white shadow-sm rounded-lg p-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="flex flex-col justify-between pr-2">
-              <div>
-                <h2 className="text-xl font-semibold text-gray-800">{course.name}</h2>
-                <p className="text-sm font-semibold text-gray-500">{course.description}</p>
-              </div>
-              <div className="flex mt-3 md:mt-0">
-                <Badge variant={course?.isFeatured ? 'default' : 'destructive'}>
-                  Destacado: {course?.isFeatured ? 'SI' : 'NO'}
-                </Badge>
-                <Badge variant={course?.isNew ? 'default' : 'destructive'}>
-                  Nuevo: {course?.isFeatured ? 'SI' : 'NO'}
-                </Badge>
-              </div>
-            </div>
-            <div className="relative min-w-24 min-h-14 w-full h-52 md:h-64">
-              <Image
-                alt="detail-image"
-                src={course?.imagePath}
-                objectFit="cover"
-                className="rounded"
-                fill />
-            </div>
-          </div>
-        </div>
+        <CourseDetail course={course} />
       </TabsContent>
-      <TabsContent value="password">Change your password here.</TabsContent>
+      <TabsContent value="password">
+        <CourseContentList />
+      </TabsContent>
     </Tabs>
 
   );

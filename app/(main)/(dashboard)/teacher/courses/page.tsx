@@ -1,6 +1,6 @@
 import HeaderPage from "@/components/ui/header-page";
 import { PageParamasProps } from "@/dtype";
-import { getCoursesOfTeacher } from "@/features/courses/actions/get-courses-of-teacher";
+import { getCoursesOfTeacher } from "@/features/courses/actions/teachers/get-courses-of-teacher";
 import CoursesList from "@/features/courses/components/courses-list";
 
 

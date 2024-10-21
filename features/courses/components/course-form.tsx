@@ -22,10 +22,10 @@ import { Button } from "@/components/ui/button"
 import { Course } from "@prisma/client"
 import { UploadDropzone } from "@/utils/uploadthing"
 import { PencilIcon, X } from "lucide-react"
-import { AddNewCourseOfTeacher } from "../actions/add-new-course-of-teacher"
+import { AddNewCourseOfTeacher } from "../actions/teachers/add-new-course-of-teacher"
 import { NewCourseSchema } from "../schemas"
 import { FormError } from "@/components/ui/form-error"
-import { UpdateCourseOfTeacherById } from "../actions/update-course-of-teacher-by-id"
+import { UpdateCourseOfTeacherById } from "../actions/teachers/update-course-of-teacher-by-id"
 
 interface CourseFormAddProps {
   course?: Course

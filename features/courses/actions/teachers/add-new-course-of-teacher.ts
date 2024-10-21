@@ -1,7 +1,7 @@
 'use server'
 
 import * as z from "zod"
-import { NewCourseSchema } from "../schemas";
+import { NewCourseSchema } from "../../schemas";
 import { db } from "@/lib/db";
 import { auth } from "@/auth";
 

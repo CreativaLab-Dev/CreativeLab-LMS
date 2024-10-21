@@ -1,6 +1,6 @@
 import CardDetail from "@/components/ui/card-detail"
 import HeaderPage from "@/components/ui/header-page"
-import { getCourseOfTeacherById } from "@/features/courses/actions/get-course-of-teacher-by-id"
+import { getCourseOfTeacherById } from "@/features/courses/actions/teachers/get-course-of-teacher-by-id"
 import { redirect } from "next/navigation"
 
 type CourseIdPageProps = {

@@ -4,7 +4,7 @@ import * as z from "zod"
 import { auth } from "@/auth"
 import { db } from "@/lib/db"
 
-import { NewCourseSchema } from "../schemas"
+import { NewCourseSchema } from "../../schemas"
 
 export const UpdateCourseOfTeacherById = async (courseId: string, values: z.infer<typeof NewCourseSchema>) => {
   const validateFields = NewCourseSchema.safeParse(values)
