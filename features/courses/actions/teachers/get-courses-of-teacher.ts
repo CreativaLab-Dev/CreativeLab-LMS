@@ -1,3 +1,5 @@
+'use server'
+
 import { auth } from "@/auth"
 import { db } from "@/lib/db"
 import { Course } from "@prisma/client"
@@ -24,12 +26,14 @@ export const getCoursesOfTeacher = async (searchParams: PageParamasProps) => {
   }
 
   const {
-    page,
-    sizePage,
+    page = 1,
+    sizePage = 10,
     sortBy,
     isDesc,
     search
   } = getParams(searchParams)
+
+  console.log(searchParams)
 
   const [courses, total] = await db.$transaction([
     db.course.findMany({

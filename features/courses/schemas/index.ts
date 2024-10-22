@@ -24,3 +24,9 @@ export const EditCourseImageSchema = z.object({
     message: "Nombre es requerido"
   }),
 })
+
+export const EditCourseCategorySchema = z.object({
+  categoryId: z.string().min(2, {
+    message: "Categoria es requerida"
+  }),
+})

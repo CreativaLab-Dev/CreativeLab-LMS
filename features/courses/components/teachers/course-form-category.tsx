@@ -2,7 +2,7 @@
 
 import * as z from "zod"
 import { useForm } from "react-hook-form";
-import { EditCourseDescriptionSchema } from "../../schemas";
+import { EditCourseCategorySchema } from "../../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import {
@@ -14,57 +14,64 @@ import {
 } from "@/components/ui/form"
 import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
-import { useState, useTransition } from "react";
-import { Input } from "@/components/ui/input";
+import { useEffect, useState, useTransition } from "react";
 import { toast } from "sonner";
-import { updateCourseDescription } from "../../actions/teachers/update-course-description";
-import { Textarea } from "@/components/ui/textarea";
+import { updateCourseCategory } from "../../actions/teachers/update-course-category";
+import { Course } from "@prisma/client";
 import { cn } from "@/lib/utils";
+import { Combobox } from "@/components/ui/combobox";
 
-interface CourseFormDescriptionProps {
-  initialData: {
-    description: string;
-  };
+interface CourseFormCategoryProps {
+  initialData: Course
   courseId: string;
+  options: { label: string, value: string }[]
 }
 
-const CourseFormDescription = ({ courseId, initialData }: CourseFormDescriptionProps) => {
+const CourseFormCategory = ({
+  courseId,
+  initialData,
+  options
+}: CourseFormCategoryProps) => {
   const [isPending, startTransition] = useTransition()
   const [isEditting, setIsEditting] = useState(false);
 
   const router = useRouter();
-  const form = useForm<z.infer<typeof EditCourseDescriptionSchema>>({
-    resolver: zodResolver(EditCourseDescriptionSchema),
-    defaultValues: initialData
+  const form = useForm<z.infer<typeof EditCourseCategorySchema>>({
+    resolver: zodResolver(EditCourseCategorySchema),
+    defaultValues: {
+      categoryId: initialData.categoryId || ''
+    }
   });
 
-  const onSubmit = async (data: z.infer<typeof EditCourseDescriptionSchema>) => {
+  const onSubmit = async (data: z.infer<typeof EditCourseCategorySchema>) => {
     startTransition(() => {
-      updateCourseDescription(courseId, data)
+      updateCourseCategory(courseId, data)
         .then((response) => {
           if (response.success) {
             setIsEditting(false);
-            toast.success("Descripción actualizada");
+            toast.success("Categoria actualizada");
             router.refresh();
           } else {
-            toast.error(response?.error ?? 'Error al actualizar el titulo');
+            toast.error(response?.error ?? 'Error al actualizar el categoria');
           }
         })
     })
   };
 
   const toggleEdit = () => setIsEditting((current) => !current);
+  const selectedOption = options.find((option) => option.value === initialData.categoryId);
+
   return (
     <div className="mt-6 border bg-sky-100 rounded-md p-4">
       <div className="font-medium  flex items-center justify-between">
-        Titulo de curso
+        Categoria de curso
         <Button
           onClick={toggleEdit}
           variant='ghost'
         >
           {
             isEditting && (
-              <>Cancel</>
+              <>Cancelar</>
             )
           }
           {
@@ -80,11 +87,9 @@ const CourseFormDescription = ({ courseId, initialData }: CourseFormDescriptionP
       {
         !isEditting && (
           <p className={cn("text-sm mt-2",
-            !initialData.description && "text-slate-500 italic"
+            !initialData?.categoryId && "text-slate-500 italic"
           )}>
-            {
-              initialData.description || <span className="text-muted-foreground">Sin descripción</span>
-            }
+            {selectedOption?.label || <span className="text-muted-foreground">Sin categoria</span>}
           </p>
         )
       }
@@ -94,13 +99,12 @@ const CourseFormDescription = ({ courseId, initialData }: CourseFormDescriptionP
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
                 control={form.control}
-                name="description"
+                name="categoryId"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Textarea
-                        disabled={isPending}
-                        placeholder="Descripción del curso"
+                      <Combobox
+                        options={options}
                         {...field}
                       />
                     </FormControl>
@@ -125,4 +129,4 @@ const CourseFormDescription = ({ courseId, initialData }: CourseFormDescriptionP
   );
 }
 
-export default CourseFormDescription;
+export default CourseFormCategory;

@@ -20,7 +20,6 @@ export default async function CourseIdPage({
   }
 
   const categories = await getCategories()
-  console.log(categories)
   return (
     <div className="space-y-3 py-4 lg:py-8 h-full">
       <HeaderPage
@@ -31,7 +30,10 @@ export default async function CourseIdPage({
         iconColor="text-sky-500"
       />
       <div className="px-10 md:px-8">
-        <CourseSetup course={course} />
+        <CourseSetup
+          course={course}
+          categories={categories}
+        />
       </div>
     </div>
   )

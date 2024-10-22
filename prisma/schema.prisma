@@ -103,7 +103,7 @@ model Teacher {
 }
 
 model Category {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(cuid())
   name      String   @unique
   slug      String   @unique
   createdAt DateTime @default(now())
@@ -116,7 +116,7 @@ model Category {
 model Course {
   id          String          @id @default(cuid())
   teacherId   String          @map("teacher_id")
-  categoryId  Int?
+  categoryId  String?
   name        String
   description String?
   imagePath   String?         @map("image_path")
