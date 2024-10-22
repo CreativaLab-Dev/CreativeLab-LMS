@@ -57,7 +57,7 @@ const CourseFormDescription = ({ courseId, initialData }: CourseFormDescriptionP
   return (
     <div className="mt-6 border bg-sky-100 rounded-md p-4">
       <div className="font-medium  flex items-center justify-between">
-        Titulo de curso
+        <span className="text-xs">Descripción de curso</span>
         <Button
           onClick={toggleEdit}
           variant='ghost'
