@@ -99,7 +99,7 @@ const CoursesList = ({ courses, pagination }: CourseProps) => {
               </TableCell>
               <TableCell className="flex items-center justify-center">
                 <div className="w-36 h-24 md:w-80 md:h-44 relative cursor-pointer hover:scale-105 transform transition-transform"
-                  onClick={() => router.push(`/teacher/courses/${course.id}/detail`)}
+                  onClick={() => router.push(`/teacher/courses/${course.id}/edit`)}
                 >
                   <Image
                     src={course.imagePath || '/placeholder.png'}

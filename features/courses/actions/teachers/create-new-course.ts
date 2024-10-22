@@ -5,7 +5,7 @@ import { NewCourseSchema } from "../../schemas";
 import { db } from "@/lib/db";
 import { auth } from "@/auth";
 
-export const AddNewCourseOfTeacher = async (values: z.infer<typeof NewCourseSchema>) => {
+export const CreateNewCourse = async (values: z.infer<typeof NewCourseSchema>) => {
   const validateFields = NewCourseSchema.safeParse(values)
 
   if (!validateFields.success) {
@@ -30,10 +30,6 @@ export const AddNewCourseOfTeacher = async (values: z.infer<typeof NewCourseSche
   const newCourse = await db.course.create({
     data: {
       name: values.name,
-      description: values.description,
-      imagePath: values.imagePath || '',
-      isFeatured: values.isFeatured,
-      isNew: values.isNew,
       teacherId: teacher.id
     }
   })

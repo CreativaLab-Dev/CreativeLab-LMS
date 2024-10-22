@@ -103,18 +103,12 @@ model Teacher {
 }
 
 model Category {
-  id          Int      @id @default(autoincrement())
-  name        String   @unique
-  description String? // Campo opcional
-  slug        String   @unique
-  status      Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  imageUrl    String? // Campo opcional para una imagen o icono
-  priority    Int? // Campo opcional para ordenar las categorías
-
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now())
   // Relación con cursos (una categoría puede tener muchos cursos)
-  courses Course[]
+  courses   Course[]
 
   @@map("categories")
 }
