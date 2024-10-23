@@ -35,3 +35,9 @@ export const EditCourseAttachmentSchema = z.object({
     message: "Url es requerida"
   }),
 })
+
+export const EditCourseChapterSchema = z.object({
+  title: z.string().min(2, {
+    message: "Nombre es requerido"
+  }),
+})

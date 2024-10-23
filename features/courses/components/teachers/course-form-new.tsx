@@ -19,7 +19,7 @@ import {
 import { NewCourseSchema } from "../../schemas"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { CreateNewCourse } from "../../actions/teachers/create-new-course"
+import { createNewCourse } from "../../actions/teachers/create-new-course"
 
 const CourseFormNew = () => {
   const router = useRouter()
@@ -34,7 +34,7 @@ const CourseFormNew = () => {
   const onSubmit = (values: z.infer<typeof NewCourseSchema>) => {
     if (isPending) return
     startTransition(() => {
-      CreateNewCourse(values).then((result) => {
+      createNewCourse(values).then((result) => {
         if (result?.success && result?.id) {
           toast.success("Curso creado exitosamente")
           router.push(`/teacher/courses/${result.id}/edit`)

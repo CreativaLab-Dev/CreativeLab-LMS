@@ -18,7 +18,7 @@ interface CourseFormAttachmentProps {
 }
 
 const CourseFormAttachment = ({ courseId, initialData }: CourseFormAttachmentProps) => {
-  const [, startTransition] = useTransition()
+  const [isPending, startTransition] = useTransition()
   const [isEditting, setIsEditting] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 

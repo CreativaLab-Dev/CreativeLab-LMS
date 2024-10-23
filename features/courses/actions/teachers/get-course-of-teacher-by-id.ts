@@ -9,9 +9,14 @@ export const getCourseOfTeacherById = async (courseId: string) => {
 
   const course = await db.course.findFirst({
     where: {
-      id: courseId
+      id: courseId,
     },
     include: {
+      modules: {
+        orderBy: {
+          position: 'asc'
+        }
+      },
       attachments: {
         orderBy: {
           createdAt: 'desc'

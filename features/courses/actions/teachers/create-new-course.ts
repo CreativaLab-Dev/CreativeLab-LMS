@@ -5,7 +5,7 @@ import { NewCourseSchema } from "../../schemas";
 import { db } from "@/lib/db";
 import { auth } from "@/auth";
 
-export const CreateNewCourse = async (values: z.infer<typeof NewCourseSchema>) => {
+export const createNewCourse = async (values: z.infer<typeof NewCourseSchema>) => {
   const validateFields = NewCourseSchema.safeParse(values)
 
   if (!validateFields.success) {
