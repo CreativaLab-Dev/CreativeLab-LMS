@@ -7,7 +7,7 @@ interface ModuleIdPageProps {
   }
 }
 
-const ModuleIdPage = ({ params }: ModuleIdPageProps) => {
+const ChapterIdPage = ({ params }: ModuleIdPageProps) => {
   return (
     <div>
       Module id page
@@ -15,4 +15,4 @@ const ModuleIdPage = ({ params }: ModuleIdPageProps) => {
   );
 }
 
-export default ModuleIdPage;
+export default ChapterIdPage;

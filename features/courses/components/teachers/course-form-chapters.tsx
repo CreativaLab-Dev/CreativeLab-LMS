@@ -2,6 +2,7 @@
 
 import * as z from "zod"
 import { useForm } from "react-hook-form";
+import { useState, useTransition } from "react";
 import { EditCourseChapterSchema } from "../../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -14,17 +15,16 @@ import {
 } from "@/components/ui/form"
 import { Button } from "@/components/ui/button";
 import { Loader2, PlusCircle } from "lucide-react";
-import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { Course, Module } from "@prisma/client";
+import { Chapter, Course } from "@prisma/client";
 import { createChapter } from "../../actions/teachers/create-chapter";
 import { Input } from "@/components/ui/input";
-import ModulesList from "./course-form-modules";
-import { updateModules } from "../../actions/teachers/update-modules";
+import ChaptersList from "./course-form-modules";
+import { updateChapters } from "../../actions/teachers/update-modules";
 
 interface CourseFormChapterProps {
-  initialData: Course & { modules: Module[] };
+  initialData: Course & { chapters: Chapter[] };
   courseId: string;
 }
 
@@ -48,13 +48,13 @@ const CourseFormChapter = ({ courseId, initialData }: CourseFormChapterProps) =>
     setIsUpdating(true);
     startTransition(() => {
       setIsUpdating(true);
-      updateModules(courseId, updateData)
+      updateChapters(courseId, updateData)
         .then((response) => {
           if (response.success) {
             setIsUpdating(false);
-            toast.success("Modulos reordenados correctamente");
+            toast.success("Capitulos reordenados correctamente");
           } else {
-            toast.error(response?.error ?? 'Error al actualizar los modulos');
+            toast.error(response?.error ?? 'Error al actualizar los capitulos');
           }
         })
         .finally(() => {
@@ -69,18 +69,18 @@ const CourseFormChapter = ({ courseId, initialData }: CourseFormChapterProps) =>
         .then((response) => {
           if (response.success) {
             setIsCreating(false);
-            toast.success("Modulo creado correctamente");
+            toast.success("Capitulo creado correctamente");
             router.refresh();
             form.reset();
           } else {
-            toast.error(response?.error ?? 'Error al actualizar el modulo');
+            toast.error(response?.error ?? 'Error al actualizar el capitulo');
           }
         })
     })
   };
 
   const onEdit = (id: string) => {
-    router.push(`/teacher/courses/${courseId}/modules/${id}`)
+    router.push(`/teacher/courses/${courseId}/chapters/${id}`)
   }
 
   return (
@@ -91,7 +91,7 @@ const CourseFormChapter = ({ courseId, initialData }: CourseFormChapterProps) =>
         </div>
       )}
       <div className="font-medium  flex items-center justify-between">
-        <span className="text-xs">Modulos del curso</span>
+        <span className="text-xs">Capitulo del curso</span>
         <Button
           onClick={toggleCreating}
           variant='ghost'
@@ -142,19 +142,19 @@ const CourseFormChapter = ({ courseId, initialData }: CourseFormChapterProps) =>
       {!isCreating && (
         <div className={cn(
           "text-sm mt-2",
-          !initialData.modules.length && "text-slate-500 italic"
+          !initialData.chapters.length && "text-slate-500 italic"
         )}>
-          {!initialData.modules.length && "No hay modulos en este curso"}
-          <ModulesList
+          {!initialData.chapters.length && "No hay capitulos en este curso"}
+          <ChaptersList
             onEdit={onEdit}
             onReorder={onReorder}
-            items={initialData.modules}
+            items={initialData.chapters}
           />
         </div>
       )}
       {!isCreating && (
         <p className="text-xs text-muted-foreground mt-4">
-          Drag and drop para reordenar los modulos
+          Drag and drop para reordenar los capitulos
         </p>
       )}
     </div>

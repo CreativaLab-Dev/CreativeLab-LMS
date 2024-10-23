@@ -1,6 +1,6 @@
 'use client'
 
-import { Module } from "@prisma/client";
+import { Chapter } from "@prisma/client";
 import { useEffect, useState } from "react";
 import {
   DragDropContext,
@@ -12,17 +12,17 @@ import {
 import { cn } from "@/lib/utils"
 import { Grid, Pencil } from "lucide-react";
 
-interface ModulesListProps {
-  items: Module[];
+interface ChapterListProps {
+  items: Chapter[];
   onReorder: (updateData: { id: string, position: number }[]) => void;
   onEdit: (id: string) => void;
 }
 
-const ModulesList = ({
+const ChaptersList = ({
   items,
   onReorder,
   onEdit
-}: ModulesListProps) => {
+}: ChapterListProps) => {
   const [isMounted, setIsMounted] = useState(false);
   const [chapters, setChapters] = useState(items);
 
@@ -74,7 +74,8 @@ const ModulesList = ({
                 {(provided) => (
                   <div
                     className={cn(
-                      "flex items-center gap-x-2 border rounded-md mb-4 text-sm bg-sky-100 border-sky-200 text-sky-700",
+                      "flex items-center gap-x-2 border rounded-md mb-4 text-sm bg-slate-100 border-slate-200 text-slate-700",
+                      chapter.isPublished && "bg-sky-100 border-sky-200 text-sky-600"
                     )}
                     ref={provided.innerRef}
                     {...provided.draggableProps}
@@ -105,4 +106,4 @@ const ModulesList = ({
   );
 }
 
-export default ModulesList;
+export default ChaptersList;

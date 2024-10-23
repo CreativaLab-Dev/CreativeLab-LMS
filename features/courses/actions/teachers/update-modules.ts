@@ -3,7 +3,10 @@
 import { db } from "@/lib/db";
 import { auth } from "@/auth";
 
-export const updateModules = async (courseId: string, updateData: { id: string, position: number }[]) => {
+export const updateChapters = async (
+  courseId: string,
+  updateData: { id: string, position: number }[]
+) => {
   const session = await auth()
   if (!session?.user) {
     return { error: "Usuario no autenticado" }
@@ -31,7 +34,7 @@ export const updateModules = async (courseId: string, updateData: { id: string, 
   }
   await db.$transaction(async (tx) => {
     for (let item of updateData) {
-      await tx.module.update({
+      await tx.chapter.update({
         where: {
           id: item.id
         },

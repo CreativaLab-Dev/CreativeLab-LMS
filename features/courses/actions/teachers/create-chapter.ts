@@ -27,7 +27,7 @@ export const createChapter = async (courseId: string, values: z.infer<typeof Edi
     return { error: "El actual usuario no es profesor" }
   }
 
-  const lastModule = await db.module.findFirst({
+  const lastModule = await db.chapter.findFirst({
     where: {
       courseId,
     },
@@ -38,7 +38,7 @@ export const createChapter = async (courseId: string, values: z.infer<typeof Edi
 
   const newPosition = lastModule ? lastModule.position + 1 : 0
 
-  const newModule = await db.module.create({
+  const newModule = await db.chapter.create({
     data: {
       title: values.title,
       description: '',

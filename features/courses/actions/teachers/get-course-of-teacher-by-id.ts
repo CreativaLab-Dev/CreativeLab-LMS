@@ -12,7 +12,7 @@ export const getCourseOfTeacherById = async (courseId: string) => {
       id: courseId,
     },
     include: {
-      modules: {
+      chapters: {
         orderBy: {
           position: 'asc'
         }
