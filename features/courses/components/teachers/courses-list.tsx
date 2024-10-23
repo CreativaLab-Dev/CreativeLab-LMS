@@ -99,8 +99,7 @@ const CoursesList = ({ courses, pagination, url: urlPath }: CourseProps) => {
                     fill
                     className='rounded' />
                   <div
-                    className="absolute inset-0 bg-black bg-opacity-50 rounded flex items-center justify-center">
-                    <span className="text-white text-sm">Ver</span>
+                    className="bg-transparent absolute inset-0 bg-opacity-50 rounded flex items-center justify-center hover:bg-opacity-50 hover:bg-black transition ">
                   </div>
                 </div>
               </TableCell>
