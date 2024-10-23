@@ -1,7 +1,7 @@
 'use client'
 
 import * as z from "zod"
-import { chapterVideoSchema } from "../schemas";
+import { chapterVideoSchema, chapterYoutubeSchema } from "../schemas";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Pencil, PlusCircle, Video } from "lucide-react";
@@ -11,6 +11,17 @@ import { FileUpload } from "@/components/ui/file-upload";
 import { updateVideoChapter } from "../actions/update-video-chapter";
 import MuxPlayer from "@mux/mux-player-react"
 import { Chapter, MuxData } from "@prisma/client";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs"
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "@/components/ui/input";
+import { updateYoutubeChapter } from "../actions/update-youtube-chapter";
 
 interface ChapterVideoFormProps {
   initialData: Chapter & {
@@ -25,26 +36,49 @@ const ChapterVideoForm = ({
   chapterId,
   initialData
 }: ChapterVideoFormProps) => {
-  const [, startTransition] = useTransition()
+  const [isPending, startTransition] = useTransition()
   const [isEditting, setIsEditting] = useState(false);
 
   const router = useRouter();
+  const toggleEdit = () => setIsEditting((current) => !current);
+
+  const form = useForm<z.infer<typeof chapterYoutubeSchema>>({
+    resolver: zodResolver(chapterYoutubeSchema),
+    defaultValues: {
+      youtubeUrl: initialData.videoUrl || ''
+    }
+  });
+
   const onSubmit = async (data: z.infer<typeof chapterVideoSchema>) => {
     startTransition(() => {
       updateVideoChapter(courseId, chapterId, data)
         .then((response) => {
           if (response.success) {
             setIsEditting(false);
-            toast.success("Imagen actualizada");
+            toast.success("Video actualizado");
             router.refresh();
           } else {
-            toast.error(response?.error ?? 'Error al actualizar el imagen');
+            toast.error(response?.error ?? 'Error al actualizar el video');
           }
         })
     })
   };
 
-  const toggleEdit = () => setIsEditting((current) => !current);
+  const onSubmitYoutube = async (data: z.infer<typeof chapterYoutubeSchema>) => {
+    startTransition(() => {
+      updateYoutubeChapter(courseId, chapterId, { youtubeUrl: data.youtubeUrl })
+        .then((response) => {
+          if (response.success) {
+            setIsEditting(false);
+            toast.success("Video actualizado");
+            router.refresh();
+          } else {
+            toast.error(response?.error ?? 'Error al actualizar el video');
+          }
+        })
+    })
+  }
+
   return (
     <div className="mt-6 border bg-sky-100 rounded-md p-4">
       <div className="font-medium  flex items-center justify-between">
@@ -87,17 +121,55 @@ const ChapterVideoForm = ({
       )}
       {isEditting && (
         <div>
-          <FileUpload
-            endpoint="chapterVideo"
-            onChange={(url) => {
-              if (url) {
-                onSubmit({ videoUrl: url })
-              }
-            }}
-          />
-          <div className="test-xs text-muted-foreground mt-4">
-            Sube tu video en formato mp4
-          </div>
+          <Tabs defaultValue="own">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="own">Propio</TabsTrigger>
+              <TabsTrigger value="youtube">Youtube</TabsTrigger>
+            </TabsList>
+            <TabsContent value="own">
+              <FileUpload
+                endpoint="chapterVideo"
+                onChange={(url) => {
+                  if (url) {
+                    onSubmit({ videoUrl: url })
+                  }
+                }}
+              />
+              <div className="test-xs text-muted-foreground mt-4">
+                Sube tu video en formato mp4
+              </div>
+            </TabsContent>
+            <TabsContent value="youtube">
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmitYoutube)}>
+                  <FormField
+                    control={form.control}
+                    name="youtubeUrl"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            disabled={isPending}
+                            placeholder="Ejemplo 'https://www.youtube.com/watch?v=123456'"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <div className="flex items-center gap-x-2">
+                    <Button
+                      type="submit"
+                      disabled={isPending}
+                    >
+                      Guardar
+                    </Button>
+                  </div>
+                </form>
+              </Form>
+            </TabsContent>
+          </Tabs>
         </div>
       )}
       {!initialData.videoUrl && (

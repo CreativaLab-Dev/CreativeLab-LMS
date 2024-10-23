@@ -184,6 +184,7 @@ model Chapter {
   description  String?
   content      String?          @db.Text
   videoUrl     String?          @map("video_url")
+  youtubeUrl   String?          @map("youtube_url")
   isPublished  Boolean          @default(false) @map("is_published")
   isFree       Boolean          @default(false) @map("is_free")
   position     Int

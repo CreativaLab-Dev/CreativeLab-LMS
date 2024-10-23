@@ -17,3 +17,7 @@ export const chapterAccessSchema = z.object({
 export const chapterVideoSchema = z.object({
   videoUrl: z.string()
 })
+
+export const chapterYoutubeSchema = z.object({
+  youtubeUrl: z.string().url()
+})
