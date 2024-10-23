@@ -60,11 +60,11 @@ model Account {
 }
 
 model Student {
-  id       String          @id @default(cuid())
-  userId   String          @unique @map("user_id")
+  id       String           @id @default(cuid())
+  userId   String           @unique @map("user_id")
   user     User?
   courses  StudentCourse[]
-  comments LessonComment[]
+  comments ChapterComment[]
 
   @@map("students")
 }
@@ -178,24 +178,24 @@ model StudentCourse {
 }
 
 model Chapter {
-  id           String          @id @default(cuid())
-  courseId     String?         @map("course_id")
+  id           String           @id @default(cuid())
+  courseId     String?          @map("course_id")
   title        String
   description  String
-  content      String?         @db.Text
-  videoUrl     String?         @map("video_url")
-  isPublished  Boolean         @default(false) @map("is_published")
-  isFree       Boolean         @default(false) @map("is_free")
+  content      String?          @db.Text
+  videoUrl     String?          @map("video_url")
+  isPublished  Boolean          @default(false) @map("is_published")
+  isFree       Boolean          @default(false) @map("is_free")
   position     Int
-  updatedAt    DateTime        @updatedAt @map("updated_at")
-  createdAt    DateTime        @default(now()) @map("created_at")
-  comments     LessonComment[]
+  updatedAt    DateTime         @updatedAt @map("updated_at")
+  createdAt    DateTime         @default(now()) @map("created_at")
+  comments     ChapterComment[]
   userProgress UserProgress[]
-  Course       Course?         @relation(fields: [courseId], references: [id])
+  Course       Course?          @relation(fields: [courseId], references: [id])
   muxData      MuxData?
 
   @@index([courseId])
-  @@map("lessons")
+  @@map("chapters")
 }
 
 model MuxData {
@@ -223,8 +223,9 @@ model UserProgress {
   @@map("user_progress")
 }
 
-model LessonComment {
+model ChapterComment {
   id        String   @id @default(cuid())
+  studentId String?
   lessonId  String   @map("lesson_id")
   userId    String   @map("user_id")
   content   String
@@ -232,9 +233,8 @@ model LessonComment {
   createdAt DateTime @default(now()) @map("created_at")
   chapter   Chapter  @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   Student   Student? @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  studentId String?
 
-  @@map("lesson_comments")
+  @@map("chapter_comments")
 }
 
 enum EventType {
