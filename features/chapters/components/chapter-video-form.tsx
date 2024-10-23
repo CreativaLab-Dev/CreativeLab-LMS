@@ -22,6 +22,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { updateYoutubeChapter } from "../actions/update-youtube-chapter";
+import ChapterYoutubeVideo from "./chapter-youtube-form";
 
 interface ChapterVideoFormProps {
   initialData: Chapter & {
@@ -45,9 +46,11 @@ const ChapterVideoForm = ({
   const form = useForm<z.infer<typeof chapterYoutubeSchema>>({
     resolver: zodResolver(chapterYoutubeSchema),
     defaultValues: {
-      youtubeUrl: initialData.videoUrl || ''
+      youtubeUrl: initialData.youtubeUrl || ''
     }
   });
+
+  const tabDefault = initialData.youtubeUrl ? 'youtube' : 'own';
 
   const onSubmit = async (data: z.infer<typeof chapterVideoSchema>) => {
     startTransition(() => {
@@ -107,11 +110,14 @@ const ChapterVideoForm = ({
         </Button>
       </div>
       {!isEditting && (
-        !initialData.videoUrl ? (
+        !initialData.videoUrl && !initialData.youtubeUrl && (
           <div className="flex items-center justify-center h-60 bg-slate-200 rounded-md">
             <Video className="h-12 w-12 text-slate-400" />
           </div>
-        ) : (
+        )
+      )}
+      {!isEditting && initialData.videoUrl && (
+        (
           <div className="relative aspect-video mt-2">
             <MuxPlayer
               playbackId={initialData?.muxData?.playbackId || ""}
@@ -119,9 +125,16 @@ const ChapterVideoForm = ({
           </div>
         )
       )}
+      {!isEditting && initialData.youtubeUrl && (
+        (
+          <div className="relative aspect-video mt-2">
+            <ChapterYoutubeVideo videoUrl={initialData.videoUrl || ''} />
+          </div>
+        )
+      )}
       {isEditting && (
         <div>
-          <Tabs defaultValue="own">
+          <Tabs defaultValue={tabDefault}>
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="own">Propio</TabsTrigger>
               <TabsTrigger value="youtube">Youtube</TabsTrigger>
