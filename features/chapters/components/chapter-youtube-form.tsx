@@ -1,22 +1,35 @@
 'use client'
 
+import { useEffect, useState } from 'react';
+import ReactPlayer from 'react-player'
+
 type YoutubeVideoProps = {
   videoUrl: string;
 };
 
 const ChapterYoutubeVideo = ({ videoUrl }: YoutubeVideoProps) => {
-  // Extraer solo el ID del video de YouTube si se pasa una URL completa
-  const videoId = videoUrl.split('v=')[1]?.split('&')[0];
-  console.log(videoUrl);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
 
   return (
-    <div className="aspect-w-16 aspect-h-9">
-      <iframe
-        width="100%"
-        src={"https://www.youtube.com/embed/" + videoId}
-        title="YouTube video player"
-      ></iframe>
+    <div>
+      <ReactPlayer
+        url='https://www.youtube.com/watch?v=wWgIAphfn2U'
+        width='100%'
+        height='50vh'
+        className='bg-dark overflow-hidden'
+        controls={true}
+      />
     </div>
+
   );
 };
 
