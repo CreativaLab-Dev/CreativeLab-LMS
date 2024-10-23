@@ -41,7 +41,6 @@ export const createChapter = async (courseId: string, values: z.infer<typeof Edi
   const newModule = await db.chapter.create({
     data: {
       title: values.title,
-      description: '',
       position: newPosition,
       courseId,
     }

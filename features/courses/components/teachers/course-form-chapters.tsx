@@ -61,7 +61,7 @@ const CourseFormChapter = ({ courseId, initialData }: CourseFormChapterProps) =>
           setIsUpdating(false);
         })
     })
-  }
+  };
 
   const onSubmit = async (data: z.infer<typeof EditCourseChapterSchema>) => {
     startTransition(() => {
