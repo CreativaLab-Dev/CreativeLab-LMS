@@ -22,7 +22,7 @@ const ChapterYoutubeVideo = ({ videoUrl }: YoutubeVideoProps) => {
   return (
     <div>
       <ReactPlayer
-        url='https://www.youtube.com/watch?v=wWgIAphfn2U'
+        url={videoUrl ? videoUrl : 'https://www.youtube.com/watch?v=wWgIAphfn2U'}
         width='100%'
         height='50vh'
         className='bg-dark overflow-hidden'

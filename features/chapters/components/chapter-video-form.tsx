@@ -128,8 +128,7 @@ const ChapterVideoForm = ({
       {!isEditting && initialData.youtubeUrl && (
         (
           <div className="relative aspect-video mt-2">
-            {initialData.youtubeUrl}
-            <ChapterYoutubeVideo videoUrl={initialData.videoUrl || ''} />
+            <ChapterYoutubeVideo videoUrl={initialData.youtubeUrl || ''} />
           </div>
         )
       )}
