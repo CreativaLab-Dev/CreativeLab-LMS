@@ -29,10 +29,10 @@ const CourseFormAttachment = ({ courseId, initialData }: CourseFormAttachmentPro
         .then((response) => {
           if (response.success) {
             setIsEditting(false);
-            toast.success("Imagen actualizada");
+            toast.success("Adjunto actualizado");
             router.refresh();
           } else {
-            toast.error(response?.error ?? 'Error al actualizar el imagen');
+            toast.error(response?.error ?? 'Error al actualizar el adjunto');
           }
         })
     })

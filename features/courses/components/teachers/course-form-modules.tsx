@@ -61,7 +61,7 @@ const ModulesList = ({
   }
 
   return (
-    <DragDropContext onDragEnd={() => { }}>
+    <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="modules">
         {(provided) => (
           <div {...provided.droppableProps} ref={provided.innerRef}>

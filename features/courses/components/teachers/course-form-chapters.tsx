@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Button } from "@/components/ui/button";
-import { PlusCircle } from "lucide-react";
+import { Loader2, PlusCircle } from "lucide-react";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -21,6 +21,7 @@ import { Course, Module } from "@prisma/client";
 import { createChapter } from "../../actions/teachers/create-chapter";
 import { Input } from "@/components/ui/input";
 import ModulesList from "./course-form-modules";
+import { updateModules } from "../../actions/teachers/update-modules";
 
 interface CourseFormChapterProps {
   initialData: Course & { modules: Module[] };
@@ -43,6 +44,25 @@ const CourseFormChapter = ({ courseId, initialData }: CourseFormChapterProps) =>
     }
   });
 
+  const onReorder = async (updateData: { id: string, position: number }[]) => {
+    setIsUpdating(true);
+    startTransition(() => {
+      setIsUpdating(true);
+      updateModules(courseId, updateData)
+        .then((response) => {
+          if (response.success) {
+            setIsUpdating(false);
+            toast.success("Modulos reordenados correctamente");
+          } else {
+            toast.error(response?.error ?? 'Error al actualizar los modulos');
+          }
+        })
+        .finally(() => {
+          setIsUpdating(false);
+        })
+    })
+  }
+
   const onSubmit = async (data: z.infer<typeof EditCourseChapterSchema>) => {
     startTransition(() => {
       createChapter(courseId, data)
@@ -51,6 +71,7 @@ const CourseFormChapter = ({ courseId, initialData }: CourseFormChapterProps) =>
             setIsCreating(false);
             toast.success("Modulo creado correctamente");
             router.refresh();
+            form.reset();
           } else {
             toast.error(response?.error ?? 'Error al actualizar el modulo');
           }
@@ -58,8 +79,17 @@ const CourseFormChapter = ({ courseId, initialData }: CourseFormChapterProps) =>
     })
   };
 
+  const onEdit = (id: string) => {
+    router.push(`/teacher/courses/${courseId}/modules/${id}`)
+  }
+
   return (
-    <div className="mt-6 border bg-sky-100 rounded-md p-4">
+    <div className="relative mt-6 border bg-sky-100 rounded-md p-4">
+      {isUpdating && (
+        <div className="absolute h-full w-full bg-slate-500/20 top-0 right-0 rounded-md flex items-center justify-center">
+          <Loader2 className="animate-spin h-6 w-6 text-sky-700" />
+        </div>
+      )}
       <div className="font-medium  flex items-center justify-between">
         <span className="text-xs">Modulos del curso</span>
         <Button
@@ -116,8 +146,8 @@ const CourseFormChapter = ({ courseId, initialData }: CourseFormChapterProps) =>
         )}>
           {!initialData.modules.length && "No hay modulos en este curso"}
           <ModulesList
-            onEdit={() => { }}
-            onReorder={() => { }}
+            onEdit={onEdit}
+            onReorder={onReorder}
             items={initialData.modules}
           />
         </div>
