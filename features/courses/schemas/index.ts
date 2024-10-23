@@ -6,7 +6,6 @@ export const NewCourseSchema = z.object({
   }),
 })
 
-
 export const EditCourseTitleSchema = z.object({
   title: z.string().min(2, {
     message: "Nombre es requerido"
@@ -28,5 +27,11 @@ export const EditCourseImageSchema = z.object({
 export const EditCourseCategorySchema = z.object({
   categoryId: z.string().min(2, {
     message: "Categoria es requerida"
+  }),
+})
+
+export const EditCourseAttachmentSchema = z.object({
+  url: z.string().min(2, {
+    message: "Url es requerida"
   }),
 })

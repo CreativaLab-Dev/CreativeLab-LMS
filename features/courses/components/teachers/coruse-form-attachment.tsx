@@ -1,31 +1,31 @@
 'use client'
 
 import * as z from "zod"
-import { EditCourseImageSchema } from "../../schemas";
+import { EditCourseAttachmentSchema } from "../../schemas";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { ImageIcon, Pencil, PlusCircle } from "lucide-react";
+import { File, Loader2, PlusCircle, X } from "lucide-react";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
-import Image from "next/image";
 import { FileUpload } from "@/components/ui/file-upload";
-import { updateCourseImage } from "../../actions/teachers/update-course-image";
+import { Attachment, Course } from "@prisma/client";
+import { updateCourseAttachment } from "../../actions/teachers/update-course-attachment";
+import { deleteCourseAttachment } from "../../actions/teachers/delete-course-attachment";
 
 interface CourseFormAttachmentProps {
-  initialData: {
-    image: string;
-  };
+  initialData: Course & { attachments: Attachment[] };
   courseId: string;
 }
 
 const CourseFormAttachment = ({ courseId, initialData }: CourseFormAttachmentProps) => {
   const [, startTransition] = useTransition()
   const [isEditting, setIsEditting] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const router = useRouter();
-  const onSubmit = async (data: z.infer<typeof EditCourseImageSchema>) => {
+  const onSubmit = async (data: z.infer<typeof EditCourseAttachmentSchema>) => {
     startTransition(() => {
-      updateCourseImage(courseId, data)
+      updateCourseAttachment(courseId, data)
         .then((response) => {
           if (response.success) {
             setIsEditting(false);
@@ -37,6 +37,21 @@ const CourseFormAttachment = ({ courseId, initialData }: CourseFormAttachmentPro
         })
     })
   };
+
+  const onDelete = async (id: string) => {
+    setDeletingId(id);
+    startTransition(() => {
+      deleteCourseAttachment(courseId, id)
+        .then((response) => {
+          if (response.success) {
+            toast.success("Adjunto eliminado");
+            router.refresh();
+          } else {
+            toast.error(response?.error ?? 'Error al eliminar el adjunto');
+          }
+        })
+    })
+  }
 
   const toggleEdit = () => setIsEditting((current) => !current);
   return (
@@ -60,37 +75,58 @@ const CourseFormAttachment = ({ courseId, initialData }: CourseFormAttachmentPro
               </>
             )
           }
-
         </Button>
       </div>
       {!isEditting && (
-        !initialData.image ? (
-          <div className="flex items-center justify-center h-60 bg-slate-200 rounded-md">
-            <ImageIcon className="h-12 w-12 text-slate-400" />
-          </div>
-        ) : (
-          <div className="relative aspect-video mt-2">
-            <Image
-              alt="Upload"
-              fill
-              className="object-cover rounded-md"
-              src={initialData.image}
-            />
-          </div>
+        initialData.attachments.length === 0 && (
+          <>
+            <p className="text-sm mt-2 text-slate-500 italic">
+              No hay archivos adjuntos
+            </p>
+          </>
         )
       )}
+      {!isEditting && initialData.attachments.length > 0 && (
+        <div className="space-y-2">
+          {initialData.attachments.map((attachment) => (
+            <div
+              className="flex items-center p-3 w-full bg-sky-600 border-sky-200 border text-sky-200 rounded-md"
+              key={attachment.id}
+            >
+              <File className="h-4 w-4 mr-2 flex-shrink-0" />
+              <p className="text-xs line-clamp-1">
+                {attachment.name}
+              </p>
+              {deletingId === attachment.id && (
+                <div>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                </div>
+              )}
+              {deletingId !== attachment.id && (
+                <button
+                  className="ml-auto hover:opacity-75 transition"
+                  onClick={() => onDelete(attachment.id)}
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
       {isEditting && (
         <div>
           <FileUpload
-            endpoint="courseImage"
+            endpoint="courseAttachment"
             onChange={(url) => {
               if (url) {
-                onSubmit({ image: url })
+                onSubmit({ url: url })
               }
             }}
           />
           <div className="test-xs text-muted-foreground mt-4">
-            Se recomienda una imagen de 16:9
+            Agrega un archivo adjunto a tu curso
           </div>
         </div>
       )}

@@ -18,7 +18,7 @@ export default async function CourseIdPage({
   if (!course) {
     return redirect('/teacher/courses')
   }
-
+  console.log(course)
   const categories = await getCategories()
   return (
     <div className="space-y-3 py-4 lg:py-8 h-full">

@@ -1,7 +1,7 @@
 'use client'
 
 import { File, LayoutDashboard, ListChecks } from "lucide-react";
-import { Category, Course } from "@prisma/client";
+import { Attachment, Category, Course } from "@prisma/client";
 import { IconBadge } from "@/components/ui/icon-badge";
 import CourseFormTitle from "./course-form-title";
 import CourseFormDescription from "./course-form-description";
@@ -10,7 +10,7 @@ import CourseFormCategory from "./course-form-category";
 import CourseFormAttachment from "./coruse-form-attachment";
 
 interface CourseSetupProps {
-  course: Course;
+  course: Course & { attachments: Attachment[] };
   categories: Category[];
 }
 
@@ -64,7 +64,7 @@ const CourseSetup = ({ course, categories }: CourseSetupProps) => {
         </div>
         <CourseFormAttachment
           courseId={course.id}
-          initialData={{ image: course.imagePath || '' }}
+          initialData={course}
         />
       </div>
     </div>
