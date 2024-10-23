@@ -9,6 +9,7 @@ import CourseFormImage from "./course-form-image";
 import CourseFormCategory from "./course-form-category";
 import CourseFormAttachment from "./course-form-attachment";
 import CourseFormChapter from "./course-form-chapters";
+import { Banner } from "@/components/ui/banner";
 
 interface CourseSetupProps {
   course: Course & { attachments: Attachment[], chapters: Chapter[] };
@@ -18,61 +19,68 @@ interface CourseSetupProps {
 const CourseSetup = ({ course, categories }: CourseSetupProps) => {
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div>
-        <div className="flex items-center gap-x-2">
-          <IconBadge
-            icon={LayoutDashboard} />
-          <h2 className="text-xl">
-            Personaliza tu curso
-          </h2>
+    <>
+      {!course.isPublished && (
+        <Banner
+          label="Este curso no es visible para los estudiantes"
+        />
+      )}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <div className="flex items-center gap-x-2">
+            <IconBadge
+              icon={LayoutDashboard} />
+            <h2 className="text-xl">
+              Personaliza tu curso
+            </h2>
+          </div>
+          <CourseFormTitle
+            courseId={course.id}
+            initialData={{ title: course.name }}
+          />
+          <CourseFormDescription
+            courseId={course.id}
+            initialData={{ description: course.description || '' }}
+          />
+          <CourseFormImage
+            courseId={course.id}
+            initialData={{ image: course.imagePath || '' }}
+          />
+          <CourseFormCategory
+            courseId={course.id}
+            initialData={course}
+            options={categories.map((category) => ({
+              label: category.name,
+              value: category.id
+            }))}
+          />
         </div>
-        <CourseFormTitle
-          courseId={course.id}
-          initialData={{ title: course.name }}
-        />
-        <CourseFormDescription
-          courseId={course.id}
-          initialData={{ description: course.description || '' }}
-        />
-        <CourseFormImage
-          courseId={course.id}
-          initialData={{ image: course.imagePath || '' }}
-        />
-        <CourseFormCategory
-          courseId={course.id}
-          initialData={course}
-          options={categories.map((category) => ({
-            label: category.name,
-            value: category.id
-          }))}
-        />
+        <div className="space-y-6">
+          <div className="flex items-center gap-x-2">
+            <IconBadge
+              icon={ListChecks} />
+            <h2 className="text-xl">
+              Capitulos del curso
+            </h2>
+          </div>
+          <CourseFormChapter
+            courseId={course.id}
+            initialData={course}
+          />
+          <div className="flex items-center gap-x-2">
+            <IconBadge
+              icon={File} />
+            <h2 className="text-xl">
+              Recursos y anexos
+            </h2>
+          </div>
+          <CourseFormAttachment
+            courseId={course.id}
+            initialData={course}
+          />
+        </div>
       </div>
-      <div className="space-y-6">
-        <div className="flex items-center gap-x-2">
-          <IconBadge
-            icon={ListChecks} />
-          <h2 className="text-xl">
-            Capitulos del curso
-          </h2>
-        </div>
-        <CourseFormChapter
-          courseId={course.id}
-          initialData={course}
-        />
-        <div className="flex items-center gap-x-2">
-          <IconBadge
-            icon={File} />
-          <h2 className="text-xl">
-            Recursos y anexos
-          </h2>
-        </div>
-        <CourseFormAttachment
-          courseId={course.id}
-          initialData={course}
-        />
-      </div>
-    </div>
+    </>
   );
 }
 
