@@ -1,59 +1,43 @@
 import { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+import ReactConfetti from "react-confetti"
 
-export const useConfirm = (title: string, message: string): [() => JSX.Element, () => Promise<unknown>] => {
+
+export const useConfetti = (): [() => JSX.Element, () => void] => {
   const [promise, setPromise] = useState<{
     resolve: (value: boolean) => void,
   } | null>(null)
 
-  const confirm = () => new Promise((resolve) => {
-    setPromise({ resolve })
-  })
-
   const handleClose = () => {
     setPromise(null)
   }
-
-  const handleCancel = () => {
-    promise?.resolve(false)
-    setPromise(null)
+  const handleOpen = () => {
+    setPromise({
+      resolve: () =>
+        console.log("Siuuuuuuuuuuuuuu!!"),
+    })
   }
 
-  const handleConfirm = () => {
+  const open = () => {
     promise?.resolve(true)
-    handleClose()
+    handleOpen()
   }
 
   const ConfirmDialog = () => {
-    return (
-      <Dialog open={promise !== null
-      }>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>
-              {title}
-            </DialogTitle>
+    if (promise !== null) {
+      return (
+        <ReactConfetti
+          className="pointer-event-none z-[100]"
+          numberOfPieces={500}
+          recycle={false}
+          onConfettiComplete={() => {
+            handleClose()
+          }}
+        />
+      )
+    }
+    return <></>
 
-            <DialogDescription>
-              {message}
-            </DialogDescription>
-          </DialogHeader>
-          < DialogFooter className="pt-2" >
-            <Button onClick={handleCancel} variant="outline" > Cancelar </Button>
-            < Button onClick={handleConfirm} variant="destructive" > Aceptar </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    )
   }
 
-  return [ConfirmDialog, confirm]
+  return [ConfirmDialog, open]
 }

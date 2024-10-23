@@ -1,12 +1,11 @@
 'use client';
 
-import { Edit2, Menu, Plus, Search, Trash2 } from "lucide-react";
+import { Edit2, Plus, Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { format } from 'date-fns';
 import qs from "query-string"
 
-import { useConfirm } from "@/hooks/use-confirm";
 import { Course } from "@prisma/client";
 
 import {
@@ -27,26 +26,18 @@ import { useDebounce } from "@/hooks/use-debounce";
 interface CourseProps {
   courses: Course[]
   pagination: PaginationResults
+  url: string
 }
 
-const CoursesList = ({ courses, pagination }: CourseProps) => {
+const CoursesList = ({ courses, pagination, url: urlPath }: CourseProps) => {
   const [search, setSearch] = useState('');
   const router = useRouter()
   const params = useSearchParams()
   const debouncedValue = useDebounce(search)
 
-  const [ConfirmRemoveCourse, confirmRemoveCourse] = useConfirm(
-    'Eliminar curso',
-    '¿Estas seguro de eliminar este curso?')
-
-  const onDeleteCourse = async (id: string) => {
-    const ok = await confirmRemoveCourse()
-    // Todo: Implement delete course
-  }
-
   useEffect(() => {
     const url = qs.stringifyUrl({
-      url: '/teacher/courses',
+      url: urlPath,
       query: {
         search: debouncedValue || null,
         page: Number(params.get('page') ?? 1),
@@ -141,32 +132,12 @@ const CoursesList = ({ courses, pagination }: CourseProps) => {
                     <Edit2 size={15} />
                   </Button>
                 </TooltipContainer>
-                <TooltipContainer title='Ver detalles'>
-                  <Button
-                    variant="link"
-                    size='sm'
-                    className='text-blue-400 px-2'
-                    onClick={() => router.push(`/teacher/courses/${course.id}/detail`)}
-                  >
-                    <Menu size={15} />
-                  </Button>
-                </TooltipContainer>
-                <TooltipContainer title='Eliminar'>
-                  <Button
-                    variant="link"
-                    size='sm'
-                    className='text-red-400 px-2'
-                    onClick={() => onDeleteCourse(course.id)}>
-                    <Trash2 size={15} />
-                  </Button>
-                </TooltipContainer>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
       <PaginationList result={pagination} path={'/courses'} />
-      <ConfirmRemoveCourse />
     </>
   );
 }

@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { useConfirm } from "@/hooks/use-confirm"
 import { deleteCourse } from "../../actions/teachers/delete-course"
 import { updatePublishCourse } from "../../actions/teachers/update-publish-course"
+import { useConfetti } from "@/hooks/use-confetti"
 
 interface ChapterActionsProps {
   disabled: boolean
@@ -21,6 +22,7 @@ const CourseActions = ({
   isPublished
 }: ChapterActionsProps) => {
   const router = useRouter()
+  const [Confetti, open] = useConfetti()
   const [isPending, startTransition] = useTransition()
   const [ConfirmRemoveCourse, confirmRemoveCourse] = useConfirm(
     'Eliminar curso',
@@ -52,6 +54,9 @@ const CourseActions = ({
       updatePublishCourse(courseId)
         .then((response) => {
           if (response.success) {
+            if (!isPublished) {
+              open()
+            }
             toast.success("Curso publicado")
             router.refresh()
           }
@@ -81,6 +86,7 @@ const CourseActions = ({
           <Trash className="w-4 h-4" />
         </Button>
       </div>
+      <Confetti />
       <ConfirmRemoveCourse />
     </>
 

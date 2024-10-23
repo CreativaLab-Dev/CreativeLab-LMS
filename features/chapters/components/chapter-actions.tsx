@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { useConfirm } from "@/hooks/use-confirm"
 import { deleteChapter } from "../actions/delete-chapter"
 import { updatePublishChapter } from "../actions/update-publish-chapter"
+import { useConfetti } from "@/hooks/use-confetti"
 
 interface ChapterActionsProps {
   disabled: boolean

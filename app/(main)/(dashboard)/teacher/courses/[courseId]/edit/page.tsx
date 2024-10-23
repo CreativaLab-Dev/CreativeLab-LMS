@@ -9,7 +9,8 @@ import CourseFormChapter from "@/features/courses/components/teachers/course-for
 import CourseFormDescription from "@/features/courses/components/teachers/course-form-description"
 import CourseFormImage from "@/features/courses/components/teachers/course-form-image"
 import CourseFormTitle from "@/features/courses/components/teachers/course-form-title"
-import { File, LayoutDashboard, ListChecks } from "lucide-react"
+import { ArrowLeft, File, LayoutDashboard, ListChecks } from "lucide-react"
+import Link from "next/link"
 import { redirect } from "next/navigation"
 
 type CourseIdPageProps = {
@@ -51,6 +52,13 @@ export default async function CourseIdPage({
         />
       )}
       <div className="p-6">
+        <Link
+          href={`/teacher/courses`}
+          className="flex itesm-center text-sm hover:opacity-75 transition mb-6"
+        >
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Regresar al listado
+        </Link>
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-y-2">
             <h1 className="text-2xl font-bold">

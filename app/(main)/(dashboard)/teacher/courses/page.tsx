@@ -4,7 +4,9 @@ import CoursesList from "@/features/courses/components/teachers/courses-list";
 import { getCoursesOfTeacher } from "@/features/courses/actions/teachers/get-courses-of-teacher";
 
 
-export default async function CoursesPage(searchParams: PageParamasProps) {
+export default async function CoursesPage(
+  searchParams: PageParamasProps
+) {
   const { courses, pagination } = await getCoursesOfTeacher(searchParams)
   return (
     <div className="space-y-3 py-4 lg:py-8">
@@ -16,7 +18,11 @@ export default async function CoursesPage(searchParams: PageParamasProps) {
         iconColor="text-sky-500"
       />
       <div className="px-10 md:px-8">
-        <CoursesList courses={courses} pagination={pagination} />
+        <CoursesList
+          courses={courses}
+          pagination={pagination}
+          url="/teacher/courses"
+        />
       </div>
     </div>
   );
