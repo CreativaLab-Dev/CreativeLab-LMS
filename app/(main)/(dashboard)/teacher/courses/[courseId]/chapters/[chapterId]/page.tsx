@@ -1,7 +1,10 @@
 import { IconBadge } from "@/components/ui/icon-badge"
 import { getChapters } from "@/features/chapters/actions/get-chapters"
+import ChapterAccessForm from "@/features/chapters/components/chapter-access-form"
+import ChapterDescriptionForm from "@/features/chapters/components/chapter-description-form"
 import ChapterTitleForm from "@/features/chapters/components/chapter-title-form"
-import { ArrowLeft, LayoutDashboard } from "lucide-react"
+import ChapterVideoForm from "@/features/chapters/components/chapter-video-form"
+import { ArrowLeft, Eye, LayoutDashboard, Video } from "lucide-react"
 import Link from "next/link"
 
 interface ChapterIdPageProps {
@@ -13,6 +16,7 @@ interface ChapterIdPageProps {
 
 const ChapterIdPage = async ({ params }: ChapterIdPageProps) => {
   const { courseId, chapterId } = params
+
   const chapter = await getChapters(courseId, chapterId)
   if (!chapter) return null
   const requiredFields = [
@@ -62,6 +66,45 @@ const ChapterIdPage = async ({ params }: ChapterIdPageProps) => {
               chapterId={chapterId}
               initialData={{
                 title: chapter.title
+              }}
+            />
+            <ChapterDescriptionForm
+              courseId={courseId}
+              chapterId={chapterId}
+              initialData={{
+                description: chapter.description ?? ''
+              }}
+            />
+          </div>
+          <div>
+            <div className="flex items-center gap-x-2">
+              <IconBadge icon={Eye} />
+              <h2 className="text-xl">
+                Configuración de acceso
+              </h2>
+            </div>
+            <ChapterAccessForm
+              courseId={courseId}
+              chapterId={chapterId}
+              initialData={{
+                isFree: chapter.isFree
+              }}
+            />
+          </div>
+        </div>
+        <div className="space-y-4">
+          <div>
+            <div className="flex items-center gap-x-2">
+              <IconBadge icon={Video} />
+              <h2 className="text-xl">
+                Configuración de video
+              </h2>
+            </div>
+            <ChapterVideoForm
+              courseId={courseId}
+              chapterId={chapterId}
+              initialData={{
+                videoUrl: chapter.videoUrl ?? ''
               }}
             />
           </div>
