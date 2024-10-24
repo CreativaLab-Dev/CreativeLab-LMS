@@ -60,7 +60,10 @@ const ChapterTitleForm = ({
   return (
     <div className="mt-6 border bg-sky-100 rounded-md p-4">
       <div className="font-medium  flex items-center justify-between">
-        <span className="text-xs">Titulo de capitulo</span>
+        <span className="text-xs">
+          Titulo de capitulo
+          <span className="text-red-500">*</span>
+        </span>
         <Button
           onClick={toggleEdit}
           variant='ghost'

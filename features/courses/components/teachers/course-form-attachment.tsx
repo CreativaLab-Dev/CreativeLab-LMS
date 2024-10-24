@@ -59,6 +59,7 @@ const CourseFormAttachment = ({ courseId, initialData }: CourseFormAttachmentPro
       <div className="font-medium  flex items-center justify-between">
         <span className="text-xs">
           Adjuntos de curso
+          <span className="text-red-500">*</span>
         </span>
         <Button
           onClick={toggleEdit}

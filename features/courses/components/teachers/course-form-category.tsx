@@ -64,7 +64,10 @@ const CourseFormCategory = ({
   return (
     <div className="mt-6 border bg-sky-100 rounded-md p-4">
       <div className="font-medium  flex items-center justify-between">
-        <span className="text-xs">Categoria de curso</span>
+        <span className="text-xs">
+          Categoria de curso
+          <span className="text-red-500">*</span>
+        </span>
         <Button
           onClick={toggleEdit}
           variant='ghost'

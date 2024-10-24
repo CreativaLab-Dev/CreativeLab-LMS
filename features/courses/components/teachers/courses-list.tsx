@@ -22,6 +22,7 @@ import { PaginationList, PaginationResults } from "@/components/ui/pagination-li
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { useDebounce } from "@/hooks/use-debounce";
+import { cn } from "@/lib/utils";
 
 interface CourseProps {
   courses: Course[]
@@ -76,6 +77,7 @@ const CoursesList = ({ courses, pagination, url: urlPath }: CourseProps) => {
             <TableHead className="w-[100px] text-center">Item</TableHead>
             <TableHead className="text-center">Miniatura</TableHead>
             <TableHead className="text-center">Nombre</TableHead>
+            <TableHead className="text-center">Publicado</TableHead>
             <TableHead className="text-center">Nuevo</TableHead>
             <TableHead className="text-center">Principal</TableHead>
             <TableHead className="text-center">Fecha C.</TableHead>
@@ -84,7 +86,12 @@ const CoursesList = ({ courses, pagination, url: urlPath }: CourseProps) => {
         </TableHeader>
         <TableBody>
           {courses.map((course, index) => (
-            <TableRow key={course.id + '-' + index} className="h-24 md:h-52">
+            <TableRow
+              key={course.id + '-' + index}
+              className={cn(
+                "h-24 md:h-52",
+              )}
+            >
               <TableCell className="font-medium text-center">
                 {(pagination.page - 1) * pagination.sizePage + index + 1}
               </TableCell>
@@ -107,13 +114,18 @@ const CoursesList = ({ courses, pagination, url: urlPath }: CourseProps) => {
                 {course.name}
               </TableCell>
               <TableCell className="text-center">
+                <Badge variant={course.isPublished ? 'published' : 'draft'}>
+                  {course.isPublished ? 'Publicado' : 'Oculto'}
+                </Badge>
+              </TableCell>
+              <TableCell className="text-center">
                 <Badge variant={course.isNew ? 'default' : 'destructive'}>
                   {course.isNew ? 'Si' : 'No'}
                 </Badge>
               </TableCell>
               <TableCell className="text-center">
                 <Badge variant={course.isFeatured ? 'default' : 'destructive'}>
-                  {course.isNew ? 'Si' : 'No'}
+                  {course.isFeatured ? 'Si' : 'No'}
                 </Badge>
               </TableCell>
               <TableCell className="text-center">

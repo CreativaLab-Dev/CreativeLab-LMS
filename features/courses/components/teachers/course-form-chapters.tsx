@@ -91,7 +91,10 @@ const CourseFormChapter = ({ courseId, initialData }: CourseFormChapterProps) =>
         </div>
       )}
       <div className="font-medium  flex items-center justify-between">
-        <span className="text-xs">Capitulo del curso</span>
+        <span className="text-xs">
+          Capitulo del curso
+          <span className="text-red-500">*</span>
+        </span>
         <Button
           onClick={toggleCreating}
           variant='ghost'

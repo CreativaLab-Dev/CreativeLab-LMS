@@ -64,7 +64,9 @@ const ChapterAccessForm = ({
   return (
     <div className="mt-6 border bg-sky-100 rounded-md p-4">
       <div className="font-medium  flex items-center justify-between">
-        <span className="text-xs">Acceso al capitulo</span>
+        <span className="text-xs">
+          Acceso al capitulo
+        </span>
         <Button
           onClick={toggleEdit}
           variant='ghost'
