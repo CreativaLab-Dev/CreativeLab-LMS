@@ -22,7 +22,7 @@ const SearchInput = () => {
       url: pathname,
       query: {
         categoryId: currentCategoryId,
-        search: debouncedValue
+        title: debouncedValue
       }
     }, { skipNull: true, skipEmptyString: true })
     router.push(url)

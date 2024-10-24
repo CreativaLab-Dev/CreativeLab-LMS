@@ -45,6 +45,18 @@ const getCourses = async ({
       }
     })
 
+    const coursesWithProgress: CourseWithProgressWithCategory[] = await Promise.all(
+      courses.map(async (course) => {
+        const progress = await getProgress(userId, course.id)
+        return {
+          ...course,
+          progress
+        }
+      })
+    )
+
+    return coursesWithProgress
+
   } catch (error) {
     console.error("[GET_COURSES]", error);
     return []

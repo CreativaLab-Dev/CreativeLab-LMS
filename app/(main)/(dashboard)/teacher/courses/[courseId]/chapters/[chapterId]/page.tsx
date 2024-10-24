@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { ArrowLeft, Eye, LayoutDashboard, Video } from "lucide-react"
 import { IconBadge } from "@/components/ui/icon-badge"
-import { getChapters } from "@/features/chapters/actions/get-chapters"
+import { getChapter } from "@/features/chapters/actions/get-chapter"
 import ChapterAccessForm from "@/features/chapters/components/chapter-access-form"
 import ChapterDescriptionForm from "@/features/chapters/components/chapter-description-form"
 import ChapterTitleForm from "@/features/chapters/components/chapter-title-form"
@@ -19,7 +19,7 @@ interface ChapterIdPageProps {
 const ChapterIdPage = async ({ params }: ChapterIdPageProps) => {
   const { courseId, chapterId } = params
 
-  const chapter = await getChapters(courseId, chapterId)
+  const chapter = await getChapter(courseId, chapterId)
   if (!chapter) return null
 
   const requiredFields = [
