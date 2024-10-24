@@ -25,7 +25,7 @@ const ChapterIdPage = async ({ params }: ChapterIdPageProps) => {
   const requiredFields = [
     chapter.title,
     chapter.description,
-    chapter.videoUrl
+    chapter.videoUrl || chapter.youtubeUrl
   ]
 
   const totalFields = requiredFields.length

@@ -74,7 +74,7 @@ const ChapterActions = ({
           variant={isPublished ? 'destructive' : 'outline'}
           size='sm'
         >
-          {isPublished ? 'Despublicar' : 'Publicar'}
+          {isPublished ? 'Ocultar' : 'Publicar'}
         </Button>
         <Button
           size='sm'
