@@ -21,17 +21,17 @@ const studentRoutes = [
   {
     icon: Layout,
     label: "Dashboard",
-    href: "/student/dashboard",
+    href: "/dashboard",
   },
   {
     icon: Compass,
     label: "Browse",
-    href: "/student/search",
+    href: "/search",
   },
   {
     icon: BookUser,
     label: "Cursos",
-    href: "/student/courses",
+    href: "/courses",
   },
   ...commonRoutes,
 ]
@@ -60,6 +60,7 @@ interface SidebarRoutesProps {
 }
 
 const SidebarRoutes = ({ currentUser }: SidebarRoutesProps) => {
+  console.log(currentUser)
   const role = currentUser?.studentId ? "student" : "teacher";
   const routes = role === "student" ? studentRoutes : teacherRoutes;
   return (

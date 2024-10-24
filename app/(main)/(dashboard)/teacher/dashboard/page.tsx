@@ -1,7 +1,7 @@
 import { auth, signOut } from "@/auth";
 import HeaderPage from "@/components/ui/header-page";
 
-const DashboardPage = async () => {
+const DashboardTeacherPage = async () => {
   const session = await auth();
   return (
     <div className="space-y-3 py-4 lg:py-8">
@@ -27,4 +27,4 @@ const DashboardPage = async () => {
   );
 }
 
-export default DashboardPage;
+export default DashboardTeacherPage;

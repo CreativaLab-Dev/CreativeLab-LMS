@@ -33,7 +33,7 @@ export const apiUploadThingPrefix = "/api/uploadthing"
  * The default route to redirect to after login
  * @type {string}
  */
-export const DEFAULT_LOGIN_STUDENT_REDIRECT = "/student/dashboard"
+export const DEFAULT_LOGIN_STUDENT_REDIRECT = "/dashboard"
 
 /**
  * The default route to redirect to after login

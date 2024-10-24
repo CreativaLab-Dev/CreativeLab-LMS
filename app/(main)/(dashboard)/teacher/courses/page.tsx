@@ -4,7 +4,7 @@ import CoursesList from "@/features/courses/components/teachers/courses-list";
 import { getCoursesOfTeacher } from "@/features/courses/actions/teachers/get-courses-of-teacher";
 
 
-export default async function CoursesPage(
+export default async function CoursesTeacherPage(
   searchParams: PageParamasProps
 ) {
   const { courses, pagination } = await getCoursesOfTeacher(searchParams)
