@@ -11,7 +11,7 @@ interface NavbarProps {
 const Navbar = ({ currentUser }: NavbarProps) => {
   return (
     <div className="bg-sky-100 p-4 border-b h-full flex items-center shadow-sm">
-      <MobileSidebar />
+      <MobileSidebar currentUser={currentUser} />
       <NavbarRoutes currentUser={currentUser} />
     </div>
   );

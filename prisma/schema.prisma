@@ -1,10 +1,11 @@
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 // Add role for user
@@ -122,9 +123,9 @@ model Course {
   id          String          @id @default(cuid())
   teacherId   String          @map("teacher_id")
   categoryId  String?         @map("category_id")
-  name        String
-  description String?
-  imagePath   String?         @map("image_path")
+  name        String          @db.Text
+  description String?         @db.Text
+  imagePath   String?         @map("image_path") @db.Text
   isFeatured  Boolean         @default(false) @map("is_featured")
   isPublished Boolean         @default(false) @map("is_published")
   isNew       Boolean         @default(false) @map("is_new")
@@ -138,6 +139,7 @@ model Course {
   chapters    Chapter[]
   valorations Valoration[]
 
+  @@index([categoryId])
   @@map("courses")
 }
 
