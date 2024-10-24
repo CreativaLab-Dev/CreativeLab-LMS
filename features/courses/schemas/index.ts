@@ -41,3 +41,11 @@ export const EditCourseChapterSchema = z.object({
     message: "Nombre es requerido"
   }),
 })
+
+export const EditCourseIsNewSchema = z.object({
+  isNew: z.boolean().default(false)
+})
+
+export const EditCourseIsFeaturedSchema = z.object({
+  isFeatured: z.boolean().default(false)
+})

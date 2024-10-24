@@ -9,6 +9,8 @@ import CourseFormChapter from "@/features/courses/components/teachers/course-for
 import CourseFormDescription from "@/features/courses/components/teachers/course-form-description"
 import CourseFormImage from "@/features/courses/components/teachers/course-form-image"
 import CourseFormTitle from "@/features/courses/components/teachers/course-form-title"
+import CourseIsFeaturedForm from "@/features/courses/components/teachers/course-is-featured-form"
+import CourseIsNewForm from "@/features/courses/components/teachers/course-is-new-form"
 import { ArrowLeft, File, LayoutDashboard, ListChecks } from "lucide-react"
 import Link from "next/link"
 import { redirect } from "next/navigation"
@@ -75,7 +77,7 @@ export default async function CourseIdPage({
           />
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-6 pb-12">
         <div>
           <div className="flex items-center gap-x-2">
             <IconBadge
@@ -103,6 +105,18 @@ export default async function CourseIdPage({
               label: category.name,
               value: category.id
             }))}
+          />
+          <CourseIsNewForm
+            courseId={courseId}
+            initialData={{
+              isNew: course.isNew
+            }}
+          />
+          <CourseIsFeaturedForm
+            courseId={courseId}
+            initialData={{
+              isFeatured: course.isFeatured
+            }}
           />
         </div>
         <div className="space-y-6">
