@@ -19,6 +19,7 @@ model User {
   id                  String             @id @default(cuid())
   studentId           String?            @unique @map("student_id")
   teacherId           String?            @unique @map("teacher_id")
+  stripeCustomerId    String?            @unique @map("stripe_customer_id")
   name                String?
   age                 Int?
   aboutMe             String?            @map("about_me")
@@ -35,10 +36,22 @@ model User {
   valorations         Valoration[]
   eventParticipations EventParticipant[]
   Attendance          Attendance[]
+  stripeCustomer      stripeCustomer?    @relation(fields: [stripeCustomerId], references: [id], onDelete: Cascade)
   student             Student?           @relation(fields: [studentId], references: [id], onDelete: Cascade)
   teacher             Teacher?           @relation(fields: [teacherId], references: [id], onDelete: Cascade)
 
   @@map("users")
+}
+
+model stripeCustomer {
+  id               String   @id @default(cuid())
+  userId           String   @unique @map("user_id")
+  stripeCustomerId String   @unique @map("stripe_customer_id")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+  createdAt        DateTime @default(now()) @map("created_at")
+  user             User?
+
+  @@map("stripe_customers")
 }
 
 model Account {
