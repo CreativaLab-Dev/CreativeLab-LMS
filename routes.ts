@@ -39,10 +39,10 @@ export const DEFAULT_LOGIN_STUDENT_REDIRECT = "/dashboard"
  * The default route to redirect to after login
  * @type {string}
  */
-export const DEFAULT_LOGIN_TEACHER_REDIRECT = "/teacher/dashboard"
+export const DEFAULT_LOGIN_TEACHER_REDIRECT = "/dashboard"
 
 /**
  * The default route to redirect any role to after login
  * @type {string}
  */
-export const DEFAULT_LOGIN_REDIRECT = "/profile"
+export const DEFAULT_LOGIN_REDIRECT = "/"
