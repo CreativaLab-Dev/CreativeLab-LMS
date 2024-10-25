@@ -1,5 +1,3 @@
-"use server"
-
 import { auth } from "@/auth";
 import { getDashboardCourses } from "@/features/dashboard/actions/get-dashboard-courses";
 import InfoCard from "@/features/dashboard/components/info-card";

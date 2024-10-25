@@ -5,7 +5,8 @@ import { db } from "@/lib/db"
 
 export const updateCourseMarkAsComplete = async (
   courseId: string,
-  chapterId: string
+  chapterId: string,
+  isCompleted: boolean
 ) => {
   const session = await auth()
   if (!session || !session.user || !session.user.id) return { error: 'No autorizado' }
@@ -40,10 +41,10 @@ export const updateCourseMarkAsComplete = async (
     create: {
       userId: session.user.id,
       chapterId: chapterId,
-      isCompleted: true
+      isCompleted: !isCompleted
     },
     update: {
-      isCompleted: true
+      isCompleted: !isCompleted
     }
   })
 

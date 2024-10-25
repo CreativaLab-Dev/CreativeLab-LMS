@@ -10,6 +10,7 @@ interface CourseNavbarProps {
   };
   progressCount: number | null;
   currentUser: User
+  isMembershipActive: boolean
 }
 
 const CourseNavbar = ({

@@ -9,13 +9,14 @@ interface CourseSidebarProps {
     })[]
   }
   progressCount: number | null
+  isMembershipActive: boolean
 }
 
 const CourseSidebar = ({
   course,
-  progressCount
+  progressCount,
+  isMembershipActive
 }: CourseSidebarProps) => {
-  const isMembershipActive = true
   return (
     <div className="h-full border-r flex flex-col overflow-y-auto shadow-sm">
       <div className="p-8 flex flex-col border-b">

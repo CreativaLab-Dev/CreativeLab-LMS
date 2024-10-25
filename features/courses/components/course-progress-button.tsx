@@ -29,7 +29,7 @@ const CourseProgressButton = ({
 
   const onClick = async () => {
     startTransition(() => {
-      updateCourseMarkAsComplete(courseId, chapterId)
+      updateCourseMarkAsComplete(courseId, chapterId, isCompleted ?? false)
         .then((response) => {
           if (response.error) {
             toast("Error al marcar como completado")
@@ -58,7 +58,7 @@ const CourseProgressButton = ({
         onClick={onClick}
         disabled={isPending}
       >
-        {isCompleted ? 'No completado' : 'Marcar como completado'}
+        {isCompleted ? 'Marcar como no completado' : 'Marcar como completado'}
         <Icon className="h-4 w-4 ml-2" />
       </Button>
       <Confetti />

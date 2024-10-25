@@ -6,6 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { getChapterFull } from "@/features/chapters/actions/get-chapter-full";
 import ChapterVideoPlayer from "@/features/chapters/components/chapter-video-player";
 import CourseProgressButton from "@/features/courses/components/course-progress-button";
+import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 
 const ChapterIdPage = async ({
@@ -40,10 +41,18 @@ const ChapterIdPage = async ({
     return
   }
 
-  const isMembershipActive = true
+  const membershipActive = await db.membership.findFirst({
+    where: {
+      userId,
+      status: 'active',
+      expiresAt: {
+        gt: new Date()
+      }
+    }
+  })
 
-  const isLocked = !chapter.isFree && !isMembershipActive
-  const completeOnEnd = !userProgress?.isCompleted && !isMembershipActive
+  const isLocked = !chapter.isFree && !membershipActive
+  const completeOnEnd = !userProgress?.isCompleted && !!membershipActive
 
   return (
     <div>
@@ -76,7 +85,7 @@ const ChapterIdPage = async ({
           <h2 className="text-2xl font-semibold mb-2">
             {chapter.title}
           </h2>
-          {isMembershipActive ? (
+          {!!membershipActive ? (
             <div>
               <CourseProgressButton
                 chapterId={chapter.id}

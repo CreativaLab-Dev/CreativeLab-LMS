@@ -55,6 +55,16 @@ const CourseLayout = async ({
     },
   })
 
+  const membershipActive = await db.membership.findFirst({
+    where: {
+      userId,
+      status: 'active',
+      expiresAt: {
+        gte: new Date()
+      }
+    }
+  })
+
   if (!course) {
     return redirect('/')
   }
@@ -68,12 +78,14 @@ const CourseLayout = async ({
           currentUser={currentUser}
           course={course}
           progressCount={progressCount}
+          isMembershipActive={!!membershipActive}
         />
       </div>
       <div className="hidden md:flex h-full w-80 flex-col fixed inset-y-0 z-50">
         <CourseSidebar
           course={course}
           progressCount={progressCount}
+          isMembershipActive={!!membershipActive}
         />
       </div>
       <main className="md:pl-80 h-full pt-20">

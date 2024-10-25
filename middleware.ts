@@ -5,6 +5,7 @@ import { getToken } from 'next-auth/jwt';
 import {
   DEFAULT_LOGIN_REDIRECT,
   apiAuthPrefix,
+  apiStripePrefix,
   apiUploadThingPrefix,
   authRoutes,
   publicRoutes
@@ -17,15 +18,12 @@ export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+  const isApiWebhook = nextUrl.pathname.startsWith(apiStripePrefix);
   const isApiUploadThingRoute = nextUrl.pathname.startsWith(apiUploadThingPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
-  if (isApiAuthRoute) {
-    return null;
-  }
-
-  if (isApiUploadThingRoute) {
+  if (isApiAuthRoute || isApiWebhook || isApiUploadThingRoute) {
     return null;
   }
 

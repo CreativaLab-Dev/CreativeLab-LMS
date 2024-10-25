@@ -28,6 +28,12 @@ export const apiAuthPrefix = "/api/auth"
   */
 export const apiUploadThingPrefix = "/api/uploadthing"
 
+/**
+ * The prefix for webhook stripe api
+ * @type {string}
+ */
+export const apiStripePrefix = "/api/webhook"
+
 
 /**
  * The default route to redirect to after login
