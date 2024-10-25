@@ -22,10 +22,16 @@ export default async function DashboardLayout({ children }: { children: React.Re
   return (
     <div className="h-full">
       <div className="h-[60px] md:pl-56 fixed inset-y-0 w-full z-10">
-        <Navbar currentUser={currentUser} isPremium={!!membershipActive} />
+        <Navbar
+          currentUser={currentUser}
+          isPremium={!!membershipActive}
+        />
       </div>
       <div className="hidden md:flex w-56 flex-col fixed inset-y-0">
-        <Sidebar currentUser={currentUser} />
+        <Sidebar
+          currentUser={currentUser}
+          isPremium={!!membershipActive}
+        />
       </div>
       <main className="md:pl-56 pt-16">
         {children}

@@ -5,21 +5,11 @@ import { db } from "@/lib/db"
 import Stripe from "stripe"
 import { stripe } from "@/lib/stripe"
 
-export const checkoutMembership = async (courseId: string) => {
+export const checkoutMembership = async () => {
   try {
     const session = await auth()
     if (!session || !session.user || !session.user.id) {
       return { error: "No autorizado" }
-    }
-    const course = await db.course.findUnique({
-      where: {
-        id: courseId,
-        isPublished: true,
-      }
-    })
-
-    if (!course) {
-      return { error: "Curso no encontrado" }
     }
 
     //Verify if exist membership active
@@ -76,10 +66,9 @@ export const checkoutMembership = async (courseId: string) => {
       customer: stripeCustomer.stripeCustomerId,
       line_items,
       mode: 'payment',
-      success_url: `${process.env.NEXT_PUBLIC_URL}/courses/${course.id}?success=1`,
-      cancel_url: `${process.env.NEXT_PUBLIC_URL}/courses/${course.id}?canceled=1`,
+      success_url: `${process.env.NEXT_PUBLIC_URL}/`,
+      cancel_url: `${process.env.NEXT_PUBLIC_URL}/`,
       metadata: {
-        courseId: course.id,
         userId: session.user.id
       }
     })

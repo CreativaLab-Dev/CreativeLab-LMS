@@ -8,7 +8,6 @@ import { db } from "@/lib/db"
 export async function POST(req: Request) {
   const body = await req.text()
   const signature = headers().get("Stripe-Signature") as string
-  console.log(signature)
 
   let event: Stripe.Event;
 
@@ -24,7 +23,6 @@ export async function POST(req: Request) {
 
   const session = event.data.object as Stripe.Checkout.Session
   const userId = session?.metadata?.userId
-  const courseId = session?.metadata?.courseId
 
   const student = await db.student.findFirst({
     where: {
@@ -37,7 +35,7 @@ export async function POST(req: Request) {
   }
 
   if (event.type === "checkout.session.completed") {
-    if (!userId || !courseId) {
+    if (!userId) {
       return new NextResponse("Error: Missing metadata", { status: 400 })
     }
 
@@ -45,13 +43,6 @@ export async function POST(req: Request) {
       data: {
         amount: session?.amount_total ?? 10,
         status: "paid",
-      }
-    })
-
-    await db.studentCourse.create({
-      data: {
-        courseId,
-        studentId: student.id
       }
     })
 

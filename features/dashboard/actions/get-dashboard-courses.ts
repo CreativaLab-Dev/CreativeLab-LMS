@@ -47,8 +47,6 @@ export const getDashboardCourses = async (userId: string): Promise<DashBoardCour
       }
     })
 
-    console.log("[GET_DASHBOARD_COURSES]", studentCurses)
-
     const courses = studentCurses.map(({ course }) => course) as CourseWithProgressWithCategory[]
 
     for (let course of courses) {

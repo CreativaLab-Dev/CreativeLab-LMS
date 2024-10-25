@@ -95,9 +95,7 @@ const ChapterIdPage = async ({
               />
             </div>
           ) : (
-            <EnrollButton
-              courseId={params.courseId}
-            />
+            <EnrollButton />
           )}
         </div>
         <Separator />
