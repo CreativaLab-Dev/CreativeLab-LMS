@@ -16,9 +16,22 @@ type DashBoardCourses = {
 export const getDashboardCourses = async (userId: string): Promise<DashBoardCourses> => {
   try {
 
-    const purchasedCourses = await db.studentCourse.findMany({
+    const student = await db.student.findUnique({
       where: {
-        studentId: userId
+        userId,
+      }
+    })
+
+    if (!student) {
+      return {
+        completedCourses: [],
+        coursesInProgress: []
+      }
+    }
+
+    const studentCurses = await db.studentCourse.findMany({
+      where: {
+        studentId: student.id
       },
       select: {
         course: {
@@ -34,7 +47,9 @@ export const getDashboardCourses = async (userId: string): Promise<DashBoardCour
       }
     })
 
-    const courses = purchasedCourses.map(({ course }) => course) as CourseWithProgressWithCategory[]
+    console.log("[GET_DASHBOARD_COURSES]", studentCurses)
+
+    const courses = studentCurses.map(({ course }) => course) as CourseWithProgressWithCategory[]
 
     for (let course of courses) {
       const progress = await getProgress(userId, course.id)
