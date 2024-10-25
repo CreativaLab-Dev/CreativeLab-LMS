@@ -1,6 +1,7 @@
 'use client'
 
 import { IconBadge } from "@/components/ui/icon-badge";
+import CourseProgress from "@/features/chapters/components/chapter-progress";
 import { BookOpen } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -53,9 +54,11 @@ const CourseCard = ({
             </div>
           </div>
           {progress !== null ? (
-            <p>
-              TODO progress
-            </p>
+            <CourseProgress
+              variant={progress === 100 ? 'success' : 'default'}
+              size='sm'
+              value={progress}
+            />
           ) : (
             <p className="text-md md:text-sm font-medium text-slate-700">
               Gratuito

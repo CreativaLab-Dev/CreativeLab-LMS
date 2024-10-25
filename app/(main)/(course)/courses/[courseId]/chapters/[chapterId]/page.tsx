@@ -1,6 +1,11 @@
 import { auth } from "@/auth"
 import { Banner } from "@/components/ui/banner";
+import EnrollButton from "@/components/ui/enroll-button";
+import Preview from "@/components/ui/preview";
+import { Separator } from "@/components/ui/separator";
 import { getChapterFull } from "@/features/chapters/actions/get-chapter-full";
+import ChapterVideoPlayer from "@/features/chapters/components/chapter-video-player";
+import CourseProgressButton from "@/features/courses/components/course-progress-button";
 import { redirect } from "next/navigation";
 
 const ChapterIdPage = async ({
@@ -35,8 +40,10 @@ const ChapterIdPage = async ({
     return
   }
 
-  const isLocked = !chapter.isFree;
-  const completeOnEnd = !userProgress?.isCompleted
+  const isMembershipActive = true
+
+  const isLocked = !chapter.isFree && !isMembershipActive
+  const completeOnEnd = !userProgress?.isCompleted && !isMembershipActive
 
   return (
     <div>
@@ -52,6 +59,64 @@ const ChapterIdPage = async ({
           label="Necesitas tener el acceso premium para ver este capitulo"
         />
       )}
+      <div className="flex flex-col mx-w-4xl mx-auto pb-20">
+        <div className="p-4">
+          <ChapterVideoPlayer
+            chapterId={params.chapterId}
+            title={chapter.title}
+            courseId={params.courseId}
+            nextChapterId={nextChapter?.id}
+            playbackId={muxData?.playbackId}
+            youtubeUrl={chapter.youtubeUrl}
+            isLocked={isLocked}
+            completeOnEnd={completeOnEnd}
+          />
+        </div>
+        <div className="p-4 flex flex-col md:flex-row items-center justify-center md:justify-between">
+          <h2 className="text-2xl font-semibold mb-2">
+            {chapter.title}
+          </h2>
+          {isMembershipActive ? (
+            <div>
+              <CourseProgressButton
+                chapterId={chapter.id}
+                courseId={params.courseId}
+                nextChapterId={nextChapter?.id}
+                isCompleted={!!userProgress?.isCompleted}
+              />
+            </div>
+          ) : (
+            <EnrollButton
+              courseId={params.courseId}
+            />
+          )}
+        </div>
+        <Separator />
+        <div>
+          <Preview
+            value={chapter.description!}
+          />
+        </div>
+        {!!attachments.length && (
+          <>
+            <Separator />
+            <div className="p-4">
+              {attachments.map((attachment) => (
+                <a
+                  href={attachment.url}
+                  key={attachment.id}
+                  target="_blank"
+                  className="flex items-center p-3 w-full bg-sky-200 border text-sky-700 rounded-md hover:underline"
+                >
+                  <p className="line-clamp-1">
+                    {attachment.name}
+                  </p>
+                </a>
+              ))}
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }

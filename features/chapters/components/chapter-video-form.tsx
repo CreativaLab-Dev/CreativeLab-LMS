@@ -22,7 +22,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { updateYoutubeChapter } from "../actions/update-youtube-chapter";
-import ChapterYoutubeVideo from "./chapter-youtube-form";
+import ChapterYoutubeVideoForm from "./chapter-youtube-form";
 
 interface ChapterVideoFormProps {
   initialData: Chapter & {
@@ -131,7 +131,7 @@ const ChapterVideoForm = ({
       {!isEditting && initialData.youtubeUrl && (
         (
           <div className="relative aspect-video mt-2">
-            <ChapterYoutubeVideo videoUrl={initialData.youtubeUrl || ''} />
+            <ChapterYoutubeVideoForm videoUrl={initialData.youtubeUrl || ''} />
           </div>
         )
       )}

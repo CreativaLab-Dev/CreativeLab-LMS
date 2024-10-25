@@ -5,14 +5,20 @@ import ReactPlayer from 'react-player'
 
 type YoutubeVideoProps = {
   videoUrl: string;
+  canOnPlay: () => void;
+  onEnded: () => void;
 };
 
-const ChapterYoutubeVideoForm = ({ videoUrl }: YoutubeVideoProps) => {
+const ChapterYoutubeVideo = ({
+  videoUrl,
+  canOnPlay,
+  onEnded
+}: YoutubeVideoProps) => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
-    return () => setIsMounted(false);
+    canOnPlay()
   }, []);
 
   if (!isMounted) {
@@ -22,15 +28,16 @@ const ChapterYoutubeVideoForm = ({ videoUrl }: YoutubeVideoProps) => {
   return (
     <div>
       <ReactPlayer
-        url={videoUrl ? videoUrl : 'https://www.youtube.com/watch?v=wWgIAphfn2U'}
+        url={videoUrl}
         width='100%'
-        height='50vh'
+        height='80vh'
         className='bg-dark overflow-hidden'
         controls={true}
+        onEnded={onEnded}
       />
     </div>
 
   );
 };
 
-export default ChapterYoutubeVideoForm;
+export default ChapterYoutubeVideo;

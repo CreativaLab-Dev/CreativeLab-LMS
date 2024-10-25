@@ -1,5 +1,6 @@
 import { Chapter, Course, UserProgress } from "@prisma/client";
 import CourseSidebarItem from "./course-sidebar-item";
+import CourseProgress from "@/features/chapters/components/chapter-progress";
 
 interface CourseSidebarProps {
   course: Course & {
@@ -14,13 +15,21 @@ const CourseSidebar = ({
   course,
   progressCount
 }: CourseSidebarProps) => {
+  const isMembershipActive = true
   return (
     <div className="h-full border-r flex flex-col overflow-y-auto shadow-sm">
       <div className="p-8 flex flex-col border-b">
         <h1 className="font-semibold">
           {course.name}
         </h1>
-        {/* {TODO: Progress} */}
+        {isMembershipActive && (
+          <div className="mt-10">
+            <CourseProgress
+              value={progressCount || 0}
+              variant={progressCount && progressCount === 100 ? 'success' : 'default'}
+            />
+          </div>
+        )}
       </div>
       <div className="flex flex-col w-full">
         {course.chapters.map(chapter => (
@@ -30,7 +39,7 @@ const CourseSidebar = ({
             label={chapter.title}
             isCompleted={!!chapter.userProgress?.[0]?.isCompleted}
             courseId={course.id}
-            isLocked={!chapter.isFree}
+            isLocked={!chapter.isFree && !isMembershipActive}
           />
         ))}
       </div>
