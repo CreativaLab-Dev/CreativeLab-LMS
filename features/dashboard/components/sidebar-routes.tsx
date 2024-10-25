@@ -3,18 +3,10 @@
 import { User } from "@prisma/client";
 import { BookUser, Compass, HistoryIcon, Layout, Settings, UserIcon } from "lucide-react"
 import SidebarItem from "./sidebar-item";
+import { usePathname } from "next/navigation";
 
 const commonRoutes = [
-  {
-    icon: UserIcon,
-    label: "Mi cuenta",
-    href: "/profile",
-  },
-  {
-    icon: Settings,
-    label: "Configuracion",
-    href: "/settings",
-  },
+
 ]
 
 const studentRoutes = [
@@ -28,7 +20,16 @@ const studentRoutes = [
     label: "Cursos",
     href: "/search",
   },
-  ...commonRoutes,
+  {
+    icon: UserIcon,
+    label: "Mi cuenta",
+    href: "/profile",
+  },
+  {
+    icon: Settings,
+    label: "Configuracion",
+    href: "/settings",
+  },
 ]
 
 const teacherRoutes = [
@@ -47,7 +48,6 @@ const teacherRoutes = [
     icon: HistoryIcon,
     href: "/teacher/history",
   },
-  ...commonRoutes,
 ]
 
 interface SidebarRoutesProps {
@@ -55,9 +55,11 @@ interface SidebarRoutesProps {
 }
 
 const SidebarRoutes = ({ currentUser }: SidebarRoutesProps) => {
-  console.log(currentUser)
-  const role = currentUser?.studentId ? "student" : "teacher";
-  const routes = role === "student" ? studentRoutes : teacherRoutes;
+  const pathname = usePathname();
+
+  const isTeacherPage = pathname.includes("/teacher")
+  const routes = isTeacherPage ? teacherRoutes : studentRoutes;
+
   return (
     <div className="flex flex-col w-full">
       {

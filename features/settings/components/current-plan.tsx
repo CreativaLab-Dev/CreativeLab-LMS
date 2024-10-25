@@ -1,21 +1,18 @@
 'use client'
 
-const roleText = {
-  USER_BASIC: 'Gratis',
-  USER_PREMIUM: 'Premium',
-  ADMIN: 'Administrador',
-}
+import { cn } from "@/lib/utils";
 
 interface CurrentPlanProps {
   plan?: string;
 }
 
 const CurrentPlan = ({ plan }: CurrentPlanProps) => {
-  const planName = roleText[plan as keyof typeof roleText];
   return (
     <p className="text-gray-500">
-      Tu plan actual es <strong>
-        {planName}
+      Tu plan actual es <strong className={cn(
+        plan === 'Premium' ? 'text-sky-500' : 'text-gray-500'
+      )}>
+        {plan}
       </strong>
     </p>
   );

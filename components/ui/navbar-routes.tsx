@@ -11,10 +11,12 @@ import { LogOut } from "lucide-react";
 
 interface NavbarRoutesProps {
   currentUser: User;
+  isPremium: boolean
 }
 
 export const NavbarRoutes = ({
-  currentUser
+  currentUser,
+  isPremium
 }: NavbarRoutesProps) => {
   const pathname = usePathname()
 
@@ -22,7 +24,6 @@ export const NavbarRoutes = ({
   const isCoursePage = pathname.includes("/courses")
   const isSearchPage = pathname === "/search"
 
-  const isUserBasic = currentUser && currentUser.role && currentUser.role === "USER_BASIC"
   return (
     <>
       {isSearchPage && (
@@ -31,7 +32,7 @@ export const NavbarRoutes = ({
         </div>
       )}
 
-      <div className="flex gap-x-2 ml-auto">
+      <div className="flex gap-x-2 ml-auto items-center">
         {isTeacherPage || isCoursePage ? (
           <Link href="/">
             <Button
@@ -55,7 +56,7 @@ export const NavbarRoutes = ({
         {/* {
           isUserBasic && <UpgradeButton />
         } */}
-        <UserButton currentUser={currentUser} />
+        <UserButton currentUser={currentUser} isPremium={isPremium} />
       </div >
     </>
   )

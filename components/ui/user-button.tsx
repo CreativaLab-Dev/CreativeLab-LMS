@@ -18,24 +18,22 @@ import { signOut } from "next-auth/react";
 import { Building, LogOut, UserIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Separator } from "./separator";
-
-const roleText = {
-  USER_BASIC: 'Gratis',
-  USER_PREMIUM: 'Premium',
-  ADMIN: 'Administrador',
-}
+import { cn } from "@/lib/utils";
 
 interface UserButtonProps {
   currentUser: User;
+  isPremium: boolean
 }
 
-const UserButton = ({ currentUser }: UserButtonProps) => {
+const UserButton = ({
+  currentUser,
+  isPremium
+}: UserButtonProps) => {
 
   const router = useRouter()
 
   const avatarPath = currentUser?.image ? currentUser?.image : 'https://github.com/shadcn.png'
-  const role = roleText[currentUser?.role as keyof typeof roleText]
-
+  const role = isPremium ? 'Premium' : 'Gratuito'
   const handleProfile = () => {
     router.push('/profile')
   }
@@ -46,7 +44,7 @@ const UserButton = ({ currentUser }: UserButtonProps) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <div className="w-10 h-10 rounded-full overflow-hidden cursor-pointer">
+        <div className="w-9 h-9 rounded-full overflow-hidden cursor-pointer">
           <Avatar>
             <AvatarImage src={avatarPath} alt="@shadcn" className="w-full h-full" />
             <AvatarFallback>
@@ -83,7 +81,14 @@ const UserButton = ({ currentUser }: UserButtonProps) => {
             </div>
           </div>
           <div className="flex flex-col gap-y-1 items-center justify-center">
-            <Badge>Plan: {role}</Badge>
+            <Badge
+              variant='outline'
+              className={cn(
+                'bg-sky-200',
+                'text-sky-700'
+              )}>
+              Plan: {role}
+            </Badge>
           </div>
           <div className="flex flex-col justify-center gap-y-1 w-full">
             <Button

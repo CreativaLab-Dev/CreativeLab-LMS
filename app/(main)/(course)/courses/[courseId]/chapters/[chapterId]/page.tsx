@@ -38,7 +38,7 @@ const ChapterIdPage = async ({
   })
 
   if (!chapter || !course) {
-    return
+    return redirect('/')
   }
 
   const membershipActive = await db.membership.findFirst({

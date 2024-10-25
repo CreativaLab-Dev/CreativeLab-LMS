@@ -4,7 +4,9 @@ import { Button } from "@/components/ui/button";
 
 const ManageSubcription = () => {
   return (
-    <Button>Manage Subscription</Button>
+    <Button>
+      Maneja tu suscripción
+    </Button>
   );
 }
 
