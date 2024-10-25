@@ -1,7 +1,7 @@
 'use client';
 
 import { User } from "@prisma/client";
-import { BookUser, Compass, Layout, Settings, UserIcon } from "lucide-react"
+import { BookUser, Compass, HistoryIcon, Layout, Settings, UserIcon } from "lucide-react"
 import SidebarItem from "./sidebar-item";
 
 const commonRoutes = [
@@ -21,17 +21,12 @@ const studentRoutes = [
   {
     icon: Layout,
     label: "Dashboard",
-    href: "/dashboard",
+    href: "/",
   },
   {
     icon: Compass,
-    label: "Browse",
-    href: "/search",
-  },
-  {
-    icon: BookUser,
     label: "Cursos",
-    href: "/courses",
+    href: "/search",
   },
   ...commonRoutes,
 ]
@@ -43,14 +38,14 @@ const teacherRoutes = [
     href: "/teacher/dashboard",
   },
   {
-    icon: Compass,
-    label: "Browse",
-    href: "/teacher/search",
-  },
-  {
     icon: BookUser,
     label: "Cursos",
     href: "/teacher/courses",
+  },
+  {
+    label: "Estadisticas",
+    icon: HistoryIcon,
+    href: "/teacher/history",
   },
   ...commonRoutes,
 ]

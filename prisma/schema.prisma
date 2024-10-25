@@ -183,8 +183,8 @@ model Valoration {
 }
 
 model StudentCourse {
-  studentId String  @map("student_id")
-  courseId  String  @map("course_id")
+  studentId String  @unique @map("student_id")
+  courseId  String  @unique @map("course_id")
   student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
   course    Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
 

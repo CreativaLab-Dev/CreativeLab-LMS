@@ -14,7 +14,7 @@ const CourseIdDetailPage = async ({
   const session = await auth()
   console.log(session)
   if (!session || !session.user || !session.user.id) {
-    return redirect("/")
+    return redirect("/auth/login")
   }
 
   const course = await db.course.findFirst({

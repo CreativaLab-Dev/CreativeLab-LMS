@@ -26,6 +26,16 @@ export async function POST(req: Request) {
   const userId = session?.metadata?.userId
   const courseId = session?.metadata?.courseId
 
+  const student = await db.student.findFirst({
+    where: {
+      userId
+    }
+  })
+
+  if (!student) {
+    return new NextResponse("Error: Student not found", { status: 404 })
+  }
+
   if (event.type === "checkout.session.completed") {
     if (!userId || !courseId) {
       return new NextResponse("Error: Missing metadata", { status: 400 })
@@ -41,7 +51,7 @@ export async function POST(req: Request) {
     await db.studentCourse.create({
       data: {
         courseId,
-        studentId: userId
+        studentId: student.id
       }
     })
 
