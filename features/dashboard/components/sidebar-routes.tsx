@@ -40,11 +40,6 @@ const studentRoutes = [
 
 const teacherRoutes = [
   {
-    icon: LayoutDashboard,
-    label: "Dashboard",
-    href: "/teacher/dashboard",
-  },
-  {
     icon: Book,
     label: "Cursos",
     href: "/teacher/courses",
@@ -85,7 +80,7 @@ const SidebarRoutes = ({
 
       <div className="flex flex-col mb-4">
         <div className="px-4 py-3">
-          {isPremium && (
+          {!isTeacherPage && isPremium && (
             <div className="bg-gradient-to-r from-yellow-500 to-yellow-700 border-yellow-600 text-white border text-center px-2 py-2 text-xs flex items-center justify-center w-full rounded-lg shadow-lg">
               <Crown className="h-4 w-4 text-white mr-2" />
               <p className="text-xs font-semibold">
@@ -93,9 +88,9 @@ const SidebarRoutes = ({
               </p>
             </div>
           )}
-          {!isPremium && <EnrollButton />}
+          {!isTeacherPage && !isPremium && <EnrollButton />}
         </div>
-        {commonRoutes.map((route, index) => (
+        {!isTeacherPage && commonRoutes.map((route, index) => (
           <SidebarItem
             key={index}
             icon={route.icon}
