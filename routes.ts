@@ -39,13 +39,13 @@ export const apiStripePrefix = "/api/webhook"
  * The default route to redirect to after login
  * @type {string}
  */
-export const DEFAULT_LOGIN_STUDENT_REDIRECT = "/dashboard"
+export const DEFAULT_LOGIN_STUDENT_REDIRECT = "/"
 
 /**
  * The default route to redirect to after login
  * @type {string}
  */
-export const DEFAULT_LOGIN_TEACHER_REDIRECT = "/dashboard"
+export const DEFAULT_LOGIN_TEACHER_REDIRECT = "/"
 
 /**
  * The default route to redirect any role to after login

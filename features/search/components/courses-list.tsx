@@ -2,6 +2,8 @@
 
 import { Category, Course } from "@prisma/client"
 import CourseCard from "./course-card";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 type CourseWithProgressWithCategory = Course & {
   category: Category | null;
@@ -16,6 +18,11 @@ interface CoursesListProps {
 const CoursesList = ({
   items
 }: CoursesListProps) => {
+  const router = useRouter()
+  const onClick = () => {
+    router.push('/search')
+  }
+
   return (
     <div>
       <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-4">
@@ -32,8 +39,19 @@ const CoursesList = ({
         ))}
       </div>
       {items.length === 0 && (
-        <div>
-          No hay cursos
+        <div className="flex flex-col items-center gap-y-6">
+          <p className="text-sm text-gray-500 text-center mt-4">
+            No se encontraron cursos
+          </p>
+          <div className="mx-auto">
+            <Button
+
+              variant='default'
+              onClick={onClick}
+            >
+              Ver todos los cursos
+            </Button>
+          </div>
         </div>
       )}
     </div>

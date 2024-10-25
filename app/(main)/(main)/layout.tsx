@@ -5,15 +5,16 @@ import Sidebar from "@/features/dashboard/components/sidebar";
 import { getCurrentUser } from "@/lib/get-current-user";
 import { Toaster } from "@/components/ui/sonner";
 import { getMembershipActive } from "@/features/settings/actions/get-membership-active";
+import { redirect } from "next/navigation";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await auth()
   if (!session || !session.user || !session.user.id) {
-    return null
+    return redirect('/auth/login')
   }
   const currentUser = await getCurrentUser(session.user.id);
   if (!currentUser) {
-    return null;
+    return redirect('/auth/login');
   }
 
   const membershipActive = await getMembershipActive(session.user.id);

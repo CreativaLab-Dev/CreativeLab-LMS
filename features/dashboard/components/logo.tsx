@@ -6,7 +6,7 @@ import Image from "next/image";
 const Logo = () => {
   const router = useRouter();
   const handleClick = () => {
-    router.push("/dashboard");
+    router.push("/");
   }
   return (
     <Image

@@ -31,6 +31,32 @@ export const updateCourseMarkAsComplete = async (
     return { error: "No existe este capítulo" }
   }
 
+  const student = await db.student.findFirst({
+    where: {
+      userId: session.user.id
+    }
+  })
+
+  if (!student) {
+    return { error: "No existe este estudiante" }
+  }
+
+  const studentCourse = await db.studentCourse.findFirst({
+    where: {
+      courseId: courseId,
+      studentId: student.id
+    }
+  })
+
+  if (!studentCourse) {
+    await db.studentCourse.create({
+      data: {
+        courseId: courseId,
+        studentId: student.id
+      }
+    })
+  }
+
   await db.userProgress.upsert({
     where: {
       userId_chapterId: {
