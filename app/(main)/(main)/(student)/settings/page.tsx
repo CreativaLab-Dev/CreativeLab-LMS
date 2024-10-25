@@ -24,8 +24,9 @@ export default async function SettingPage() {
         bgColor="bg-sky-700/10"
         iconColor="text-sky-700"
       />
-      <div className="px-4 lg:px-8 space-y-3">
-        <CurrentPlan plan={planText} />
+      <div className="px-4 lg:px-8 space-y-3 text-md">
+
+        <CurrentPlan plan={planText} membership={membershipActive} />
         {
           !membershipActive ?
             <UpgradeButton /> : <ManageSubcription />

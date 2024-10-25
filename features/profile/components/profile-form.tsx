@@ -73,7 +73,7 @@ export const ProfileForm = ({ currentUser }: ProfileFormProps) => {
                 ? <div className="relative">
                   <UploadButton
                     className="bg-slate-800 ut-label:text-lg ut-allowed-content:ut-uploading:text-red-300"
-                    endpoint="imageUploader"
+                    endpoint="userAvatar"
                     content={{
                       button: "Cambiar",
                     }}
@@ -96,6 +96,7 @@ export const ProfileForm = ({ currentUser }: ProfileFormProps) => {
                         form.setValue('image', res[0].url)
                       }
                       setIsEdittingImage(false)
+                      onSubmit(form.getValues())
                     }}
                     onUploadError={(error: Error) => {
                       alert(`ERROR! ${error.message}`);
@@ -124,6 +125,7 @@ export const ProfileForm = ({ currentUser }: ProfileFormProps) => {
                   <Button
                     size='icon'
                     variant='ghost'
+                    type='button'
                     onClick={() => setIsEdittingImage(true)}
                     className="absolute right-0 bottom-0 bg-gray-800 text-white rounded-full p-1"
                   >

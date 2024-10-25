@@ -9,7 +9,7 @@ import EnrollButton from "@/components/ui/enroll-button";
 const commonRoutes = [
   {
     icon: User2,
-    label: "Mi cuenta",
+    label: "Mi perfil",
     href: "/profile",
   },
   {

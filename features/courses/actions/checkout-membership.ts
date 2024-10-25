@@ -5,7 +5,7 @@ import { db } from "@/lib/db"
 import Stripe from "stripe"
 import { stripe } from "@/lib/stripe"
 
-export const checkoutMembership = async () => {
+export const checkoutMembership = async (price: number) => {
   try {
     const session = await auth()
     if (!session || !session.user || !session.user.id) {
@@ -27,16 +27,19 @@ export const checkoutMembership = async () => {
       return { error: "Ya tienes una membresía activa" }
     }
 
+    const name = price === 10 ? 'Membresia de 1 mes' : 'Membresia de 1 año'
+    const description = price === 10 ? 'Acceso a todos los cursos por 1 mes' : 'Acceso a todos los cursos por 1 año'
+
     const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [
       {
         quantity: 1,
         price_data: {
           currency: "USD",
           product_data: {
-            name: 'Membresia de 1 mes',
-            description: 'Acceso a todos los cursos por 1 mes',
+            name,
+            description,
           },
-          unit_amount: 100
+          unit_amount: price * 100
         }
       }
     ]
@@ -67,9 +70,10 @@ export const checkoutMembership = async () => {
       line_items,
       mode: 'payment',
       success_url: `${process.env.NEXT_PUBLIC_URL}/`,
-      cancel_url: `${process.env.NEXT_PUBLIC_URL}/`,
+      cancel_url: `${process.env.NEXT_PUBLIC_URL}/plans`,
       metadata: {
-        userId: session.user.id
+        userId: session.user.id,
+        plan: price === 10 ? 'monthly' : 'yearly'
       }
     })
 

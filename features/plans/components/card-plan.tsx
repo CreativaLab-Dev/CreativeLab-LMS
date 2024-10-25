@@ -2,8 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { checkoutMembership } from "@/features/courses/actions/checkout-membership";
 import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";
+import { useTransition } from "react";
+import { toast } from "sonner";
 
 interface CardPlanProps {
   title: string;
@@ -24,6 +27,21 @@ const CardPlan = ({
   isPro,
   features
 }: CardPlanProps) => {
+  const [isPending, startTransition] = useTransition()
+  const onClick = () => {
+    startTransition(() => {
+      checkoutMembership(price)
+        .then((response) => {
+          if (response.error) {
+            toast.error(response.error)
+          }
+          if (response.success && response.url) {
+            window.location.assign(response.url)
+          }
+        })
+    })
+  }
+
   return (
     <div className="flex flex-col gapy-4">
       <Card className={cn("w-[320px]", bgColor)}>
@@ -45,7 +63,12 @@ const CardPlan = ({
           </p>
         </CardContent>
         <CardFooter>
-          <Button className="rounded-xl w-full font-bold" variant={isPro ? 'premium' : 'outline'}>
+          <Button
+            disabled={isPending}
+            onClick={onClick}
+            className="rounded-xl w-full font-bold"
+            variant={isPro ? 'premium' : 'outline'}
+          >
             Elegir
           </Button>
         </CardFooter>

@@ -23,6 +23,7 @@ export async function POST(req: Request) {
 
   const session = event.data.object as Stripe.Checkout.Session
   const userId = session?.metadata?.userId
+  const plan = session?.metadata?.plan
 
   const student = await db.student.findFirst({
     where: {
@@ -35,24 +36,28 @@ export async function POST(req: Request) {
   }
 
   if (event.type === "checkout.session.completed") {
-    if (!userId) {
+    if (!userId || !plan) {
       return new NextResponse("Error: Missing metadata", { status: 400 })
     }
 
     const paymentOrder = await db.paymentOrder.create({
       data: {
-        amount: session?.amount_total ?? 10,
+        amount: (session?.amount_total ?? 0) / 100,
         status: "paid",
       }
     })
 
+    const expiresAt = plan === "monthly"
+      ? new Date(new Date().setMonth(new Date().getMonth() + 1))
+      : new Date(new Date().setFullYear(new Date().getFullYear() + 1))
+
     await db.membership.create({
       data: {
         userId,
-        expiresAt: new Date(new Date().setMonth(new Date().getMonth() + 1)),
+        expiresAt,
         status: "active",
         paymentOrderId: paymentOrder.id,
-        type: "monthly"
+        type: plan
       }
     })
   } else {

@@ -43,17 +43,17 @@ export default async function PlansPage() {
       </h1>
       <div className="flex flex-col md:flex-row justify-center items-center md:items-start gap-y-10 gap-x-4 px-4 md:px-16">
         <CardPlan
-          title="Free"
+          title="Mensual"
           description="Comienza a diseñar con las funciones básicas de nuestra plataforma."
-          price={0}
+          price={10}
           bgColor="bg-sky-500"
           features={planFree}
         />
         <CardPlan
-          title="Pro"
+          title="Anual"
           titleColor="text-indigo-100"
           description="Desbloqueda funciones esenciales para diseñadores y equipos de diseño."
-          price={10}
+          price={100}
           bgColor="bg-sky-900"
           features={planPro}
           isPro
