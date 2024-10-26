@@ -32,13 +32,13 @@ export function PaginationList({ result, path }: PaginationListProps) {
   const totalPages = Math.ceil(total / sizePage);
 
   const onChangePage = (newPage: number) => {
-    const search = params.get('search') ?? '';
+    const title = params.get('title') ?? '';
     const url = qs.stringifyUrl({
       url: path,
       query: {
         page: newPage,
         sizePage: sizePage,
-        search: search
+        title,
       }
     }, { skipEmptyString: true, skipNull: true });
     router.push(url);

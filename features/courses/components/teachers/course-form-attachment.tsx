@@ -18,7 +18,7 @@ interface CourseFormAttachmentProps {
 }
 
 const CourseFormAttachment = ({ courseId, initialData }: CourseFormAttachmentProps) => {
-  const [isPending, startTransition] = useTransition()
+  const [, startTransition] = useTransition()
   const [isEditting, setIsEditting] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
@@ -120,9 +120,9 @@ const CourseFormAttachment = ({ courseId, initialData }: CourseFormAttachmentPro
         <div>
           <FileUpload
             endpoint="courseAttachment"
-            onChange={(url) => {
+            onChange={(url, name) => {
               if (url) {
-                onSubmit({ url: url })
+                onSubmit({ url, name })
               }
             }}
           />

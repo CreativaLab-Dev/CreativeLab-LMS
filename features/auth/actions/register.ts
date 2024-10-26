@@ -52,21 +52,19 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
       })
     }
 
-    if (values.role === "student") {
-      const student = await tx.student.create({
-        data: {
-          userId: newUser.id,
-        }
-      })
-      await tx.user.update({
-        where: {
-          id: newUser.id
-        },
-        data: {
-          studentId: student.id
-        }
-      })
-    }
+    const student = await tx.student.create({
+      data: {
+        userId: newUser.id,
+      }
+    })
+    await tx.user.update({
+      where: {
+        id: newUser.id
+      },
+      data: {
+        studentId: student.id
+      }
+    })
 
   })
   if (values.role === "teacher") {

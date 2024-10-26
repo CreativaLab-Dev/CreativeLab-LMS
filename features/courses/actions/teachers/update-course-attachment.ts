@@ -17,13 +17,12 @@ export const updateCourseAttachment = async (courseId: string, values: z.infer<t
     return { error: "No autorizado" }
   }
 
-  const { url } = validateFields.data
+  const { url, name } = validateFields.data
 
-  const name = url.split('/').pop() ?? 'without-name-xd'
 
   const course = await db.attachment.create({
     data: {
-      name,
+      name: name ?? 'sin-nombre',
       courseId,
       url,
     }

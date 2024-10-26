@@ -31,11 +31,6 @@ export const {
       token.role = existingUser.role
       return token
     },
-    async authorized({ request }) {
-      // Verify is token is valid
-      console.log('Request:', request)
-      return true
-    }
   },
   adapter: PrismaAdapter(db),
   session: { strategy: 'jwt' },

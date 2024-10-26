@@ -34,6 +34,7 @@ export const EditCourseAttachmentSchema = z.object({
   url: z.string().min(2, {
     message: "Url es requerida"
   }),
+  name: z.string().optional(),
 })
 
 export const EditCourseChapterSchema = z.object({

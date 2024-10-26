@@ -30,28 +30,36 @@ export const getCoursesOfTeacher = async (searchParams: PageParamasProps) => {
     sizePage = 10,
     sortBy,
     isDesc,
-    search
+    title
   } = getParams(searchParams)
 
-  console.log(searchParams)
+  console.log(title)
+
+  const teacher = await db.teacher.findFirst({
+    where: {
+      userId: session.user.id
+    }
+  })
+
+  if (!teacher) {
+    return {
+      courses: [],
+      pagination: {
+        page: 1,
+        sizePage: 10,
+        total: 0
+      }
+    }
+  }
 
   const [courses, total] = await db.$transaction([
     db.course.findMany({
       where: {
-        AND: [
-          {
-            teacher: {
-              userId: session.user.id
-            }
-          },
+        teacherId: teacher.id,
+        OR: [
           {
             name: {
-              contains: search,
-            },
-          },
-          {
-            description: {
-              contains: search,
+              contains: title,
               mode: 'insensitive'
             }
           }
@@ -65,26 +73,15 @@ export const getCoursesOfTeacher = async (searchParams: PageParamasProps) => {
     }),
     db.course.count({
       where: {
-        AND: [
-          {
-            teacher: {
-              userId: session.user.id
-            }
-          },
-          {
-            name: {
-              contains: search,
-            },
-          },
-          {
-            description: {
-              contains: search,
-            }
-          }
-        ]
+        teacher: {
+          userId: session.user.id
+        }
+
       }
     }),
   ])
+
+  // console.log(courses)
 
   const response: GetCourseList = {
     courses,

@@ -12,7 +12,6 @@ const CourseIdDetailPage = async ({
 }) => {
 
   const session = await auth()
-  console.log(session)
   if (!session || !session.user || !session.user.id) {
     return redirect("/auth/login")
   }
@@ -29,7 +28,6 @@ const CourseIdDetailPage = async ({
       }
     }
   })
-  console.log(course)
 
   if (!course) {
     return redirect("/")

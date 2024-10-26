@@ -40,7 +40,7 @@ const CoursesList = ({ courses, pagination, url: urlPath }: CourseProps) => {
     const url = qs.stringifyUrl({
       url: urlPath,
       query: {
-        search: debouncedValue || null,
+        title: debouncedValue || null,
         page: Number(params.get('page') ?? 1),
         sizePage: Number(params.get('sizePage') ?? 10)
       }
@@ -148,7 +148,7 @@ const CoursesList = ({ courses, pagination, url: urlPath }: CourseProps) => {
           ))}
         </TableBody>
       </Table>
-      <PaginationList result={pagination} path={'/courses'} />
+      <PaginationList result={pagination} path={'/teacher/courses'} />
     </>
   );
 }
