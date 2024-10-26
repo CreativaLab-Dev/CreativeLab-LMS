@@ -15,7 +15,7 @@ const Navbar = ({
 }: NavbarProps) => {
   return (
     <div className="bg-sky-100 p-4 border-b h-full flex items-center shadow-sm">
-      <MobileSidebar currentUser={currentUser} />
+      <MobileSidebar currentUser={currentUser} isPremium={isPremium} />
       <NavbarRoutes currentUser={currentUser} isPremium={isPremium} />
     </div>
   );

@@ -33,12 +33,12 @@ const ChapterVideoPlayer = ({
 }: ChapterVideoPlayerProps) => {
   const router = useRouter()
   const [isReady, setIsReady] = useState(false);
-  const [isPending, startTransition] = useTransition()
+  const [, startTransition] = useTransition()
   const [Confetti, openConfetti] = useConfetti()
 
   const onEnd = async () => {
     startTransition(() => {
-      updateCourseMarkAsComplete(courseId, chapterId)
+      updateCourseMarkAsComplete(courseId, chapterId, false)
         .then((response) => {
           if (response.error) {
             toast("Error al marcar como completado")

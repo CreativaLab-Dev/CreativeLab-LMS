@@ -15,11 +15,13 @@ interface CourseMobileSidebarProps {
     })[];
   };
   progressCount: number | null;
+  isMembershipActive: boolean;
 }
 
 const CourseMobileSidebar = ({
   course,
-  progressCount
+  progressCount,
+  isMembershipActive
 }: CourseMobileSidebarProps) => {
   return (
     <Sheet>
@@ -28,6 +30,7 @@ const CourseMobileSidebar = ({
       </SheetTrigger>
       <SheetContent side={'left'} className="p-0 bg-white w-72">
         <CourseSidebar
+          isMembershipActive={false}
           course={course}
           progressCount={progressCount}
         />

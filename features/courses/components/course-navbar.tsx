@@ -17,15 +17,18 @@ const CourseNavbar = ({
   currentUser,
   course,
   progressCount,
+  isMembershipActive
 }: CourseNavbarProps) => {
   return (
     <div className="p-4 borde-b h-full flex items-center bg-white shadow-sm">
       <CourseMobileSidebar
         course={course}
         progressCount={progressCount}
+        isMembershipActive={isMembershipActive}
       />
       <NavbarRoutes
         currentUser={currentUser}
+        isPremium={isMembershipActive}
       />
     </div>
   );

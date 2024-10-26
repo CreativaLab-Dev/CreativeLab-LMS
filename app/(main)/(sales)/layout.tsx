@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import NavbarPlans from "@/features/plans/components/navbar-plans";
+import { getMembershipActive } from "@/features/settings/actions/get-membership-active";
 import { getCurrentUser } from "@/lib/get-current-user";
 
 
@@ -14,10 +15,15 @@ export default async function SalesLayout({
   if (!currentUser) {
     return null;
   }
+
+  const membershipActive = await getMembershipActive(currentUser.id);
   return (
     <div className="bg-sky-100">
       <div className="h-[80px] fixed inset-y-0 w-full">
-        <NavbarPlans currentUser={currentUser} />
+        <NavbarPlans
+          currentUser={currentUser}
+          isPremium={!!membershipActive}
+        />
       </div>
       <main className="pt-20">
         {children}
