@@ -104,7 +104,7 @@ const ChapterIdPage = async ({
             value={chapter.description!}
           />
         </div>
-        {!!attachments.length && (
+        {membershipActive && !!attachments.length && (
           <>
             <Separator />
             <div className="p-4">
