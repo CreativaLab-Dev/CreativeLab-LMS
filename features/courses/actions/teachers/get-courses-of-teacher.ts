@@ -33,8 +33,6 @@ export const getCoursesOfTeacher = async (searchParams: PageParamasProps) => {
     title
   } = getParams(searchParams)
 
-  console.log(title)
-
   const teacher = await db.teacher.findFirst({
     where: {
       userId: session.user.id
@@ -51,6 +49,7 @@ export const getCoursesOfTeacher = async (searchParams: PageParamasProps) => {
       }
     }
   }
+  console.log(teacher)
 
   const [courses, total] = await db.$transaction([
     db.course.findMany({
@@ -59,8 +58,7 @@ export const getCoursesOfTeacher = async (searchParams: PageParamasProps) => {
         OR: [
           {
             name: {
-              contains: title,
-              mode: 'insensitive'
+              contains: title ?? '',
             }
           }
         ]
@@ -81,7 +79,7 @@ export const getCoursesOfTeacher = async (searchParams: PageParamasProps) => {
     }),
   ])
 
-  // console.log(courses)
+  console.log(courses)
 
   const response: GetCourseList = {
     courses,
