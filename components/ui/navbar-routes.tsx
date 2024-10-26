@@ -24,6 +24,8 @@ export const NavbarRoutes = ({
   const isCoursePage = pathname.includes("/courses")
   const isSearchPage = pathname === "/search"
 
+  const isUserTeacher = currentUser.isAdmin
+
   return (
     <>
       {isSearchPage && (
@@ -43,7 +45,7 @@ export const NavbarRoutes = ({
               Salir
             </Button>
           </Link>
-        ) : (
+        ) : (isUserTeacher &&
           <Link href="/teacher/courses">
             <Button
               size='sm'

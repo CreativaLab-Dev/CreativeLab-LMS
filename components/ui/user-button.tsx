@@ -15,7 +15,7 @@ import { Button } from "./button";
 import { User } from "@prisma/client";
 import { Badge } from "./badge";
 import { signOut } from "next-auth/react";
-import { Building, LogOut, UserIcon } from "lucide-react";
+import { Building, LogOut, Settings2, UserIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Separator } from "./separator";
 import { cn } from "@/lib/utils";
@@ -36,6 +36,10 @@ const UserButton = ({
   const role = isPremium ? 'Premium' : 'Gratuito'
   const handleProfile = () => {
     router.push('/profile')
+  }
+
+  const handleSettings = () => {
+    router.push('/settings')
   }
 
   const handleLogout = () => {
@@ -105,11 +109,11 @@ const UserButton = ({
             <Button
               className="w-full justify-start"
               variant='ghost'
-              onClick={handleProfile}
+              onClick={handleSettings}
             >
-              <Building size={16} />
+              <Settings2 size={16} />
               <span className="pl-2">
-                Academia
+                Configuración
               </span>
             </Button>
             <Separator className="mb-1 bg-sky-200" />
