@@ -9,7 +9,6 @@ import { signIn } from "@/auth"
 import { DEFAULT_LOGIN_TEACHER_REDIRECT, DEFAULT_LOGIN_STUDENT_REDIRECT } from "@/routes"
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
-  console.log(values)
   const validateFields = RegisterSchema.safeParse(values)
   if (!validateFields.success) {
     return { error: "Credenciales invalidas" }
