@@ -1,7 +1,7 @@
 'use client';
 
 import { User } from "@prisma/client";
-import { BarChart2, Book, BookOpen, Calendar, Crown, Layout, LayoutDashboard, Settings, User2 } from "lucide-react"
+import { BarChart2, Book, BookOpen, Calendar, CalendarArrowUp, Crown, Layout, Settings, User2 } from "lucide-react"
 import SidebarItem from "./sidebar-item";
 import { usePathname } from "next/navigation";
 import EnrollButton from "@/components/ui/enroll-button";
@@ -30,11 +30,11 @@ const studentRoutes = [
     label: "Cursos",
     href: "/search",
   },
-  // {
-  //   icon: Calendar,
-  //   label: "Eventos",
-  //   href: "/events",
-  // },
+  {
+    icon: Calendar,
+    label: "Eventos",
+    href: "/events",
+  },
 
 ]
 
@@ -48,6 +48,11 @@ const teacherRoutes = [
     label: "Estadisticas",
     icon: BarChart2,
     href: "/teacher/history",
+  },
+  {
+    icon: CalendarArrowUp,
+    label: "Eventos",
+    href: "/teacher/events",
   },
 ]
 
