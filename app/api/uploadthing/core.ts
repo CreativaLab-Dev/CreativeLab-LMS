@@ -11,15 +11,16 @@ const handleAuth = async () => {
 }
 
 export const ourFileRouter = {
-  // Define as many FileRoutes as you like, each with a unique routeSlug
   courseImage: f({ image: { maxFileSize: "4MB" } })
-    // Set permissions and file types for this FileRoute
     .middleware(async () => handleAuth())
     .onUploadComplete(() => { }),
   courseAttachment: f(["text", "image", "video", "audio", "pdf"])
     .middleware(async () => handleAuth())
     .onUploadComplete(() => { }),
   chapterVideo: f({ video: { maxFileCount: 1, maxFileSize: "512GB" } })
+    .middleware(async () => handleAuth())
+    .onUploadComplete(() => { }),
+  eventImage: f({ image: { maxFileSize: "4MB" } })
     .middleware(async () => handleAuth())
     .onUploadComplete(() => { }),
   userAvatar: f({ image: { maxFileSize: "4MB" } })

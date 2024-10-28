@@ -11,10 +11,10 @@ export default async function EventTeacherPage(
   return (
     <div className="space-y-3 py-4 lg:py-8">
       <HeaderPage
-        title="Mis cursos"
-        description="Aquí encontrarás todos los cursos que has implementado"
+        title="Mis eventos"
+        description="Aquí encontrarás todos los eventos que has creado"
         bgColor="bg-sky-200"
-        icon="course"
+        icon="event"
         iconColor="text-sky-500"
       />
       <div className="px-10 md:px-8">

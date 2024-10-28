@@ -66,9 +66,9 @@ const EventList = ({ events, pagination, url: urlPath }: EventsProps) => {
         <Button variant="default"
           size='sm'
           className='flex items-center px-3'
-          onClick={() => router.push('/teacher/courses/new')}>
+          onClick={() => router.push('/teacher/events/new')}>
           <Plus size={15} />
-          <span className='pl-2'>Curso</span>
+          <span className='pl-2'>Evento</span>
         </Button>
       </div>
       <Table className='max-h-[50vh]'>

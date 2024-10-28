@@ -262,13 +262,13 @@ enum EventType {
 model Event {
   id           String             @id @default(cuid())
   title        String
-  description  String
-  date         DateTime
+  description  String?
+  date         DateTime?
   location     String?
   maxCapacity  Int?               @map("max_capacity")
   imageUrl     String?            @map("imageUrl")
   isPublished  Boolean            @default(false) @map("is_published")
-  type         EventType
+  type         EventType?
   updatedAt    DateTime           @updatedAt @map("updated_at")
   createdAt    DateTime           @default(now()) @map("created_at")
   participants EventParticipant[]
