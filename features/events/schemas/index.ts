@@ -50,3 +50,9 @@ export const EventLinkSchema = z.object({
   }),
 })
 
+export const EventLocationSchema = z.object({
+  location: z.string().min(2, {
+    message: "Titulo es requerido"
+  })
+})
+

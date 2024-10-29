@@ -28,14 +28,54 @@ export const updateTypeEvent = async (eventId: string, values: z.infer<typeof Ev
     return { error: "No eres profesor" }
   }
 
-  const event = await db.event.update({
+  const eventExists = await db.event.findFirst({
     where: {
-      id: eventId
-    },
-    data: {
-      type: values.type as EventType
+      id: eventId,
     }
   })
+
+  if (!eventExists) {
+    return { error: "Evento no encontrado" }
+  }
+
+  if (eventExists.type) {
+    if (eventExists.type === 'VIRTUAL') {
+      await db.event.update({
+        where: {
+          id: eventId
+        },
+        data: {
+          type: values.type as EventType,
+          link: null
+        }
+      })
+    }
+
+    if (eventExists.type === 'PRESENTIAL') {
+      await db.event.update({
+        where: {
+          id: eventId
+        },
+        data: {
+          type: values.type as EventType,
+          location: null
+        }
+      })
+    }
+
+    if (eventExists.type === 'VIRTUAL_AND_PRESENTIAL') {
+      await db.event.update({
+        where: {
+          id: eventId
+        },
+        data: {
+          type: values.type as EventType,
+          location: null,
+          link: null
+        }
+      })
+    }
+  }
 
   return { success: true }
 }

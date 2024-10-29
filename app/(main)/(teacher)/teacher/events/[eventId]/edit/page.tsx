@@ -12,6 +12,7 @@ import { ArrowLeft, CalendarArrowDown, LayoutGrid, ListCheckIcon } from "lucide-
 import { getEventById } from "@/features/events/actions/get-event-by-id"
 import EventTimeForm from "@/features/events/components/event-time-form"
 import EventLinkForm from "@/features/events/components/event-link-form"
+import EventLocationForm from "@/features/events/components/event-location-form"
 
 type EventIdPageProps = {
   params: {
@@ -128,10 +129,19 @@ export default async function EventIdPage({
               { label: 'Hibrido', value: 'VIRTUAL_AND_PRESENTIAL' }
             ]}
           />
-          <EventLinkForm
-            eventId={event.id}
-            initialData={{ link: event.link || '' }}
-          />
+          {event.type && (event.type === 'VIRTUAL' || event.type === 'VIRTUAL_AND_PRESENTIAL') && (
+            <EventLinkForm
+              eventId={event.id}
+              initialData={{ link: event.link || '' }}
+            />
+          )}
+          {event.type && (event.type === 'PRESENTIAL' || event.type === 'VIRTUAL_AND_PRESENTIAL') && (
+            <EventLocationForm
+              eventId={event.id}
+              initialData={{ location: event.location || '' }}
+            />
+          )}
+
         </div>
       </div>
     </>
