@@ -42,3 +42,11 @@ export const EventTypeSchema = z.object({
   }),
 })
 
+export const EventLinkSchema = z.object({
+  link: z.string().min(2, {
+    message: "Titulo es requerido"
+  }).url({
+    message: "Url invalida"
+  }),
+})
+

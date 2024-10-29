@@ -9,7 +9,6 @@ import EventImageForm from "@/features/events/components/event-image-form"
 import EventTitleForm from "@/features/events/components/event-title-form"
 import EventTypeForm from "@/features/events/components/event-type-form"
 import { ArrowLeft, CalendarArrowDown, LayoutGrid, ListCheckIcon } from "lucide-react"
-
 import { getEventById } from "@/features/events/actions/get-event-by-id"
 import EventTimeForm from "@/features/events/components/event-time-form"
 import EventLinkForm from "@/features/events/components/event-link-form"
@@ -131,7 +130,7 @@ export default async function EventIdPage({
           />
           <EventLinkForm
             eventId={event.id}
-            initialData={{ title: event.title }}
+            initialData={{ link: event.link || '' }}
           />
         </div>
       </div>

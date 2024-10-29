@@ -46,10 +46,10 @@ const EventTimeForm = ({ eventId, initialData }: EventTimeFormProps) => {
         .then((response) => {
           if (response.success) {
             setIsEditting(false);
-            toast.success("Fecha actualizado correctamente");
+            toast.success("Hora actualizado correctamente");
             router.refresh();
           } else {
-            toast.error(response?.error ?? 'Error al actualizar la fecha');
+            toast.error(response?.error ?? 'Error al actualizar la hora');
           }
         })
     })

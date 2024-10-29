@@ -2,7 +2,7 @@
 
 import * as z from "zod"
 import { useForm } from "react-hook-form";
-import { EventTitleSchema } from "../schemas";
+import { EventLinkSchema } from "../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import {
@@ -17,11 +17,11 @@ import { Pencil } from "lucide-react";
 import { useState, useTransition } from "react";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { updateTitleEvent } from "../actions/update-title-event";
+import { updateLinkEvent } from "../actions/update-link-event";
 
 interface EventLinkFormProps {
   initialData: {
-    title: string;
+    link: string;
   };
   eventId: string;
 }
@@ -31,21 +31,21 @@ const EventLinkForm = ({ eventId, initialData }: EventLinkFormProps) => {
   const [isEditting, setIsEditting] = useState(false);
 
   const router = useRouter();
-  const form = useForm<z.infer<typeof EventTitleSchema>>({
-    resolver: zodResolver(EventTitleSchema),
+  const form = useForm<z.infer<typeof EventLinkSchema>>({
+    resolver: zodResolver(EventLinkSchema),
     defaultValues: initialData
   });
 
-  const onSubmit = async (data: z.infer<typeof EventTitleSchema>) => {
+  const onSubmit = async (data: z.infer<typeof EventLinkSchema>) => {
     startTransition(() => {
-      updateTitleEvent(eventId, data)
+      updateLinkEvent(eventId, data)
         .then((response) => {
           if (response.success) {
             setIsEditting(false);
-            toast.success("Titulo actualizado correctamente");
+            toast.success("Link actualizado correctamente");
             router.refresh();
           } else {
-            toast.error(response?.error ?? 'Error al actualizar el titulo');
+            toast.error(response?.error ?? 'Error al actualizar el link');
           }
         })
     })
@@ -57,7 +57,6 @@ const EventLinkForm = ({ eventId, initialData }: EventLinkFormProps) => {
       <div className="font-medium  flex items-center justify-between">
         <span className="text-xs">
           Link de evento
-          <span className="text-red-500">*</span>
         </span>
 
         <Button
@@ -81,9 +80,18 @@ const EventLinkForm = ({ eventId, initialData }: EventLinkFormProps) => {
       </div>
       {
         !isEditting && (
-          <p className="text-sm mt-2">
-            {initialData.title}
-          </p>
+          <>
+            {initialData.link && <a
+              className="text-sm mt-2 block underline text-blue-500"
+              href={initialData.link}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {initialData.link}
+            </a>}
+            {!initialData.link && <p className="text-xs text-gray-500">Sin link</p>}
+          </>
+
         )
       }
       {
@@ -92,13 +100,13 @@ const EventLinkForm = ({ eventId, initialData }: EventLinkFormProps) => {
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
                 control={form.control}
-                name="title"
+                name="link"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
                       <Input
                         disabled={isPending}
-                        placeholder="Ejemplo 'Evento de Matematicas'"
+                        placeholder="Ejemplo 'https://meet.google.com/abc-123'"
                         {...field}
                       />
                     </FormControl>
@@ -119,7 +127,7 @@ const EventLinkForm = ({ eventId, initialData }: EventLinkFormProps) => {
         )
       }
 
-    </div>
+    </div >
   );
 }
 

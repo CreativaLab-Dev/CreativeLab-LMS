@@ -49,10 +49,10 @@ const EventTypeForm = ({
         .then((response) => {
           if (response.success) {
             setIsEditting(false);
-            toast.success("Categoria actualizada");
+            toast.success("Tipo de evento actualizado");
             router.refresh();
           } else {
-            toast.error(response?.error ?? 'Error al actualizar el categoria');
+            toast.error(response?.error ?? 'Error al actualizar tipo de evento');
           }
         })
     })
@@ -65,7 +65,7 @@ const EventTypeForm = ({
     <div className="mt-6 border bg-sky-100 rounded-md p-4">
       <div className="font-medium  flex items-center justify-between">
         <span className="text-xs">
-          Categoria de curso
+          Tipo de evento
           <span className="text-red-500">*</span>
         </span>
         <Button
