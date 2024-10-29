@@ -57,7 +57,8 @@ const EventActions = ({
             if (!isPublished) {
               openConfetti()
             }
-            toast.success("Evento publicado")
+            const messageToast = isPublished ? "Evento ocultado" : "Evento publicado"
+            toast.success(messageToast)
             router.refresh()
           }
           if (response.error) {

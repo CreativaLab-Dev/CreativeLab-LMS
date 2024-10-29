@@ -4,7 +4,7 @@ import * as z from "zod"
 import { format } from "date-fns";
 import { es } from 'date-fns/locale';
 import { useForm } from "react-hook-form";
-import { EventDateSchema } from "../schemas";
+import { EventTimeSchema } from "../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import {
@@ -18,31 +18,31 @@ import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
-import { updateDateEvent } from "../actions/update-date-event";
-import { Calendar } from "@/components/ui/calendar";
+import { Input } from "@/components/ui/input";
+import { updateTimeEvent } from "../actions/update-time-event";
 
-interface EventDateFormProps {
+interface EventTimeFormProps {
   initialData: {
     date: Date | null;
   };
   eventId: string;
 }
 
-const EventDateForm = ({ eventId, initialData }: EventDateFormProps) => {
+const EventTimeForm = ({ eventId, initialData }: EventTimeFormProps) => {
   const [isPending, startTransition] = useTransition()
   const [isEditting, setIsEditting] = useState(false);
 
   const router = useRouter();
-  const form = useForm<z.infer<typeof EventDateSchema>>({
-    resolver: zodResolver(EventDateSchema),
+  const form = useForm<z.infer<typeof EventTimeSchema>>({
+    resolver: zodResolver(EventTimeSchema),
     defaultValues: {
-      date: null
+      time: initialData?.date ? format(new Date(initialData.date), "HH:mm") : "",
     }
   });
 
-  const onSubmit = async (data: z.infer<typeof EventDateSchema>) => {
+  const onSubmit = async (data: z.infer<typeof EventTimeSchema>) => {
     startTransition(() => {
-      updateDateEvent(eventId, data)
+      updateTimeEvent(eventId, data)
         .then((response) => {
           if (response.success) {
             setIsEditting(false);
@@ -60,7 +60,7 @@ const EventDateForm = ({ eventId, initialData }: EventDateFormProps) => {
     <div className="mt-6 border bg-sky-100 rounded-md p-4">
       <div className="font-medium  flex items-center justify-between">
         <span className="text-xs">
-          Fecha del evento
+          Hora del evento
           <span className="text-red-500">*</span>
         </span>
 
@@ -87,16 +87,10 @@ const EventDateForm = ({ eventId, initialData }: EventDateFormProps) => {
         !isEditting && (
           <>
             {initialData && (
-              <>
-                <p className="text-sm mt-2">
-                  {initialData.date && format(initialData.date, 'dd/MM/yyyy')}
-                </p>
-                <p className="mt-2 text-xs text-gray-500">
-                  {initialData.date &&
-                    format(new Date(initialData.date), "EEEE dd 'de' MMMM, yyyy", { locale: es })}
-                </p>
-
-              </>
+              <p className="text-sm mt-2">
+                {initialData.date &&
+                  format(new Date(initialData.date), "hh:mm a", { locale: es })}
+              </p>
             )}
             {!initialData.date && <p className="text-xs text-gray-500">
               Sin fecha
@@ -111,16 +105,15 @@ const EventDateForm = ({ eventId, initialData }: EventDateFormProps) => {
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
                 control={form.control}
-                name="date"
+                name="time"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Calendar
-                        mode="single"
-                        selected={field.value ? new Date(field.value) : undefined}
-                        onDayClick={field.onChange}
-                        disabled={(date) => date <= new Date()}
-                        initialFocus
+                      <Input
+                        type="time"
+                        value={field.value}
+                        onChange={field.onChange}
+                        placeholder="Fecha"
                       />
                     </FormControl>
                     <FormMessage />
@@ -144,4 +137,4 @@ const EventDateForm = ({ eventId, initialData }: EventDateFormProps) => {
   );
 }
 
-export default EventDateForm;
+export default EventTimeForm;

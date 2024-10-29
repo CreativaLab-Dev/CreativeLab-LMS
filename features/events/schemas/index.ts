@@ -27,7 +27,18 @@ export const EventImageSchema = z.object({
 })
 
 export const EventDateSchema = z.object({
-  date: z.string().min(2, {
-    message: "Titulo es requerido"
+  date: z.date().nullable(),
+})
+
+export const EventTimeSchema = z.object({
+  time: z.string().min(2, {
+    message: "Hora es requerido"
   }),
 })
+
+export const EventTypeSchema = z.object({
+  type: z.string().min(2, {
+    message: "Tipo es requerido"
+  }),
+})
+

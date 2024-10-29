@@ -1,10 +1,8 @@
 'use client'
 
 import * as z from "zod"
-import { format } from "date-fns";
-import { es } from 'date-fns/locale';
 import { useForm } from "react-hook-form";
-import { EventDateSchema } from "../schemas";
+import { EventTypeSchema } from "../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import {
@@ -18,59 +16,65 @@ import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
-import { updateDateEvent } from "../actions/update-date-event";
-import { Calendar } from "@/components/ui/calendar";
+import { Event } from "@prisma/client";
+import { cn } from "@/lib/utils";
+import { Combobox } from "@/components/ui/combobox";
+import { updateTypeEvent } from "../actions/update-type-event";
 
-interface EventDateFormProps {
-  initialData: {
-    date: Date | null;
-  };
+interface EventTypeFormProps {
+  initialData: Event
   eventId: string;
+  options: { label: string, value: string }[]
 }
 
-const EventDateForm = ({ eventId, initialData }: EventDateFormProps) => {
+const EventTypeForm = ({
+  eventId,
+  initialData,
+  options
+}: EventTypeFormProps) => {
   const [isPending, startTransition] = useTransition()
   const [isEditting, setIsEditting] = useState(false);
 
   const router = useRouter();
-  const form = useForm<z.infer<typeof EventDateSchema>>({
-    resolver: zodResolver(EventDateSchema),
+  const form = useForm<z.infer<typeof EventTypeSchema>>({
+    resolver: zodResolver(EventTypeSchema),
     defaultValues: {
-      date: null
+      type: ''
     }
   });
 
-  const onSubmit = async (data: z.infer<typeof EventDateSchema>) => {
+  const onSubmit = async (data: z.infer<typeof EventTypeSchema>) => {
     startTransition(() => {
-      updateDateEvent(eventId, data)
+      updateTypeEvent(eventId, data)
         .then((response) => {
           if (response.success) {
             setIsEditting(false);
-            toast.success("Fecha actualizado correctamente");
+            toast.success("Categoria actualizada");
             router.refresh();
           } else {
-            toast.error(response?.error ?? 'Error al actualizar la fecha');
+            toast.error(response?.error ?? 'Error al actualizar el categoria');
           }
         })
     })
   };
 
   const toggleEdit = () => setIsEditting((current) => !current);
+  const selectedOption = options.find((option) => option.value === initialData.type);
+
   return (
     <div className="mt-6 border bg-sky-100 rounded-md p-4">
       <div className="font-medium  flex items-center justify-between">
         <span className="text-xs">
-          Fecha del evento
+          Categoria de curso
           <span className="text-red-500">*</span>
         </span>
-
         <Button
           onClick={toggleEdit}
           variant='ghost'
         >
           {
             isEditting && (
-              <>Cancel</>
+              <>Cancelar</>
             )
           }
           {
@@ -85,24 +89,11 @@ const EventDateForm = ({ eventId, initialData }: EventDateFormProps) => {
       </div>
       {
         !isEditting && (
-          <>
-            {initialData && (
-              <>
-                <p className="text-sm mt-2">
-                  {initialData.date && format(initialData.date, 'dd/MM/yyyy')}
-                </p>
-                <p className="mt-2 text-xs text-gray-500">
-                  {initialData.date &&
-                    format(new Date(initialData.date), "EEEE dd 'de' MMMM, yyyy", { locale: es })}
-                </p>
-
-              </>
-            )}
-            {!initialData.date && <p className="text-xs text-gray-500">
-              Sin fecha
-            </p>}
-          </>
-
+          <p className={cn("text-sm mt-2",
+            !initialData?.type && "text-slate-500 italic"
+          )}>
+            {selectedOption?.label || <span className="text-muted-foreground">Sin categoria</span>}
+          </p>
         )
       }
       {
@@ -111,16 +102,13 @@ const EventDateForm = ({ eventId, initialData }: EventDateFormProps) => {
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
                 control={form.control}
-                name="date"
+                name="type"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Calendar
-                        mode="single"
-                        selected={field.value ? new Date(field.value) : undefined}
-                        onDayClick={field.onChange}
-                        disabled={(date) => date <= new Date()}
-                        initialFocus
+                      <Combobox
+                        options={options}
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -144,4 +132,4 @@ const EventDateForm = ({ eventId, initialData }: EventDateFormProps) => {
   );
 }
 
-export default EventDateForm;
+export default EventTypeForm;

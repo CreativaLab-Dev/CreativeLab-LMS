@@ -1,10 +1,8 @@
 'use client'
 
 import * as z from "zod"
-import { format } from "date-fns";
-import { es } from 'date-fns/locale';
 import { useForm } from "react-hook-form";
-import { EventDateSchema } from "../schemas";
+import { EventTitleSchema } from "../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import {
@@ -17,39 +15,37 @@ import {
 import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { useState, useTransition } from "react";
+import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { updateDateEvent } from "../actions/update-date-event";
-import { Calendar } from "@/components/ui/calendar";
+import { updateTitleEvent } from "../actions/update-title-event";
 
-interface EventDateFormProps {
+interface EventLinkFormProps {
   initialData: {
-    date: Date | null;
+    title: string;
   };
   eventId: string;
 }
 
-const EventDateForm = ({ eventId, initialData }: EventDateFormProps) => {
+const EventLinkForm = ({ eventId, initialData }: EventLinkFormProps) => {
   const [isPending, startTransition] = useTransition()
   const [isEditting, setIsEditting] = useState(false);
 
   const router = useRouter();
-  const form = useForm<z.infer<typeof EventDateSchema>>({
-    resolver: zodResolver(EventDateSchema),
-    defaultValues: {
-      date: null
-    }
+  const form = useForm<z.infer<typeof EventTitleSchema>>({
+    resolver: zodResolver(EventTitleSchema),
+    defaultValues: initialData
   });
 
-  const onSubmit = async (data: z.infer<typeof EventDateSchema>) => {
+  const onSubmit = async (data: z.infer<typeof EventTitleSchema>) => {
     startTransition(() => {
-      updateDateEvent(eventId, data)
+      updateTitleEvent(eventId, data)
         .then((response) => {
           if (response.success) {
             setIsEditting(false);
-            toast.success("Fecha actualizado correctamente");
+            toast.success("Titulo actualizado correctamente");
             router.refresh();
           } else {
-            toast.error(response?.error ?? 'Error al actualizar la fecha');
+            toast.error(response?.error ?? 'Error al actualizar el titulo');
           }
         })
     })
@@ -60,7 +56,7 @@ const EventDateForm = ({ eventId, initialData }: EventDateFormProps) => {
     <div className="mt-6 border bg-sky-100 rounded-md p-4">
       <div className="font-medium  flex items-center justify-between">
         <span className="text-xs">
-          Fecha del evento
+          Link de evento
           <span className="text-red-500">*</span>
         </span>
 
@@ -85,24 +81,9 @@ const EventDateForm = ({ eventId, initialData }: EventDateFormProps) => {
       </div>
       {
         !isEditting && (
-          <>
-            {initialData && (
-              <>
-                <p className="text-sm mt-2">
-                  {initialData.date && format(initialData.date, 'dd/MM/yyyy')}
-                </p>
-                <p className="mt-2 text-xs text-gray-500">
-                  {initialData.date &&
-                    format(new Date(initialData.date), "EEEE dd 'de' MMMM, yyyy", { locale: es })}
-                </p>
-
-              </>
-            )}
-            {!initialData.date && <p className="text-xs text-gray-500">
-              Sin fecha
-            </p>}
-          </>
-
+          <p className="text-sm mt-2">
+            {initialData.title}
+          </p>
         )
       }
       {
@@ -111,16 +92,14 @@ const EventDateForm = ({ eventId, initialData }: EventDateFormProps) => {
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
                 control={form.control}
-                name="date"
+                name="title"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Calendar
-                        mode="single"
-                        selected={field.value ? new Date(field.value) : undefined}
-                        onDayClick={field.onChange}
-                        disabled={(date) => date <= new Date()}
-                        initialFocus
+                      <Input
+                        disabled={isPending}
+                        placeholder="Ejemplo 'Evento de Matematicas'"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -144,4 +123,4 @@ const EventDateForm = ({ eventId, initialData }: EventDateFormProps) => {
   );
 }
 
-export default EventDateForm;
+export default EventLinkForm;

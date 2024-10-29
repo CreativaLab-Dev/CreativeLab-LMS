@@ -24,11 +24,11 @@ interface EventDescriptionFormProps {
   initialData: {
     description: string;
   };
-  courseId: string;
+  eventId: string;
 }
 
 const EventDescriptionForm = ({
-  courseId,
+  eventId,
   initialData
 }: EventDescriptionFormProps) => {
   const [isPending, startTransition] = useTransition()
@@ -42,7 +42,7 @@ const EventDescriptionForm = ({
 
   const onSubmit = async (data: z.infer<typeof EventDescriptionSchema>) => {
     startTransition(() => {
-      updateDescriptionEvent(courseId, data)
+      updateDescriptionEvent(eventId, data)
         .then((response) => {
           if (response.success) {
             setIsEditting(false);

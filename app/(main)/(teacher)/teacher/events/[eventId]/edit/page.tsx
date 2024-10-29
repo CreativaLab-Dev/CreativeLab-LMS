@@ -1,20 +1,18 @@
+import Link from "next/link"
+import { redirect } from "next/navigation"
 import { Banner } from "@/components/ui/banner"
 import { IconBadge } from "@/components/ui/icon-badge"
-import CourseFormAttachment from "@/features/courses/components/teachers/course-form-attachment"
-import CourseFormCategory from "@/features/courses/components/teachers/course-form-category"
-import CourseFormChapter from "@/features/courses/components/teachers/course-form-chapters"
-import CourseFormImage from "@/features/courses/components/teachers/course-form-image"
-import CourseIsFeaturedForm from "@/features/courses/components/teachers/course-is-featured-form"
-import CourseIsNewForm from "@/features/courses/components/teachers/course-is-new-form"
-import { getEventById } from "@/features/events/actions/get-event-by-id"
 import EventActions from "@/features/events/components/event-actions"
 import EventDateForm from "@/features/events/components/event-date-form"
 import EventDescriptionForm from "@/features/events/components/event-description-form"
 import EventImageForm from "@/features/events/components/event-image-form"
 import EventTitleForm from "@/features/events/components/event-title-form"
-import { ArrowLeft, CalendarArrowDown, File, LayoutGrid, ListChecks, Type } from "lucide-react"
-import Link from "next/link"
-import { redirect } from "next/navigation"
+import EventTypeForm from "@/features/events/components/event-type-form"
+import { ArrowLeft, CalendarArrowDown, LayoutGrid, ListCheckIcon } from "lucide-react"
+
+import { getEventById } from "@/features/events/actions/get-event-by-id"
+import EventTimeForm from "@/features/events/components/event-time-form"
+import EventLinkForm from "@/features/events/components/event-link-form"
 
 type EventIdPageProps = {
   params: {
@@ -87,15 +85,15 @@ export default async function EventIdPage({
             </h2>
           </div>
           <EventTitleForm
-            courseId={event.id}
+            eventId={event.id}
             initialData={{ title: event.title }}
           />
           <EventDescriptionForm
-            courseId={event.id}
+            eventId={event.id}
             initialData={{ description: event.description || '' }}
           />
           <EventImageForm
-            courseId={event.id}
+            eventId={event.id}
             initialData={{ image: event.imageUrl || '' }}
           />
         </div>
@@ -108,28 +106,33 @@ export default async function EventIdPage({
             </h2>
           </div>
           <EventDateForm
-            courseId={event.id}
+            eventId={event.id}
+            initialData={{ date: event.date }}
+          />
+          <EventTimeForm
+            eventId={event.id}
             initialData={{ date: event.date }}
           />
           <div className="flex items-center gap-x-2">
             <IconBadge
-              icon={Type} />
+              icon={ListCheckIcon} />
             <h2 className="text-xl">
               Tipo de evento
             </h2>
           </div>
-          {/* <CourseFormCategory
-            courseId={event.id}
+          <EventTypeForm
+            eventId={event.id}
             initialData={event}
-            options={categories.map((category) => ({
-              label: category.name,
-              value: category.id
-            }))}
+            options={[
+              { label: 'Presencial', value: 'PRESENTIAL' },
+              { label: 'Virtual', value: 'VIRTUAL' },
+              { label: 'Hibrido', value: 'VIRTUAL_AND_PRESENTIAL' }
+            ]}
           />
-          <CourseFormAttachment
-            courseId={event.id}
-            initialData={event}
-          /> */}
+          <EventLinkForm
+            eventId={event.id}
+            initialData={{ title: event.title }}
+          />
         </div>
       </div>
     </>

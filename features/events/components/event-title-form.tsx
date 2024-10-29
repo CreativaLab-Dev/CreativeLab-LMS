@@ -23,10 +23,10 @@ interface EventTitleFormProps {
   initialData: {
     title: string;
   };
-  courseId: string;
+  eventId: string;
 }
 
-const EventTitleForm = ({ courseId, initialData }: EventTitleFormProps) => {
+const EventTitleForm = ({ eventId, initialData }: EventTitleFormProps) => {
   const [isPending, startTransition] = useTransition()
   const [isEditting, setIsEditting] = useState(false);
 
@@ -38,7 +38,7 @@ const EventTitleForm = ({ courseId, initialData }: EventTitleFormProps) => {
 
   const onSubmit = async (data: z.infer<typeof EventTitleSchema>) => {
     startTransition(() => {
-      updateTitleEvent(courseId, data)
+      updateTitleEvent(eventId, data)
         .then((response) => {
           if (response.success) {
             setIsEditting(false);

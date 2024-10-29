@@ -15,17 +15,17 @@ interface EventImageFormProps {
   initialData: {
     image: string;
   };
-  courseId: string;
+  eventId: string;
 }
 
-const EventImageForm = ({ courseId, initialData }: EventImageFormProps) => {
+const EventImageForm = ({ eventId, initialData }: EventImageFormProps) => {
   const [, startTransition] = useTransition()
   const [isEditting, setIsEditting] = useState(false);
 
   const router = useRouter();
   const onSubmit = async (data: z.infer<typeof EventImageSchema>) => {
     startTransition(() => {
-      updateImageEvent(courseId, data)
+      updateImageEvent(eventId, data)
         .then((response) => {
           if (response.success) {
             setIsEditting(false);
