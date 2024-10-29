@@ -1,9 +1,19 @@
+import { auth } from "@/auth";
 import { Button } from "@/components/ui/button";
 import HeaderPage from "@/components/ui/header-page";
 import { getEventsPublished } from "@/features/events/actions/get-events-published";
 import EventCard from "@/features/events/components/students/event-card";
+import { getMembershipActive } from "@/features/settings/actions/get-membership-active";
+import { redirect } from "next/navigation";
 
 const EventPage = async () => {
+
+  const session = await auth()
+  if (!session || !session.user || !session.user.id) {
+    return redirect('/')
+  }
+
+  const membershipActive = await getMembershipActive(session.user.id)
   const events = await getEventsPublished()
   return (
     <div className="p-6 space-y-4">
@@ -21,7 +31,11 @@ const EventPage = async () => {
       )}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 px-3">
         {events.map((event) => (
-          <EventCard key={event.id} event={event} />
+          <EventCard
+            key={event.id}
+            event={event}
+            isPremium={!!membershipActive}
+          />
         ))}
         {/* Mostrar un botton para ver mas */}
       </div>

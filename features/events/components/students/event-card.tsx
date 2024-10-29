@@ -24,10 +24,12 @@ const typeTextMap = {
 
 interface EventCardProps {
   event: Event
+  isPremium: boolean
 }
 
 const EventCard = ({
-  event
+  event,
+  isPremium
 }: EventCardProps) => {
 
   const router = useRouter()
@@ -65,7 +67,7 @@ const EventCard = ({
             <p className="text-sm text-gray-500 mt-3">
               <span className="font-semibold"></span> {typeText}
             </p>
-            {event.link && <>
+            {isPremium && event.link && <>
               <p className="text-sm text-gray-500 mt-3">
                 <span className="font-semibold">Enlace:</span>
               </p>
@@ -78,7 +80,7 @@ const EventCard = ({
                 {event.link}
               </a>
             </>}
-            {event.location && (
+            {isPremium && event.location && (
               <>
                 <p className="text-sm text-gray-500 mt-3">
                   <span className="font-semibold">Ubicación:</span>
@@ -87,7 +89,7 @@ const EventCard = ({
               </>
             )}
 
-            {event.maxCapacity && (
+            {isPremium && event.maxCapacity && (
               <p className="text-sm text-gray-500 mt-1">
                 <span className="font-semibold">Capacidad Máxima:</span> {event.maxCapacity} personas
               </p>
@@ -102,7 +104,7 @@ const EventCard = ({
           variant='premium'
           className="w-full"
         >
-          Ver evento
+          Inscribirme
         </Button>
       </CardFooter>
     </Card>
