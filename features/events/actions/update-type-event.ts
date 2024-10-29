@@ -75,6 +75,15 @@ export const updateTypeEvent = async (eventId: string, values: z.infer<typeof Ev
         }
       })
     }
+  } else {
+    await db.event.update({
+      where: {
+        id: eventId
+      },
+      data: {
+        type: values.type as EventType,
+      }
+    })
   }
 
   return { success: true }

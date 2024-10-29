@@ -27,9 +27,9 @@ export const usePremium = (): [() => JSX.Element, () => void] => {
     if (promise !== null) {
       return (
         <Dialog open={promise !== null} onOpenChange={handleClose}>
-          <DialogContent className="md:max-w-4xl">
+          <DialogContent className="md:max-w-3xl">
             <div className="max-h-[80vh] overflow-y-auto W-[900px]">
-              <SalesPlans />
+              <SalesPlans isModal />
             </div>
           </DialogContent>
         </Dialog>

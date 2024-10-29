@@ -1,5 +1,4 @@
 'use client'
-
 import {
   Card,
   CardHeader,
@@ -16,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import EventGoogleMap from "../event-google-map";
 import { usePremium } from "@/hooks/use-premium";
+import { Badge } from "@/components/ui/badge";
 
 const typeTextMap = {
   VIRTUAL: 'Virtual',
@@ -48,7 +48,7 @@ const EventCard = ({
   return (
     <>
       <Card
-        className="max-w-md rounded-lg shadow-lg overflow-hidden border border-gray-200 transition-transform duration-300 hover:scale-105 hover:shadow-xl bg-white"
+        className="max-w-md rounded-lg shadow-lg overflow-hidden border border-gray-200 transition-transform duration-300 hover:scale-105 hover:shadow-xl bg-white flex flex-col h-full"
       >
         {event.imageUrl && (
           <div className="relative w-full h-48">
@@ -62,18 +62,21 @@ const EventCard = ({
           </div>
         )}
         <CardHeader className="p-4">
-          <CardTitle className="text-2xl font-semibold text-gray-800">{event.title}</CardTitle>
+          <CardTitle className="text-2xl font-semibold text-gray-800">
+            {event.title}
+          </CardTitle>
           <CardDescription className="text-sm text-gray-500 mt-1">
             {event.date ? format(new Date(event.date), 'PPP', { locale: es }) : 'Fecha por definir'}
           </CardDescription>
         </CardHeader>
-        <CardContent className="px-4 pb-4">
+
+        <CardContent className="px-4 pb-4 flex-grow">
           <p className="text-gray-700 text-sm">{event.description}</p>
           {event.type && (
             <>
-              <p className="text-sm text-gray-500 mt-3">
-                <span className="font-semibold"></span> {typeText}
-              </p>
+              <Badge className="mt-3">
+                {typeText}
+              </Badge>
               {isPremium && event.link && <>
                 <p className="text-sm text-gray-500 mt-3">
                   <span className="font-semibold">Enlace:</span>
@@ -105,7 +108,7 @@ const EventCard = ({
           )}
 
         </CardContent>
-        <CardFooter className="p-4 bg-gray-50">
+        <CardFooter className="p-4 bg-gray-50 mt-auto">
           <Button
             onClick={onClick}
             variant='premium'
