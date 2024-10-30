@@ -13,6 +13,7 @@ import { getEventById } from "@/features/events/actions/get-event-by-id"
 import EventTimeForm from "@/features/events/components/event-time-form"
 import EventLinkForm from "@/features/events/components/event-link-form"
 import EventLocationForm from "@/features/events/components/event-location-form"
+import EventOrganizersForm from "@/features/events/components/event-organizers-form"
 
 type EventIdPageProps = {
   params: {
@@ -95,6 +96,10 @@ export default async function EventIdPage({
           <EventImageForm
             eventId={event.id}
             initialData={{ image: event.imageUrl || '' }}
+          />
+          <EventOrganizersForm
+            eventId={event.id}
+            initialData={{ title: event.title }}
           />
         </div>
         <div className="space-y-6">

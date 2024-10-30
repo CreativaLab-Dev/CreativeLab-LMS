@@ -51,13 +51,12 @@ const EventCard = ({
         className="max-w-md rounded-lg shadow-lg overflow-hidden border border-gray-200 transition-transform duration-300 hover:scale-105 hover:shadow-xl bg-white flex flex-col h-full"
       >
         {event.imageUrl && (
-          <div className="relative w-full h-48">
+          <div className="relative w-full aspect-video rounded-md overflow-auto">
             <Image
-              src={event.imageUrl}
+              fill
+              className="object-cover"
               alt={event.title}
-              layout="fill"
-              objectFit="cover"
-              className="rounded-t-lg"
+              src={event.imageUrl}
             />
           </div>
         )}
