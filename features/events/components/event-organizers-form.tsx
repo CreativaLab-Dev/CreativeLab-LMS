@@ -2,7 +2,7 @@
 
 import * as z from "zod"
 import { useForm } from "react-hook-form";
-import { EventTitleSchema } from "../schemas";
+import { EventOrganizerSchema } from "../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import {
@@ -17,11 +17,11 @@ import { Pencil } from "lucide-react";
 import { useState, useTransition } from "react";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { updateTitleEvent } from "../actions/update-title-event";
+import { updateOrganizerEvent } from "../actions/update-organizer-event";
 
 interface EventOrganizersFormProps {
   initialData: {
-    title: string;
+    organizer: string;
   };
   eventId: string;
 }
@@ -31,21 +31,21 @@ const EventOrganizersForm = ({ eventId, initialData }: EventOrganizersFormProps)
   const [isEditting, setIsEditting] = useState(false);
 
   const router = useRouter();
-  const form = useForm<z.infer<typeof EventTitleSchema>>({
-    resolver: zodResolver(EventTitleSchema),
+  const form = useForm<z.infer<typeof EventOrganizerSchema>>({
+    resolver: zodResolver(EventOrganizerSchema),
     defaultValues: initialData
   });
 
-  const onSubmit = async (data: z.infer<typeof EventTitleSchema>) => {
+  const onSubmit = async (data: z.infer<typeof EventOrganizerSchema>) => {
     startTransition(() => {
-      updateTitleEvent(eventId, data)
+      updateOrganizerEvent(eventId, data)
         .then((response) => {
           if (response.success) {
             setIsEditting(false);
-            toast.success("Titulo actualizado correctamente");
+            toast.success("Organizador actualizado correctamente");
             router.refresh();
           } else {
-            toast.error(response?.error ?? 'Error al actualizar el titulo');
+            toast.error(response?.error ?? 'Error al actualizar el organizador');
           }
         })
     })
@@ -56,7 +56,7 @@ const EventOrganizersForm = ({ eventId, initialData }: EventOrganizersFormProps)
     <div className="mt-6 border bg-sky-100 rounded-md p-4">
       <div className="font-medium  flex items-center justify-between">
         <span className="text-xs">
-          Titulo de evento
+          Organizador de evento
           <span className="text-red-500">*</span>
         </span>
 
@@ -79,26 +79,29 @@ const EventOrganizersForm = ({ eventId, initialData }: EventOrganizersFormProps)
           }
         </Button>
       </div>
-      {
-        !isEditting && (
-          <p className="text-sm mt-2">
-            {initialData.title}
-          </p>
-        )
-      }
+      {!isEditting && initialData.organizer && (
+        <p className="text-sm mt-2">
+          {initialData.organizer}
+        </p>
+      )}
+      {!isEditting && !initialData.organizer && (
+        <p className="text-xs mt-2 text-gray-500">
+          Sin organizador
+        </p>
+      )}
       {
         isEditting && (
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
                 control={form.control}
-                name="title"
+                name="organizer"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
                       <Input
                         disabled={isPending}
-                        placeholder="Ejemplo 'Evento de Matematicas'"
+                        placeholder="Ejemplo 'Sociedad de alumnos'"
                         {...field}
                       />
                     </FormControl>

@@ -56,3 +56,9 @@ export const EventLocationSchema = z.object({
   })
 })
 
+
+export const EventOrganizerSchema = z.object({
+  organizer: z.string().min(2, {
+    message: "Titulo es requerido"
+  }),
+})

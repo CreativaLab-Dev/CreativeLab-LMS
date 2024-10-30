@@ -65,12 +65,23 @@ const EventCard = ({
             {event.title}
           </CardTitle>
           <CardDescription className="text-sm text-gray-500 mt-1">
-            {event.date ? format(new Date(event.date), 'PPP', { locale: es }) : 'Fecha por definir'}
+            <div className="flex flex-col gap-3">
+              <div>
+                {event.date ? format(new Date(event.date), 'PPP', { locale: es }) : 'Fecha por definir'}
+              </div>
+              {event.organizer && (
+                <div className="text-xs" >
+                  Organizador por: {event.organizer}
+                </div>
+              )}
+            </div>
           </CardDescription>
         </CardHeader>
 
         <CardContent className="px-4 pb-4 flex-grow">
-          <p className="text-gray-700 text-sm">{event.description}</p>
+          <p className="text-gray-700 text-sm">
+            {event.description}
+          </p>
           {event.type && (
             <>
               <Badge className="mt-3">

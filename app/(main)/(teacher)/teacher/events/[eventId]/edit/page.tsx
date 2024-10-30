@@ -99,7 +99,7 @@ export default async function EventIdPage({
           />
           <EventOrganizersForm
             eventId={event.id}
-            initialData={{ title: event.title }}
+            initialData={{ organizer: event.organizer || '' }}
           />
         </div>
         <div className="space-y-6">

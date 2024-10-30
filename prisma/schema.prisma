@@ -312,3 +312,21 @@ model Attendance {
 
   @@map("attendances")
 }
+
+model Mentor {
+  id          String   @id @default(cuid())
+  name        String
+  role        String?
+  specialty   String[]
+  industry    String[]
+  idioms      String[]
+  email       String?
+  imageUrl    String?  @map("image_url")
+  linkedinUrl String?  @map("linkedin_url")
+  twitterUrl  String?  @map("twitter_url")
+  aboutMe     String?  @map("about_me") @db.Text
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("mentors")
+}
