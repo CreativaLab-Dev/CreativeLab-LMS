@@ -16,28 +16,28 @@ import {
   FormItem,
   FormMessage
 } from "@/components/ui/form"
-import { NewEventSchema } from "../schemas"
+import { NewMentorFormSchema } from "../schemas"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { createEvent } from "../actions/create-event"
+import { createMentor } from "../actions/create-mentor"
 
-const EventNewForm = () => {
+const MentorNewForm = () => {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
-  const form = useForm<z.infer<typeof NewEventSchema>>({
-    resolver: zodResolver(NewEventSchema),
+  const form = useForm<z.infer<typeof NewMentorFormSchema>>({
+    resolver: zodResolver(NewMentorFormSchema),
     defaultValues: {
       name: ""
     }
   })
 
-  const onSubmit = (values: z.infer<typeof NewEventSchema>) => {
+  const onSubmit = (values: z.infer<typeof NewMentorFormSchema>) => {
     if (isPending) return
     startTransition(() => {
-      createEvent(values).then((result) => {
+      createMentor(values).then((result) => {
         if (result?.success && result?.id) {
-          toast.success("Evento creado exitosamente")
-          router.push(`/teacher/events/${result.id}/edit`)
+          toast.success("Mentor creado exitosamente")
+          router.push(`/teacher/mentors/${result.id}/edit`)
         }
       })
     })
@@ -47,10 +47,10 @@ const EventNewForm = () => {
     <div className="max-w-5xl p-6 md:p-10">
       <div>
         <h1 className="text-2xl font-bold ">
-          Nombre de tu evento
+          Nombre del mentor
         </h1>
         <p className="text-sm text-slate-600">
-          Como te gustaría que se llame tu evento?. Este nombre será visible para tus estudiantes.
+          Asegúrate de que el nombre sea único y fácil de recordar
         </p>
         <Form {...form}>
           <form
@@ -64,18 +64,18 @@ const EventNewForm = () => {
                 <FormControl>
                   <FormItem>
                     <FormLabel>
-                      Nombre del evento<span className="text-red-500">*</span>
+                      Nombre completo<span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
                       <Input
                         {...field}
                         disabled={isPending}
-                        placeholder="Ejemplo: Evento de Matemáticas"
+                        placeholder="Ejemplo: Carlos Pérez Quispe"
                         type='text'
                       />
                     </FormControl>
                     <FormDescription>
-                      Qué nombre le darás al mentor?
+                      Qué nombre le darás a tu evento?
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -83,7 +83,7 @@ const EventNewForm = () => {
               )}
             />
             <div className="flex items-center gap-x-2">
-              <Link href="/teacher/courses">
+              <Link href="/teacher/mentors">
                 <Button
                   type='button'
                   variant='ghost'
@@ -106,4 +106,4 @@ const EventNewForm = () => {
   );
 }
 
-export default EventNewForm
+export default MentorNewForm
