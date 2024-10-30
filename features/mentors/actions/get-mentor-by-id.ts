@@ -3,7 +3,7 @@
 import { auth } from "@/auth"
 import { db } from "@/lib/db"
 
-export const getEventById = async (eventId: string) => {
+export const getMentorById = async (mentorId: string) => {
   const session = await auth()
   if (!session) {
     return null
@@ -19,16 +19,16 @@ export const getEventById = async (eventId: string) => {
     return null
   }
 
-  const event = await db.event.findFirst({
+  const mentor = await db.mentor.findFirst({
     where: {
-      id: eventId,
+      id: mentorId,
     }
   })
 
-  if (!event) {
+  if (!mentor) {
     return null
   }
 
-  return event
+  return mentor
 }
 

@@ -316,6 +316,8 @@ model Attendance {
 model Mentor {
   id          String   @id @default(cuid())
   name        String
+  aboutMe     String?  @map("about_me") @db.Text
+  isPublished Boolean  @default(false) @map("is_published")
   role        String?
   specialty   String[]
   industry    String[]
@@ -324,7 +326,6 @@ model Mentor {
   imageUrl    String?  @map("image_url")
   linkedinUrl String?  @map("linkedin_url")
   twitterUrl  String?  @map("twitter_url")
-  aboutMe     String?  @map("about_me") @db.Text
   updatedAt   DateTime @updatedAt @map("updated_at")
   createdAt   DateTime @default(now()) @map("created_at")
 
