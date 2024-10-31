@@ -27,15 +27,15 @@ export const createMentor = async (values: z.infer<typeof NewMentorFormSchema>) 
     return { error: "El actual usuario no es profesor" }
   }
 
-  const newEvent = await db.event.create({
+  const newMentor = await db.mentor.create({
     data: {
-      title: values.name,
+      name: values.name,
     }
   })
 
-  if (!newEvent) {
+  if (!newMentor) {
     return { error: "Error al crear el evento" }
   }
 
-  return { success: true, id: newEvent.id }
+  return { success: true, id: newMentor.id }
 }
