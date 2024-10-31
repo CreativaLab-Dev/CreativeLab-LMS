@@ -2,12 +2,14 @@ import Link from "next/link"
 import { redirect } from "next/navigation"
 import { Banner } from "@/components/ui/banner"
 import { IconBadge } from "@/components/ui/icon-badge"
-import { ArrowLeft, CalendarArrowDown, LayoutGrid } from "lucide-react"
+import { ArrowLeft, LayoutGrid, Link2 } from "lucide-react"
 import { getMentorById } from "@/features/mentors/actions/get-mentor-by-id"
 import MentorActions from "@/features/mentors/components/mentor-actions"
 import MentorNameForm from "@/features/mentors/components/mentor-name-form"
 import MentorAboutMeForm from "@/features/mentors/components/mentor-about-me-form"
 import MentorImageForm from "@/features/mentors/components/mentor-image-form"
+import MentorRoleForm from "@/features/mentors/components/mentor-role-form"
+import MentorSocialNetworksForm from "@/features/mentors/components/mentor-social-networks-form"
 
 type MentorIdPageProps = {
   params: {
@@ -87,6 +89,10 @@ export default async function MentorIdPage({
             mentorId={mentor.id}
             initialData={{ aboutMe: mentor.aboutMe || '' }}
           />
+          <MentorRoleForm
+            mentorId={mentor.id}
+            initialData={{ role: mentor.role || '' }}
+          />
           <MentorImageForm
             mentorId={mentor.id}
             initialData={{ image: mentor.imageUrl || '' }}
@@ -95,13 +101,20 @@ export default async function MentorIdPage({
         <div className="space-y-6">
           <div className="flex items-center gap-x-2">
             <IconBadge
-              icon={CalendarArrowDown} />
+              icon={Link2} />
             <h2 className="text-xl">
-              Fecha de evento
+              Redes sociales
             </h2>
           </div>
-
+          <MentorSocialNetworksForm
+            mentorId={mentor.id}
+            initialData={{
+              linkedinUrl: mentor.linkedinUrl || '',
+              twitterUrl: mentor.twitterUrl || ''
+            }}
+          />
         </div>
+
       </div>
     </>
   )

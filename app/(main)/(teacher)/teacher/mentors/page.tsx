@@ -9,7 +9,6 @@ export default async function MentorsTeacherPage(
   searchParams: PageParamasProps
 ) {
   const { mentors, pagination } = await getMentorsOfTeacher(searchParams)
-  console.log(mentors)
   return (
     <div className="space-y-3 py-4 lg:py-8">
       <HeaderPage

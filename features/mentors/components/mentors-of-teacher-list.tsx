@@ -92,9 +92,9 @@ const MentorOfTeacherList = ({
               </TableCell>
             </TableRow>
           )}
-          {mentors.map((event, index) => (
+          {mentors.map((mentor, index) => (
             <TableRow
-              key={event.id + '-' + index}
+              key={mentor.id + '-' + index}
               className={cn(
                 "h-24 md:h-52",
               )}
@@ -104,11 +104,11 @@ const MentorOfTeacherList = ({
               </TableCell>
               <TableCell className="flex items-center justify-center">
                 <div className="w-36 h-24 md:w-80 md:h-44 relative cursor-pointer hover:scale-105 transform transition-transform"
-                  onClick={() => router.push(`/teacher/events/${event.id}/edit`)}
+                  onClick={() => router.push(`/teacher/mentors/${mentor.id}/edit`)}
                 >
                   <Image
-                    src={event.imageUrl || '/placeholder.png'}
-                    alt={`image-${event.name}`}
+                    src={mentor.imageUrl || '/placeholder.png'}
+                    alt={`image-${mentor.name}`}
                     objectFit="cover"
                     fill
                     className='rounded' />
@@ -118,17 +118,17 @@ const MentorOfTeacherList = ({
                 </div>
               </TableCell>
               <TableCell className="text-center">
-                {event.name}
+                {mentor.name}
               </TableCell>
               <TableCell className="text-center">
-                {event.role}
+                {mentor.role}
               </TableCell>
               <TableCell className="text-center">
-                {event.email}
+                {mentor.email}
               </TableCell>
               <TableCell className="text-center">
                 {
-                  format(new Date(event.createdAt), 'dd/MM/yyyy')
+                  format(new Date(mentor.createdAt), 'dd/MM/yyyy')
                 }
               </TableCell>
               <TableCell className="text-center">
@@ -137,7 +137,7 @@ const MentorOfTeacherList = ({
                     variant="link"
                     size='sm'
                     className='text-green-400 px-2'
-                    onClick={() => router.push(`/teacher/events/${event.id}/edit`)}>
+                    onClick={() => router.push(`/teacher/events/${mentor.id}/edit`)}>
                     <Edit2 size={15} />
                   </Button>
                 </TooltipContainer>

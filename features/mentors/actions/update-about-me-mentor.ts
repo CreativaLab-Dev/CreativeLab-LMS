@@ -24,7 +24,7 @@ export const updateAboutMeMentor = async (
       return { success: false, error: "Mentor no encontrado" }
     }
 
-    db.mentor.update({
+    await db.mentor.update({
       where: {
         id: mentorId
       },

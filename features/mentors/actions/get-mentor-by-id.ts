@@ -19,7 +19,7 @@ export const getMentorById = async (mentorId: string) => {
     return null
   }
 
-  const mentor = await db.mentor.findFirst({
+  const mentor = await db.mentor.findUnique({
     where: {
       id: mentorId,
     }

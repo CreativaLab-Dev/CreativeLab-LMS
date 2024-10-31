@@ -2,7 +2,7 @@
 
 import * as z from "zod"
 import { useForm } from "react-hook-form";
-import { MentorAboutMeFormSchema } from "../schemas";
+import { MentorRoleFormSchema } from "../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import {
@@ -15,33 +15,34 @@ import {
 import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { useState, useTransition } from "react";
+import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { Textarea } from "@/components/ui/textarea";
-import { updateAboutMeMentor } from "../actions/update-about-me-mentor";
+import { updateNameMentor } from "../actions/update-name-mentor";
+import { updateRoleMentor } from "../actions/update-role-mentor";
 
-interface MentorAboutMeProps {
+interface MentorRoleFormProps {
   initialData: {
-    aboutMe: string;
+    role: string;
   };
   mentorId: string;
 }
 
-const MentorAboutMeForm = ({
+const MentorRoleForm = ({
   mentorId,
   initialData
-}: MentorAboutMeProps) => {
+}: MentorRoleFormProps) => {
   const [isPending, startTransition] = useTransition()
   const [isEditting, setIsEditting] = useState(false);
 
   const router = useRouter();
-  const form = useForm<z.infer<typeof MentorAboutMeFormSchema>>({
-    resolver: zodResolver(MentorAboutMeFormSchema),
+  const form = useForm<z.infer<typeof MentorRoleFormSchema>>({
+    resolver: zodResolver(MentorRoleFormSchema),
     defaultValues: initialData
   });
 
-  const onSubmit = async (data: z.infer<typeof MentorAboutMeFormSchema>) => {
+  const onSubmit = async (data: z.infer<typeof MentorRoleFormSchema>) => {
     startTransition(() => {
-      updateAboutMeMentor(mentorId, data)
+      updateRoleMentor(mentorId, data)
         .then((response) => {
           if (response.success) {
             setIsEditting(false);
@@ -59,7 +60,7 @@ const MentorAboutMeForm = ({
     <div className="mt-6 border bg-sky-100 rounded-md p-4">
       <div className="font-medium  flex items-center justify-between">
         <span className="text-xs">
-          Acerca del mentor
+          Rol del mentor
           <span className="text-red-500">*</span>
         </span>
 
@@ -82,14 +83,14 @@ const MentorAboutMeForm = ({
           }
         </Button>
       </div>
-      {!isEditting && initialData.aboutMe && (
+      {!isEditting && initialData.role && (
         <p className="text-sm mt-2">
-          {initialData.aboutMe}
+          {initialData.role}
         </p>
       )}
-      {!isEditting && !initialData.aboutMe && (
-        <p className="text-xs mt-2 texr-gray-500">
-          No has escrito nada aún
+      {!isEditting && !initialData.role && (
+        <p className="text-xs mt-2 text-gray-500">
+          No se ha definido un rol
         </p>
       )}
       {
@@ -98,15 +99,14 @@ const MentorAboutMeForm = ({
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
                 control={form.control}
-                name="aboutMe"
+                name="role"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Textarea
-                        {...field}
-                        placeholder="Escribe algo sobre ti"
-                        rows={4}
+                      <Input
                         disabled={isPending}
+                        placeholder="Ejemplo 'Especialista en marketing digital'"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -130,4 +130,4 @@ const MentorAboutMeForm = ({
   );
 }
 
-export default MentorAboutMeForm;
+export default MentorRoleForm;

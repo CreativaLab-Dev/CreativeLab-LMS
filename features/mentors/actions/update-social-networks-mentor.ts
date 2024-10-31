@@ -1,12 +1,12 @@
 "use server"
 import * as z from "zod"
-import { MentorNameFormSchema } from "../schemas";
+import { MentorSocialNetworksFormSchema } from "../schemas";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 
-export const updateNameMentor = async (
+export const updateSocialNetworksMentor = async (
   mentorId: string,
-  values: z.infer<typeof MentorNameFormSchema>
+  values: z.infer<typeof MentorSocialNetworksFormSchema>
 ) => {
   try {
     const session = await auth()
@@ -29,7 +29,8 @@ export const updateNameMentor = async (
         id: mentorId
       },
       data: {
-        name: values.name
+        linkedinUrl: values.linkedinUrl ?? null,
+        twitterUrl: values.twitterUrl ?? null
       }
     })
     return { success: true }
