@@ -24,6 +24,9 @@ const CourseIdDetailPage = async ({
       chapters: {
         select: {
           id: true
+        },
+        orderBy: {
+          position: "asc"
         }
       }
     }

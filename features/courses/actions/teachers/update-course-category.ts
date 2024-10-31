@@ -7,7 +7,6 @@ import { auth } from "@/auth"
 
 export const updateCourseCategory = async (courseId: string, values: z.infer<typeof EditCourseCategorySchema>) => {
   const validateFields = EditCourseCategorySchema.safeParse(values)
-  console.log(validateFields)
 
   if (!validateFields.success) {
     return { error: "Datos invalidos" }

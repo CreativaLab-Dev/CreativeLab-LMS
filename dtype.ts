@@ -15,5 +15,6 @@ export type PageParamasProps = {
     sortBy?: string
     isDesc?: string
     title?: string
+    name?: string
   }
 }

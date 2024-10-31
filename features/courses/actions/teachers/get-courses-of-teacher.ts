@@ -49,7 +49,6 @@ export const getCoursesOfTeacher = async (searchParams: PageParamasProps) => {
       }
     }
   }
-  console.log(teacher)
 
   const [courses, total] = await db.$transaction([
     db.course.findMany({
@@ -78,8 +77,6 @@ export const getCoursesOfTeacher = async (searchParams: PageParamasProps) => {
       }
     }),
   ])
-
-  console.log(courses)
 
   const response: GetCourseList = {
     courses,

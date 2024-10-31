@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "events" ALTER COLUMN "description" DROP NOT NULL,
+ALTER COLUMN "date" DROP NOT NULL,
+ALTER COLUMN "type" DROP NOT NULL;
