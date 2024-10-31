@@ -49,10 +49,10 @@ const MentorSocialNetworksForm = ({
         .then((response) => {
           if (response.success) {
             setIsEditting(false);
-            toast.success("Nombre actualizado correctamente");
+            toast.success("Redes sociales actualizados correctamente");
             router.refresh();
           } else {
-            toast.error(response?.error ?? 'Error al actualizar el nombre');
+            toast.error(response?.error ?? 'Error al actualizar las redes sociales');
           }
         })
     })
@@ -91,7 +91,7 @@ const MentorSocialNetworksForm = ({
           href={initialData.linkedinUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-500 underline">
+          className="text-blue-500 underline text-xs">
           {initialData.linkedinUrl}
         </a>
       )}
@@ -105,7 +105,7 @@ const MentorSocialNetworksForm = ({
           href={initialData.twitterUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-500 underline">
+          className="text-blue-500 underline text-xs">
           {initialData.twitterUrl}
         </a>
       )}

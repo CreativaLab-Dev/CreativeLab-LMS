@@ -57,6 +57,7 @@ const MentorSpecialitiesForm = ({
         .then((response) => {
           if (response.success) {
             toast.success("Especialidad eliminada correctamente");
+            form.reset();
             router.refresh();
           } else {
             toast.error(response?.error ?? 'Error al eliminar la especialidad');
@@ -73,10 +74,10 @@ const MentorSpecialitiesForm = ({
         .then((response) => {
           if (response.success) {
             setIsEditting(false);
-            toast.success("Nombre actualizado correctamente");
+            toast.success("Especialidad actualizado correctamente");
             router.refresh();
           } else {
-            toast.error(response?.error ?? 'Error al actualizar el nombre');
+            toast.error(response?.error ?? 'Error al actualizar la especialidad');
           }
         })
     })
@@ -89,7 +90,6 @@ const MentorSpecialitiesForm = ({
         <div className="font-medium  flex items-center justify-between">
           <span className="text-xs">
             Especialidades del mentor
-            <span className="text-red-500">*</span>
           </span>
 
           <Button
@@ -114,7 +114,9 @@ const MentorSpecialitiesForm = ({
         {!isEditting && (
           <div className="flex flex-col gap-2">
             {initialData.specialities.length !== 0 && initialData.specialities.map((speciality) => (
-              <div className="flex w-full px-3 justify-between items-center border rounded-md py-1 bg-sky-600">
+              <div
+                key={`speciality-${speciality}`}
+                className="flex w-full px-3 justify-between items-center border rounded-md py-1 bg-sky-600">
                 <div className="text-sky-100 text-sm">{speciality}</div>
                 <div>
                   <X

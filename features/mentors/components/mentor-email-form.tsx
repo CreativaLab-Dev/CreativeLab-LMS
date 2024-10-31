@@ -2,7 +2,7 @@
 
 import * as z from "zod"
 import { useForm } from "react-hook-form";
-import { MentorRoleFormSchema } from "../schemas";
+import { MentorEmailFormSchema } from "../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import {
@@ -17,17 +17,16 @@ import { Pencil } from "lucide-react";
 import { useState, useTransition } from "react";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { updateNameMentor } from "../actions/update-name-mentor";
-import { updateRoleMentor } from "../actions/update-role-mentor";
+import { updateEmailMentor } from "../actions/update-email-mentor";
 
 interface MentorRoleFormProps {
   initialData: {
-    role: string;
+    email: string;
   };
   mentorId: string;
 }
 
-const MentorRoleForm = ({
+const MentorEmailForm = ({
   mentorId,
   initialData
 }: MentorRoleFormProps) => {
@@ -35,21 +34,21 @@ const MentorRoleForm = ({
   const [isEditting, setIsEditting] = useState(false);
 
   const router = useRouter();
-  const form = useForm<z.infer<typeof MentorRoleFormSchema>>({
-    resolver: zodResolver(MentorRoleFormSchema),
+  const form = useForm<z.infer<typeof MentorEmailFormSchema>>({
+    resolver: zodResolver(MentorEmailFormSchema),
     defaultValues: initialData
   });
 
-  const onSubmit = async (data: z.infer<typeof MentorRoleFormSchema>) => {
+  const onSubmit = async (data: z.infer<typeof MentorEmailFormSchema>) => {
     startTransition(() => {
-      updateRoleMentor(mentorId, data)
+      updateEmailMentor(mentorId, data)
         .then((response) => {
           if (response.success) {
             setIsEditting(false);
-            toast.success("Rol actualizado correctamente");
+            toast.success("Correo actualizado correctamente");
             router.refresh();
           } else {
-            toast.error(response?.error ?? 'Error al actualizar rol');
+            toast.error(response?.error ?? 'Error al actualizar el correo');
           }
         })
     })
@@ -60,7 +59,7 @@ const MentorRoleForm = ({
     <div className="mt-6 border bg-sky-100 rounded-md p-4">
       <div className="font-medium  flex items-center justify-between">
         <span className="text-xs">
-          Rol del mentor
+          Correo del mentor
           <span className="text-red-500">*</span>
         </span>
 
@@ -83,14 +82,14 @@ const MentorRoleForm = ({
           }
         </Button>
       </div>
-      {!isEditting && initialData.role && (
+      {!isEditting && initialData.email && (
         <p className="text-sm mt-2">
-          {initialData.role}
+          {initialData.email}
         </p>
       )}
-      {!isEditting && !initialData.role && (
+      {!isEditting && !initialData.email && (
         <p className="text-xs mt-2 text-gray-500">
-          No se ha definido un rol
+          No se ha registrado un correo
         </p>
       )}
       {
@@ -99,13 +98,13 @@ const MentorRoleForm = ({
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
                 control={form.control}
-                name="role"
+                name="email"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
                       <Input
                         disabled={isPending}
-                        placeholder="Ejemplo 'Especialista en marketing digital'"
+                        placeholder="user@gmail.com"
                         {...field}
                       />
                     </FormControl>
@@ -130,4 +129,4 @@ const MentorRoleForm = ({
   );
 }
 
-export default MentorRoleForm;
+export default MentorEmailForm;
