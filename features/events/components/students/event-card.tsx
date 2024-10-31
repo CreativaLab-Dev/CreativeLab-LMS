@@ -4,7 +4,6 @@ import {
   CardHeader,
   CardFooter,
   CardTitle,
-  CardDescription,
   CardContent
 } from "@/components/ui/card";
 import Image from "next/image";
@@ -16,6 +15,9 @@ import { useRouter } from "next/navigation";
 import EventGoogleMap from "../event-google-map";
 import { usePremium } from "@/hooks/use-premium";
 import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { CaretSortIcon } from "@radix-ui/react-icons";
 
 const typeTextMap = {
   VIRTUAL: 'Virtual',
@@ -32,6 +34,7 @@ const EventCard = ({
   event,
   isPremium
 }: EventCardProps) => {
+  const [isOpen, setIsOpen] = useState(false)
   const [SalesPlans, openPlans] = usePremium()
 
   const router = useRouter()
@@ -64,24 +67,47 @@ const EventCard = ({
           <CardTitle className="text-2xl font-semibold text-gray-800">
             {event.title}
           </CardTitle>
-          <CardDescription className="text-sm text-gray-500 mt-1">
-            <div className="flex flex-col gap-3">
-              <div>
-                {event.date ? format(new Date(event.date), 'PPP', { locale: es }) : 'Fecha por definir'}
-              </div>
-              {event.organizer && (
-                <div className="text-xs" >
-                  Organizador por: {event.organizer}
-                </div>
-              )}
+          <div className="flex flex-col gap-3">
+            <div>
+              {event.date ? format(new Date(event.date), 'PPP', { locale: es }) : 'Fecha por definir'}
             </div>
-          </CardDescription>
+            {event.organizer && (
+              <div className="text-xs" >
+                Organizador por: {event.organizer}
+              </div>
+            )}
+          </div>
         </CardHeader>
 
         <CardContent className="px-4 pb-4 flex-grow">
-          <p className="text-gray-700 text-sm">
-            {event.description}
-          </p>
+          <Collapsible
+            open={isOpen}
+            onOpenChange={setIsOpen}
+            className="w-full 1space-y-2"
+          >
+            {!isOpen && (
+              <p className="text-gray-700 text-sm">
+                {event.description?.slice(0, 100)}
+                {event.description && event.description.length > 100 && '...'}
+              </p>
+            )}
+            <CollapsibleContent className="space-y-2">
+              <p className="text-gray-700 text-sm">
+                {event.description}
+              </p>
+            </CollapsibleContent>
+            <CollapsibleTrigger asChild>
+              {event.description && event.description.length > 100 && (
+                <button className="text-blue-600 hover:underline text-xs">
+                  {isOpen ? 'Ver menos' : 'Ver más'}
+                </button>
+              )}
+
+            </CollapsibleTrigger>
+
+
+          </Collapsible>
+
           {event.type && (
             <>
               <Badge className="mt-3">

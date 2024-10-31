@@ -1,4 +1,5 @@
 'use client'
+
 import {
   Card,
   CardHeader,
@@ -36,6 +37,11 @@ const MentorCard = ({
     }
   }
 
+  const onClickSocialNetwork = (url: string | null) => {
+    if (!url) return
+    window.open(url, '_blank')
+  }
+
   return (
     <>
       <Card
@@ -53,35 +59,39 @@ const MentorCard = ({
         )}
         <CardHeader className="p-4">
           <CardTitle className="">
-            <h2 className="text-xl font-semibold text-gray-800">
+            <div className="text-xl font-semibold text-gray-800">
               {mentor.name}
-            </h2>
-            <p className="text-gray-500 text-sm font-normal">
+            </div>
+            <div className="text-gray-500 text-sm font-normal">
               {mentor.role}
-            </p>
-            <p className="text-gray-500 text-xs font-normal underline">
+            </div>
+            <div className="text-gray-500 text-xs font-normal underline">
               {mentor.email}
-            </p>
+            </div>
             <div className="py-3">
               {mentor.linkedinUrl && (
-                <LinkedInLogoIcon className="rounded-full w-6 h-6 border-gray-800" />
+                <LinkedInLogoIcon
+                  onClick={() => onClickSocialNetwork(mentor.linkedinUrl)}
+                  className="rounded-full w-6 h-6 border-gray-800 cursor-pointer hover:bg-gray-200"
+                />
               )}
               {mentor.twitterUrl && (
-                <TwitterLogoIcon className="rounded-full w-6 h-6 border-gray-800" />
+                <TwitterLogoIcon
+                  onClick={() => onClickSocialNetwork(mentor.twitterUrl)}
+                  className="rounded-full w-6 h-6 border-gray-800 cursor-pointer hover:bg-gray-200"
+                />
               )}
             </div>
           </CardTitle>
-          <CardDescription className="text-sm text-gray-500 mt-1">
-            <p className="text-gray-800 text-sm font-semibold">
-              Acerca de mi
-            </p>
-            <p className="text-gray-700 text-xs">
-              {mentor.aboutMe}
-            </p>
-          </CardDescription>
+          <p className="text-gray-800 text-sm font-semibold">
+            Acerca de mi
+          </p>
+          <p className="text-gray-700 text-xs">
+            {mentor.aboutMe}
+          </p>
         </CardHeader>
 
-        <CardContent className="px-4 pb-4 flex-grow ">
+        <CardContent className="px-4 pb-4 flex-grow">
           {mentor.specialty.length > 0 && (
             <p className="text-gray-800 text-xs font-semibold mb-1">
               Especialidades
