@@ -183,8 +183,8 @@ model Valoration {
 }
 
 model StudentCourse {
-  studentId String  @unique @map("student_id")
-  courseId  String  @unique @map("course_id")
+  studentId String  @map("student_id")
+  courseId  String  @map("course_id")
   student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
   course    Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
@@ -262,11 +262,16 @@ enum EventType {
 model Event {
   id           String             @id @default(cuid())
   title        String
-  description  String
-  date         DateTime
+  description  String?
+  date         DateTime?
   location     String?
   maxCapacity  Int?               @map("max_capacity")
-  type         EventType
+  imageUrl     String?            @map("imageUrl")
+  isPublished  Boolean            @default(false) @map("is_published")
+  isFree       Boolean            @default(false) @map("is_free")
+  link         String?
+  type         EventType?
+  organizer    String?
   updatedAt    DateTime           @updatedAt @map("updated_at")
   createdAt    DateTime           @default(now()) @map("created_at")
   participants EventParticipant[]
@@ -306,4 +311,23 @@ model Attendance {
   checkedOutAt DateTime?        @map("checked_out_at")
 
   @@map("attendances")
+}
+
+model Mentor {
+  id          String   @id @default(cuid())
+  name        String
+  aboutMe     String?  @map("about_me") @db.Text
+  isPublished Boolean  @default(false) @map("is_published")
+  role        String?
+  specialty   String[]
+  industry    String[]
+  idioms      String[]
+  email       String?
+  imageUrl    String?  @map("image_url")
+  linkedinUrl String?  @map("linkedin_url")
+  twitterUrl  String?  @map("twitter_url")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("mentors")
 }

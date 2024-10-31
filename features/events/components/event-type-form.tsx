@@ -1,0 +1,135 @@
+'use client'
+
+import * as z from "zod"
+import { useForm } from "react-hook-form";
+import { EventTypeSchema } from "../schemas";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form"
+import { Button } from "@/components/ui/button";
+import { Pencil } from "lucide-react";
+import { useState, useTransition } from "react";
+import { toast } from "sonner";
+import { Event } from "@prisma/client";
+import { cn } from "@/lib/utils";
+import { Combobox } from "@/components/ui/combobox";
+import { updateTypeEvent } from "../actions/update-type-event";
+
+interface EventTypeFormProps {
+  initialData: Event
+  eventId: string;
+  options: { label: string, value: string }[]
+}
+
+const EventTypeForm = ({
+  eventId,
+  initialData,
+  options
+}: EventTypeFormProps) => {
+  const [isPending, startTransition] = useTransition()
+  const [isEditting, setIsEditting] = useState(false);
+
+  const router = useRouter();
+  const form = useForm<z.infer<typeof EventTypeSchema>>({
+    resolver: zodResolver(EventTypeSchema),
+    defaultValues: {
+      type: ''
+    }
+  });
+
+  const onSubmit = async (data: z.infer<typeof EventTypeSchema>) => {
+    startTransition(() => {
+      updateTypeEvent(eventId, data)
+        .then((response) => {
+          if (response.success) {
+            setIsEditting(false);
+            toast.success("Tipo de evento actualizado");
+            router.refresh();
+          } else {
+            toast.error(response?.error ?? 'Error al actualizar tipo de evento');
+          }
+        })
+    })
+  };
+
+  const toggleEdit = () => setIsEditting((current) => !current);
+  const selectedOption = options.find((option) => option.value === initialData.type);
+
+  return (
+    <div className="mt-6 border bg-sky-100 rounded-md p-4">
+      <div className="font-medium  flex items-center justify-between">
+        <span className="text-xs">
+          Tipo de evento
+          <span className="text-red-500">*</span>
+        </span>
+        <Button
+          onClick={toggleEdit}
+          variant='ghost'
+        >
+          {
+            isEditting && (
+              <>Cancelar</>
+            )
+          }
+          {
+            !isEditting && (
+              <>
+                <Pencil className="h-4 w-4 mr-2" />
+                Editar
+              </>
+            )
+          }
+        </Button>
+      </div>
+      {
+        !isEditting && (
+          <p className={cn("text-sm mt-2",
+            !initialData?.type && "text-slate-500 italic"
+          )}>
+            {selectedOption?.label || <span className="text-muted-foreground">Sin categoria</span>}
+          </p>
+        )
+      }
+      {
+        isEditting && (
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <FormField
+                control={form.control}
+                name="type"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Combobox
+                        options={options}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="flex items-center gap-x-2">
+                <Button
+                  type="submit"
+                  disabled={isPending}
+                >
+                  Guardar
+                </Button>
+              </div>
+            </form>
+          </Form>
+        )
+      }
+
+    </div>
+  );
+}
+
+export default EventTypeForm;

@@ -9,7 +9,8 @@ export const getParams = (searchParams: PageParamasProps) => {
     sizePage: params.sizePage ? Number(params.sizePage) : 10,
     sortBy: params.sortBy ? params.sortBy : undefined,
     isDesc: params.isDesc ? params.isDesc === 'true' : true,
-    title: params.title ? params.title : undefined
+    title: params.title ? params.title : undefined,
+    name: params.name ? params.name : undefined
   }
 
 }
