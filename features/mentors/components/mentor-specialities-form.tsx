@@ -1,0 +1,172 @@
+'use client'
+
+import * as z from "zod"
+import { useForm } from "react-hook-form";
+import { MentorSpecialityFormSchema } from "../schemas";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form"
+import { Button } from "@/components/ui/button";
+import { PlusCircle, X } from "lucide-react";
+import { useState, useTransition } from "react";
+import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+import { updateSpecialityMentor } from "../actions/update-speciality-mentor";
+import { useConfirm } from "@/hooks/use-confirm";
+
+interface MentorSpecialitiesFormProps {
+  initialData: {
+    specialities: string[];
+  };
+  mentorId: string;
+}
+
+const MentorSpecialitiesForm = ({
+  mentorId,
+  initialData
+}: MentorSpecialitiesFormProps) => {
+  const [isPending, startTransition] = useTransition()
+  const [isEditting, setIsEditting] = useState(false);
+
+  const [
+    ConfirmDialog,
+    confirm
+  ] = useConfirm('Eliminar especialidad', '¿Estás seguro de eliminar esta especialidad?')
+
+  const router = useRouter();
+  const form = useForm<z.infer<typeof MentorSpecialityFormSchema>>({
+    resolver: zodResolver(MentorSpecialityFormSchema),
+    defaultValues: {
+      speciality: ''
+    }
+  });
+
+  const onDelete = async (speciality: string) => {
+    const ok = await confirm()
+    if (!ok) {
+      return
+    }
+    startTransition(() => {
+      updateSpecialityMentor(mentorId, initialData.specialities.filter((s) => s !== speciality))
+        .then((response) => {
+          if (response.success) {
+            toast.success("Especialidad eliminada correctamente");
+            router.refresh();
+          } else {
+            toast.error(response?.error ?? 'Error al eliminar la especialidad');
+          }
+        })
+    })
+  }
+
+  const onSubmit = async (data: z.infer<typeof MentorSpecialityFormSchema>) => {
+    const speciality = data.speciality;
+
+    startTransition(() => {
+      updateSpecialityMentor(mentorId, [...initialData.specialities, speciality])
+        .then((response) => {
+          if (response.success) {
+            setIsEditting(false);
+            toast.success("Nombre actualizado correctamente");
+            router.refresh();
+          } else {
+            toast.error(response?.error ?? 'Error al actualizar el nombre');
+          }
+        })
+    })
+  };
+
+  const toggleEdit = () => setIsEditting((current) => !current);
+  return (
+    <>
+      <div className="mt-6 border bg-sky-100 rounded-md p-4">
+        <div className="font-medium  flex items-center justify-between">
+          <span className="text-xs">
+            Especialidades del mentor
+            <span className="text-red-500">*</span>
+          </span>
+
+          <Button
+            onClick={toggleEdit}
+            variant='ghost'
+          >
+            {
+              isEditting && (
+                <>Cancel</>
+              )
+            }
+            {
+              !isEditting && (
+                <>
+                  <PlusCircle className="h-4 w-4 mr-2" />
+                  Agregar
+                </>
+              )
+            }
+          </Button>
+        </div>
+        {!isEditting && (
+          <div className="flex flex-col gap-2">
+            {initialData.specialities.length !== 0 && initialData.specialities.map((speciality) => (
+              <div className="flex w-full px-3 justify-between items-center border rounded-md py-1 bg-sky-600">
+                <div className="text-sky-100 text-sm">{speciality}</div>
+                <div>
+                  <X
+                    onClick={() => onDelete(speciality)}
+                    className="h-4 w-4 text-red-500 cursor-pointer hover:text-red-500 transition"
+                  />
+                </div>
+              </div>
+            ))}
+            {initialData.specialities.length === 0 && (
+              <p className="text-xs text-center text-gray-500 mt-1">
+                No se ha asignado ninguna especialidad
+              </p>
+            )}
+          </div>
+        )}
+        {
+          isEditting && (
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <FormField
+                  control={form.control}
+                  name="speciality"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          disabled={isPending}
+                          placeholder="Ejemplo 'Ingeniería de software'"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <div className="flex items-center gap-x-2">
+                  <Button
+                    type="submit"
+                    disabled={isPending}
+                  >
+                    Guardar
+                  </Button>
+                </div>
+              </form>
+            </Form>
+          )
+        }
+      </div>
+      <ConfirmDialog />
+    </>
+  );
+}
+
+export default MentorSpecialitiesForm;

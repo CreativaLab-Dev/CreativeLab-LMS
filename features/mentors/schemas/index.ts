@@ -26,8 +26,20 @@ export const MentorImageFormSchema = z.object({
 })
 
 export const MentorSocialNetworksFormSchema = z.object({
-  linkedinUrl: z.string()
-    .url('La URL de la imagen no es válida'),
-  twitterUrl: z.string()
-    .url('La URL de la imagen no es válida')
+  linkedinUrl: z.string(),
+  twitterUrl: z.string(),
 })
+
+export const MentorSpecialityFormSchema = z.object({
+  speciality: z.string()
+})
+
+export const MentorIndustryFormSchema = z.object({
+  industry: z.string()
+})
+
+export const MentorIdiomFormSchema = z.object({
+  idiom: z.string()
+})
+
+

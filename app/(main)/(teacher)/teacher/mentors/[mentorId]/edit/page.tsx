@@ -2,7 +2,7 @@ import Link from "next/link"
 import { redirect } from "next/navigation"
 import { Banner } from "@/components/ui/banner"
 import { IconBadge } from "@/components/ui/icon-badge"
-import { ArrowLeft, LayoutGrid, Link2 } from "lucide-react"
+import { ArrowLeft, LayoutGrid, Link2, PlusCircle } from "lucide-react"
 import { getMentorById } from "@/features/mentors/actions/get-mentor-by-id"
 import MentorActions from "@/features/mentors/components/mentor-actions"
 import MentorNameForm from "@/features/mentors/components/mentor-name-form"
@@ -10,6 +10,9 @@ import MentorAboutMeForm from "@/features/mentors/components/mentor-about-me-for
 import MentorImageForm from "@/features/mentors/components/mentor-image-form"
 import MentorRoleForm from "@/features/mentors/components/mentor-role-form"
 import MentorSocialNetworksForm from "@/features/mentors/components/mentor-social-networks-form"
+import MentorSpecialitiesForm from "@/features/mentors/components/mentor-specialities-form"
+import MentorIndustriesForm from "@/features/mentors/components/mentor-industries-form"
+import MentorIdiomsForm from "@/features/mentors/components/mentor-idioms-form"
 
 type MentorIdPageProps = {
   params: {
@@ -112,6 +115,25 @@ export default async function MentorIdPage({
               linkedinUrl: mentor.linkedinUrl || '',
               twitterUrl: mentor.twitterUrl || ''
             }}
+          />
+          <div className="flex items-center gap-x-2">
+            <IconBadge
+              icon={PlusCircle} />
+            <h2 className="text-xl">
+              Adicional
+            </h2>
+          </div>
+          <MentorSpecialitiesForm
+            mentorId={mentor.id}
+            initialData={{ specialities: mentor.specialty }}
+          />
+          <MentorIndustriesForm
+            mentorId={mentor.id}
+            initialData={{ industries: mentor.industry }}
+          />
+          <MentorIdiomsForm
+            mentorId={mentor.id}
+            initialData={{ idioms: mentor.idioms }}
           />
         </div>
 
