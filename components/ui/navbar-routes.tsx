@@ -39,7 +39,7 @@ export const NavbarRoutes = ({
           <Link href="/">
             <Button
               size='sm'
-              variant='ghost'
+              variant='secondary'
             >
               <LogOut className="h-4 w-4 mr-2" />
               Salir
@@ -49,7 +49,7 @@ export const NavbarRoutes = ({
           <Link href="/teacher/courses">
             <Button
               size='sm'
-              variant='ghost'
+              variant='secondary'
             >
               Modo Profesor
             </Button>

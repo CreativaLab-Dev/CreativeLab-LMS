@@ -12,7 +12,7 @@ const EnrollButton = () => {
   }
   return (
     <Button
-      className="w-full md:w-auto bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-white font-semibold rounded-lg shadow-md disabled:opacity-50 disabled:cursor-not-allowed text-xs"
+      className="w-full md:w-auto bg-gradient-to-r from-yellow-500 to-yellow-700 hover:from-yellow-600 hover:to-yellow-700 text-gray-100 font-semibold rounded-lg shadow-md disabled:opacity-50 disabled:cursor-not-allowed text-xs"
       onClick={onClick}
     >
       Obtener premium

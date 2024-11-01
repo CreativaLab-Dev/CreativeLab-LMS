@@ -142,10 +142,10 @@ const MentorCard = ({
         <CardFooter className="p-4 bg-gray-50 mt-auto">
           <Button
             onClick={onClick}
-            variant='default'
+            variant='premium'
             className="w-full"
           >
-            Agendar un reunion
+            Agendar una reunion
           </Button>
         </CardFooter>
       </Card>
