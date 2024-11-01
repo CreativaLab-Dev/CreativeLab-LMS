@@ -51,7 +51,7 @@ const MentorActions = ({
 
   const onPublish = () => {
     startTransition(() => {
-      updatePublishMentor(mentorId, isPublished)
+      updatePublishMentor(mentorId, !isPublished)
         .then((response) => {
           if (response.success) {
             if (!isPublished) {

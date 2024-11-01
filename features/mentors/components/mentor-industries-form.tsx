@@ -58,6 +58,7 @@ const MentorIndustriesForm = ({
           if (response.success) {
             toast.success("Industria eliminada correctamente");
             router.refresh();
+            form.reset()
           } else {
             toast.error(response?.error ?? 'Error al eliminar la industria');
           }
@@ -90,7 +91,6 @@ const MentorIndustriesForm = ({
         <div className="font-medium  flex items-center justify-between">
           <span className="text-xs">
             Industrias del mentor
-            <span className="text-red-500">*</span>
           </span>
 
           <Button
@@ -115,7 +115,9 @@ const MentorIndustriesForm = ({
         {!isEditting && (
           <div className="flex flex-col gap-2">
             {initialData.industries.length !== 0 && initialData.industries.map((industry) => (
-              <div className="flex w-full px-3 justify-between items-center border rounded-md py-1 bg-sky-600">
+              <div
+                key={`industry-${industry}`}
+                className="flex w-full px-3 justify-between items-center border rounded-md py-1 bg-sky-600">
                 <div className="text-sky-100 text-sm">{industry}</div>
                 <div>
                   <X

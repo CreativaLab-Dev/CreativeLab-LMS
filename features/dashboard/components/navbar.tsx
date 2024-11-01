@@ -14,7 +14,7 @@ const Navbar = ({
   isPremium
 }: NavbarProps) => {
   return (
-    <div className="bg-sky-100 p-4 border-b h-full flex items-center shadow-sm">
+    <div className="bg-gradient-to-l from-blue-800 to-blue-500 p-4 border-b h-full flex items-center shadow-sm">
       <MobileSidebar currentUser={currentUser} isPremium={isPremium} />
       <NavbarRoutes currentUser={currentUser} isPremium={isPremium} />
     </div>

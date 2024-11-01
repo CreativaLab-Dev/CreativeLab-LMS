@@ -2,7 +2,7 @@
 
 import * as z from "zod"
 import { useForm } from "react-hook-form";
-import { MentorRoleFormSchema } from "../schemas";
+import { MentorExternalLinkFormSchema } from "../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import {
@@ -18,38 +18,38 @@ import { useState, useTransition } from "react";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { updateNameMentor } from "../actions/update-name-mentor";
-import { updateRoleMentor } from "../actions/update-role-mentor";
+import { updateLinkExternalMentor } from "../actions/update-link-external-mentor";
 
-interface MentorRoleFormProps {
+interface MentorExternalLinkFormProps {
   initialData: {
-    role: string;
+    externalLink: string;
   };
   mentorId: string;
 }
 
-const MentorRoleForm = ({
+const MentorExternalLinkForm = ({
   mentorId,
   initialData
-}: MentorRoleFormProps) => {
+}: MentorExternalLinkFormProps) => {
   const [isPending, startTransition] = useTransition()
   const [isEditting, setIsEditting] = useState(false);
 
   const router = useRouter();
-  const form = useForm<z.infer<typeof MentorRoleFormSchema>>({
-    resolver: zodResolver(MentorRoleFormSchema),
+  const form = useForm<z.infer<typeof MentorExternalLinkFormSchema>>({
+    resolver: zodResolver(MentorExternalLinkFormSchema),
     defaultValues: initialData
   });
 
-  const onSubmit = async (data: z.infer<typeof MentorRoleFormSchema>) => {
+  const onSubmit = async (data: z.infer<typeof MentorExternalLinkFormSchema>) => {
     startTransition(() => {
-      updateRoleMentor(mentorId, data)
+      updateLinkExternalMentor(mentorId, data)
         .then((response) => {
           if (response.success) {
             setIsEditting(false);
-            toast.success("Rol actualizado correctamente");
+            toast.success("Link externo actualizado correctamente");
             router.refresh();
           } else {
-            toast.error(response?.error ?? 'Error al actualizar rol');
+            toast.error(response?.error ?? 'Error al actualizar link externo');
           }
         })
     })
@@ -60,7 +60,7 @@ const MentorRoleForm = ({
     <div className="mt-6 border bg-sky-100 rounded-md p-4">
       <div className="font-medium  flex items-center justify-between">
         <span className="text-xs">
-          Rol del mentor
+          Link externo
           <span className="text-red-500">*</span>
         </span>
 
@@ -83,14 +83,18 @@ const MentorRoleForm = ({
           }
         </Button>
       </div>
-      {!isEditting && initialData.role && (
-        <p className="text-sm mt-2">
-          {initialData.role}
-        </p>
+      {!isEditting && initialData.externalLink && (
+        <a
+          href={initialData.externalLink}
+          target="_blank"
+          rel="noreferrer"
+          className="text-xs mt-2 underline text-blue-500">
+          {initialData.externalLink}
+        </a>
       )}
-      {!isEditting && !initialData.role && (
-        <p className="text-xs mt-2 text-gray-500">
-          No se ha definido un rol
+      {!isEditting && !initialData.externalLink && (
+        <p className="text-xs text-gray-500">
+          No se ha configurado un link externo
         </p>
       )}
       {
@@ -99,13 +103,13 @@ const MentorRoleForm = ({
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
                 control={form.control}
-                name="role"
+                name="externalLink"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
                       <Input
                         disabled={isPending}
-                        placeholder="Ejemplo 'Especialista en marketing digital'"
+                        placeholder="https://example.com"
                         {...field}
                       />
                     </FormControl>
@@ -130,4 +134,4 @@ const MentorRoleForm = ({
   );
 }
 
-export default MentorRoleForm;
+export default MentorExternalLinkForm;

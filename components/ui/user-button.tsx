@@ -59,7 +59,7 @@ const UserButton = ({
           </Avatar>
         </div>
       </PopoverTrigger>
-      <PopoverContent side="bottom" align="end" className="bg-sky-100">
+      <PopoverContent side="bottom" align="end" className="bg-blue-600">
         <div className="flex flex-col gap-y-4 items-center justify-center">
           <div
             className="flex gap-x-2 w-full cursor-pointer"
@@ -76,10 +76,10 @@ const UserButton = ({
               </Avatar>
             </div>
             <div className="flex flex-col justify-center">
-              <div className="text-sm font-bold text-gray-800 truncate max-w-[190px]">
+              <div className="text-sm font-bold text-blue-100 truncate max-w-[190px]">
                 {currentUser?.name}
               </div>
-              <div className="text-sm text-gray-500 truncate max-w-[190px]">
+              <div className="text-sm text-blue-200 truncate max-w-[190px]">
                 {currentUser?.email}
               </div>
             </div>
@@ -96,34 +96,34 @@ const UserButton = ({
           </div>
           <div className="flex flex-col justify-center gap-y-1 w-full">
             <Button
-              className="w-full justify-start"
+              className="w-full justify-start hover:bg-blue-500 hover:text-blue-100"
               variant='ghost'
               onClick={handleProfile}
             >
-              <UserIcon size={16} />
-              <span className="pl-2">
+              <UserIcon size={16} className="text-blue-200" />
+              <span className="pl-2 text-blue-200">
                 Mi cuenta
               </span>
             </Button>
             <Separator className="mb-1 bg-sky-200" />
             <Button
-              className="w-full justify-start"
+              className="w-full justify-start hover:bg-blue-500"
               variant='ghost'
               onClick={handleSettings}
             >
-              <Settings2 size={16} />
-              <span className="pl-2">
+              <Settings2 size={16} className="text-blue-200" />
+              <span className="pl-2 text-blue-200">
                 Configuración
               </span>
             </Button>
             <Separator className="mb-1 bg-sky-200" />
             <Button
-              className="w-full justify-start"
+              className="w-full justify-start hover:bg-blue-500"
               variant='ghost'
               onClick={handleLogout}
             >
-              <LogOut size={16} />
-              <span className="pl-2">
+              <LogOut size={16} className="text-blue-200" />
+              <span className="pl-2 text-blue-200">
                 Cerrar sesión
               </span>
             </Button>

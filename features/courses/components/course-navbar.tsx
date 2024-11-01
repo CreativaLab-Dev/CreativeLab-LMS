@@ -20,7 +20,7 @@ const CourseNavbar = ({
   isMembershipActive
 }: CourseNavbarProps) => {
   return (
-    <div className="p-4 borde-b h-full flex items-center bg-white shadow-sm">
+    <div className="p-4 borde-b h-full flex items-center bg-gradient-to-l from-blue-800 to-blue-500 shadow-sm">
       <CourseMobileSidebar
         course={course}
         progressCount={progressCount}

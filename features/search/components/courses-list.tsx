@@ -13,10 +13,12 @@ type CourseWithProgressWithCategory = Course & {
 
 interface CoursesListProps {
   items: CourseWithProgressWithCategory[]
+  isDashboard?: boolean
 }
 
 const CoursesList = ({
-  items
+  items,
+  isDashboard = false
 }: CoursesListProps) => {
   const router = useRouter()
   const onClick = () => {
@@ -25,7 +27,7 @@ const CoursesList = ({
 
   return (
     <div>
-      <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-4">
+      <div className={isDashboard ? 'grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2' : 'grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-4'}>
         {items.map((item) => (
           <CourseCard
             key={item.id}

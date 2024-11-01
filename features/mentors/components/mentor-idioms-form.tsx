@@ -58,6 +58,7 @@ const MentorIdiomsForm = ({
           if (response.success) {
             toast.success("Idioma eliminada correctamente");
             router.refresh();
+            form.reset()
           } else {
             toast.error(response?.error ?? 'Error al eliminar idioma');
           }
@@ -90,7 +91,6 @@ const MentorIdiomsForm = ({
         <div className="font-medium  flex items-center justify-between">
           <span className="text-xs">
             Idiomas del mentor
-            <span className="text-red-500">*</span>
           </span>
 
           <Button
@@ -115,7 +115,9 @@ const MentorIdiomsForm = ({
         {!isEditting && (
           <div className="flex flex-col gap-2">
             {initialData.idioms.length !== 0 && initialData.idioms.map((idiom) => (
-              <div className="flex w-full px-3 justify-between items-center border rounded-md py-1 bg-sky-600">
+              <div
+                key={`idiom-${idiom}`}
+                className="flex w-full px-3 justify-between items-center border rounded-md py-1 bg-sky-600">
                 <div className="text-sky-100 text-sm">{idiom}</div>
                 <div>
                   <X

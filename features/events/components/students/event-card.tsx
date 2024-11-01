@@ -1,10 +1,10 @@
 'use client'
+
 import {
   Card,
   CardHeader,
   CardFooter,
   CardTitle,
-  CardDescription,
   CardContent
 } from "@/components/ui/card";
 import Image from "next/image";
@@ -16,6 +16,9 @@ import { useRouter } from "next/navigation";
 import EventGoogleMap from "../event-google-map";
 import { usePremium } from "@/hooks/use-premium";
 import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import CollapsibleDescription from "@/components/ui/collapsible-description";
 
 const typeTextMap = {
   VIRTUAL: 'Virtual',
@@ -48,7 +51,7 @@ const EventCard = ({
   return (
     <>
       <Card
-        className="max-w-md rounded-lg shadow-lg overflow-hidden border border-gray-200 transition-transform duration-300 hover:scale-105 hover:shadow-xl bg-white flex flex-col h-full"
+        className="max-w-md rounded-lg shadow-sm overflow-hidden border border-gray-200 transition-transform duration-300 hover:shadow-xl bg-white flex flex-col h-full"
       >
         {event.imageUrl && (
           <div className="relative w-full aspect-video rounded-md overflow-auto">
@@ -64,24 +67,22 @@ const EventCard = ({
           <CardTitle className="text-2xl font-semibold text-gray-800">
             {event.title}
           </CardTitle>
-          <CardDescription className="text-sm text-gray-500 mt-1">
-            <div className="flex flex-col gap-3">
-              <div>
-                {event.date ? format(new Date(event.date), 'PPP', { locale: es }) : 'Fecha por definir'}
-              </div>
-              {event.organizer && (
-                <div className="text-xs" >
-                  Organizador por: {event.organizer}
-                </div>
-              )}
+          <div className="flex flex-col gap-3">
+            <div>
+              {event.date ? format(new Date(event.date), 'PPP', { locale: es }) : 'Fecha por definir'}
             </div>
-          </CardDescription>
+            {event.organizer && (
+              <div className="text-xs" >
+                Organizador por: {event.organizer}
+              </div>
+            )}
+          </div>
         </CardHeader>
 
         <CardContent className="px-4 pb-4 flex-grow">
-          <p className="text-gray-700 text-sm">
-            {event.description}
-          </p>
+          <CollapsibleDescription
+            description={event.description || ''}
+          />
           {event.type && (
             <>
               <Badge className="mt-3">

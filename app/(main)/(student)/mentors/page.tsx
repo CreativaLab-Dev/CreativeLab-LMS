@@ -1,12 +1,13 @@
 import { auth } from "@/auth";
-import { Button } from "@/components/ui/button";
 import HeaderPage from "@/components/ui/header-page";
 import { getEventsPublished } from "@/features/events/actions/get-events-published";
 import EventCard from "@/features/events/components/students/event-card";
+import { getMentorsPublished } from "@/features/mentors/actions/students/get-mentors-published";
+import MentorCard from "@/features/mentors/components/students/mentor-card";
 import { getMembershipActive } from "@/features/settings/actions/get-membership-active";
 import { redirect } from "next/navigation";
 
-const EventPage = async () => {
+const MentorPage = async () => {
 
   const session = await auth()
   if (!session || !session.user || !session.user.id) {
@@ -14,34 +15,33 @@ const EventPage = async () => {
   }
 
   const membershipActive = await getMembershipActive(session.user.id)
-  const events = await getEventsPublished()
+  const mentors = await getMentorsPublished()
   return (
     <div className="p-6 space-y-4">
       <HeaderPage
-        title="Eventos"
-        description="Descubre los eventos que tenemos para ti."
+        title="Mentorias"
+        description="Descubre las mentorias disponibles"
         bgColor="bg-gradient-to-r from-blue-500 to-blue-400"
-        icon="event"
+        icon="mentor"
         iconColor="text-white"
       />
-      {events.length === 0 && (
+      {mentors.length === 0 && (
         <div className="text-sm p-6 text-gray-500">
-          <p>No hay eventos disponibles</p>
+          <p>No hay mentores disponibles</p>
         </div>
       )}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-3">
-        {events.map((event) => (
-          <EventCard
-            key={event.id}
-            event={event}
+        {mentors.map((mentor) => (
+          <MentorCard
+            key={mentor.id}
+            mentor={mentor}
             isPremium={!!membershipActive}
           />
         ))}
-        {/* Mostrar un botton para ver mas */}
       </div>
 
     </div>
   );
 }
 
-export default EventPage;
+export default MentorPage;
