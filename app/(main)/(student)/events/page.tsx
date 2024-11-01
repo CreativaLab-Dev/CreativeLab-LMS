@@ -29,7 +29,7 @@ const EventPage = async () => {
           <p>No hay eventos disponibles</p>
         </div>
       )}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 px-3">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-3">
         {events.map((event) => (
           <EventCard
             key={event.id}

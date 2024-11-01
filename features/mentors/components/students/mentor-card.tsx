@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { usePremium } from "@/hooks/use-premium";
 import { Badge } from "@/components/ui/badge";
 import { LinkedInLogoIcon, TwitterLogoIcon } from "@radix-ui/react-icons";
+import CollapsibleDescription from "@/components/ui/collapsible-description";
 
 interface EventCardProps {
   mentor: Mentor
@@ -45,7 +46,7 @@ const MentorCard = ({
   return (
     <>
       <Card
-        className="max-w-md rounded-lg shadow-lg overflow-hidden border border-gray-200 transition-transform duration-300 hover:scale-105 hover:shadow-xl bg-white flex flex-col h-full"
+        className="max-w-md rounded-lg shadow-sm overflow-hidden border border-gray-200 transition-transform duration-300 hover:shadow-xl bg-white flex flex-col h-full"
       >
         {mentor.imageUrl && (
           <div className="relative w-full aspect-video rounded-md overflow-auto">
@@ -86,9 +87,9 @@ const MentorCard = ({
           <p className="text-gray-800 text-sm font-semibold">
             Acerca de mi
           </p>
-          <p className="text-gray-700 text-xs">
-            {mentor.aboutMe}
-          </p>
+          <CollapsibleDescription
+            description={mentor.aboutMe || ''}
+          />
         </CardHeader>
 
         <CardContent className="px-4 pb-4 flex-grow">

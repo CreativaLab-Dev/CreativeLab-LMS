@@ -1,4 +1,5 @@
 'use client'
+
 import {
   Card,
   CardHeader,
@@ -17,7 +18,7 @@ import { usePremium } from "@/hooks/use-premium";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { CaretSortIcon } from "@radix-ui/react-icons";
+import CollapsibleDescription from "@/components/ui/collapsible-description";
 
 const typeTextMap = {
   VIRTUAL: 'Virtual',
@@ -34,7 +35,6 @@ const EventCard = ({
   event,
   isPremium
 }: EventCardProps) => {
-  const [isOpen, setIsOpen] = useState(false)
   const [SalesPlans, openPlans] = usePremium()
 
   const router = useRouter()
@@ -51,7 +51,7 @@ const EventCard = ({
   return (
     <>
       <Card
-        className="max-w-md rounded-lg shadow-lg overflow-hidden border border-gray-200 transition-transform duration-300 hover:scale-105 hover:shadow-xl bg-white flex flex-col h-full"
+        className="max-w-md rounded-lg shadow-sm overflow-hidden border border-gray-200 transition-transform duration-300 hover:shadow-xl bg-white flex flex-col h-full"
       >
         {event.imageUrl && (
           <div className="relative w-full aspect-video rounded-md overflow-auto">
@@ -80,34 +80,9 @@ const EventCard = ({
         </CardHeader>
 
         <CardContent className="px-4 pb-4 flex-grow">
-          <Collapsible
-            open={isOpen}
-            onOpenChange={setIsOpen}
-            className="w-full 1space-y-2"
-          >
-            {!isOpen && (
-              <p className="text-gray-700 text-sm">
-                {event.description?.slice(0, 100)}
-                {event.description && event.description.length > 100 && '...'}
-              </p>
-            )}
-            <CollapsibleContent className="space-y-2">
-              <p className="text-gray-700 text-sm">
-                {event.description}
-              </p>
-            </CollapsibleContent>
-            <CollapsibleTrigger asChild>
-              {event.description && event.description.length > 100 && (
-                <button className="text-blue-600 hover:underline text-xs">
-                  {isOpen ? 'Ver menos' : 'Ver más'}
-                </button>
-              )}
-
-            </CollapsibleTrigger>
-
-
-          </Collapsible>
-
+          <CollapsibleDescription
+            description={event.description || ''}
+          />
           {event.type && (
             <>
               <Badge className="mt-3">
