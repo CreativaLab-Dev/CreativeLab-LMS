@@ -55,7 +55,7 @@ const CourseFormAttachment = ({ courseId, initialData }: CourseFormAttachmentPro
 
   const toggleEdit = () => setIsEditting((current) => !current);
   return (
-    <div className="mt-6 border bg-sky-100 rounded-md p-4">
+    <div className="mt-6 border bg-blue-100 rounded-md p-4">
       <div className="font-medium  flex items-center justify-between">
         <span className="text-xs">
           Adjuntos de curso

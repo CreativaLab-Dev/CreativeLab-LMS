@@ -21,6 +21,7 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         premium: "bg-gradient-to-r from-sky-500 via-blue-500 to-cyan-500 text-white border-0 hover:bg-gradient-to-r hovver:from-sky-600 hover:via-blue-600 hover:to-cyan-600 transition",
         success: "bg-emerald-600 text-white hover:bg-emerald-600/80",
+        primary: "bg-gradient-to-r from-blue-600 to-blue-500 text-white hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-400 transition",
       },
       size: {
         default: "h-9 px-4 py-2",
