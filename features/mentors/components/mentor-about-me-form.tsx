@@ -45,10 +45,10 @@ const MentorAboutMeForm = ({
         .then((response) => {
           if (response.success) {
             setIsEditting(false);
-            toast.success("Nombre actualizado correctamente");
+            toast.success("Descripcion actualizado correctamente");
             router.refresh();
           } else {
-            toast.error(response?.error ?? 'Error al actualizar el nombre');
+            toast.error(response?.error ?? 'Error al actualizar la descripcion');
           }
         })
     })

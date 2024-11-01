@@ -2,7 +2,7 @@ import Link from "next/link"
 import { redirect } from "next/navigation"
 import { Banner } from "@/components/ui/banner"
 import { IconBadge } from "@/components/ui/icon-badge"
-import { ArrowLeft, LayoutGrid, Link2, PlusCircle } from "lucide-react"
+import { ArrowLeft, LayoutGrid, Link2, Link2Off, LinkIcon, PlusCircle } from "lucide-react"
 import { getMentorById } from "@/features/mentors/actions/get-mentor-by-id"
 import MentorActions from "@/features/mentors/components/mentor-actions"
 import MentorNameForm from "@/features/mentors/components/mentor-name-form"
@@ -13,6 +13,8 @@ import MentorSocialNetworksForm from "@/features/mentors/components/mentor-socia
 import MentorSpecialitiesForm from "@/features/mentors/components/mentor-specialities-form"
 import MentorIndustriesForm from "@/features/mentors/components/mentor-industries-form"
 import MentorIdiomsForm from "@/features/mentors/components/mentor-idioms-form"
+import MentorEmailForm from "@/features/mentors/components/mentor-email-form"
+import MentorExternalLinkForm from "@/features/mentors/components/mentor-external-link-form"
 
 type MentorIdPageProps = {
   params: {
@@ -32,10 +34,10 @@ export default async function MentorIdPage({
   const requiredField = [
     mentor.name,
     mentor.aboutMe,
-    mentor.imageUrl,
     mentor.email,
-    mentor.linkedinUrl,
-    mentor.twitterUrl,
+    mentor.imageUrl,
+    mentor.linkedinUrl || mentor.twitterUrl,
+    mentor.externaLink,
   ]
 
   const totalFields = requiredField.length;
@@ -53,7 +55,7 @@ export default async function MentorIdPage({
       )}
       <div className="p-6">
         <Link
-          href={`/teacher/events`}
+          href={`/teacher/mentors`}
           className="flex itesm-center text-sm hover:opacity-75 transition mb-6"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
@@ -92,6 +94,10 @@ export default async function MentorIdPage({
             mentorId={mentor.id}
             initialData={{ aboutMe: mentor.aboutMe || '' }}
           />
+          <MentorEmailForm
+            mentorId={mentor.id}
+            initialData={{ email: mentor.email || '' }}
+          />
           <MentorRoleForm
             mentorId={mentor.id}
             initialData={{ role: mentor.role || '' }}
@@ -102,6 +108,17 @@ export default async function MentorIdPage({
           />
         </div>
         <div className="space-y-6">
+          <div className="flex items-center gap-x-2">
+            <IconBadge
+              icon={LinkIcon} />
+            <h2 className="text-xl">
+              Link de enlace externo
+            </h2>
+          </div>
+          <MentorExternalLinkForm
+            mentorId={mentor.id}
+            initialData={{ externalLink: mentor.externaLink || '' }}
+          />
           <div className="flex items-center gap-x-2">
             <IconBadge
               icon={Link2} />

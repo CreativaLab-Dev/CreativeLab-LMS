@@ -35,6 +35,11 @@ const studentRoutes = [
     label: "Eventos",
     href: "/events",
   },
+  {
+    icon: UserCircle,
+    label: "Mentorias",
+    href: "/mentors",
+  },
 
 ]
 

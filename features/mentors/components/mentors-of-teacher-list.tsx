@@ -80,6 +80,7 @@ const MentorOfTeacherList = ({
             <TableHead className="text-center">Nombre</TableHead>
             <TableHead className="text-center">Cargo</TableHead>
             <TableHead className="text-center">Correo</TableHead>
+            <TableHead className="text-center">Publicado</TableHead>
             <TableHead className="text-center">Fecha C.</TableHead>
             <TableHead className="text-center">Acciones</TableHead>
           </TableRow>
@@ -125,6 +126,11 @@ const MentorOfTeacherList = ({
               </TableCell>
               <TableCell className="text-center">
                 {mentor.email}
+              </TableCell>
+              <TableCell>
+                <Badge variant={mentor.isPublished ? 'published' : 'draft'}>
+                  {mentor.isPublished ? 'Publicado' : 'Oculto'}
+                </Badge>
               </TableCell>
               <TableCell className="text-center">
                 {

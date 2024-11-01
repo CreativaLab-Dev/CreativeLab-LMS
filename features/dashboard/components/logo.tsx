@@ -10,7 +10,7 @@ const Logo = () => {
   }
   return (
     <Image
-      src="/logo.svg"
+      src="/logo_blanco.png"
       alt="logo"
       className="cursor-pointer"
       width={130}
