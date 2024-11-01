@@ -40,6 +40,11 @@ const studentRoutes = [
     label: "Mentorias",
     href: "/mentors",
   },
+  {
+    icon: Book,
+    label: "Recursos",
+    href: "/resources",
+  },
 
 ]
 
@@ -63,6 +68,11 @@ const teacherRoutes = [
     label: "Estadisticas",
     icon: BarChart2,
     href: "/teacher/history",
+  },
+  {
+    icon: Book,
+    label: "Recursos",
+    href: "/teacher/resources",
   },
 ]
 
