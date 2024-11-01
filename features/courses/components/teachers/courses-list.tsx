@@ -63,7 +63,8 @@ const CoursesList = ({ courses, pagination, url: urlPath }: CourseProps) => {
             </span>
           </div>
         </div>
-        <Button variant="default"
+        <Button
+          variant="primary"
           size='sm'
           className='flex items-center px-3'
           onClick={() => router.push('/teacher/courses/new')}>

@@ -94,6 +94,7 @@ const MentorNewForm = () => {
               </Link>
               <Button
                 type='submit'
+                variant='primary'
                 disabled={isPending}
               >
                 Continuar

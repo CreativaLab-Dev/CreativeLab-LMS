@@ -13,9 +13,9 @@ export default async function CoursesTeacherPage(
       <HeaderPage
         title="Mis cursos"
         description="Aquí encontrarás todos los cursos que has implementado"
-        bgColor="bg-sky-200"
+        bgColor="bg-gradient-to-r from-blue-500 to-blue-400"
         icon="course"
-        iconColor="text-sky-500"
+        iconColor="text-white"
       />
       <div className="px-10 md:px-8">
         <CoursesList

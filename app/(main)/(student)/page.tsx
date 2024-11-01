@@ -58,7 +58,7 @@ const DashboardPage = async () => {
           <div className="text-sm text-blue-500 mb-4 font-bold text-center border-b border-blue-400">
             Proximos eventos
           </div>
-          <div className='grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2'>
+          <div className='grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2'>
             {lastEvents.map((event) => (
               <EventCard
                 key={event.id}
@@ -72,7 +72,7 @@ const DashboardPage = async () => {
           <div className="text-sm text-blue-500 mb-4 font-bold text-center border-b border-blue-400">
             Mentores destacados
           </div>
-          <div className='grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2'>
+          <div className='grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2'>
             {lastMentors.map((mentor) => (
               <MentorCard
                 mentor={mentor}
@@ -86,7 +86,7 @@ const DashboardPage = async () => {
           <div className="text-sm text-blue-500 mb-4 font-bold text-center border-b border-blue-400">
             Recursos destacados
           </div>
-          <div className='grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2'>
+          <div className='grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2'>
             {lastMentors.map((mentor) => (
               <MentorCard
                 mentor={mentor}

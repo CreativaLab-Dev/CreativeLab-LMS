@@ -63,7 +63,8 @@ const EventList = ({ events, pagination, url: urlPath }: EventsProps) => {
             </span>
           </div>
         </div>
-        <Button variant="default"
+        <Button
+          variant='primary'
           size='sm'
           className='flex items-center px-3'
           onClick={() => router.push('/teacher/events/new')}>
