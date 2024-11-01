@@ -73,13 +73,14 @@ const CourseActions = ({
         <Button
           onClick={onPublish}
           disabled={disabled || isPending}
-          variant={isPublished ? 'destructive' : 'outline'}
+          variant={isPublished ? 'destructive' : 'primary'}
           size='sm'
         >
           {isPublished ? 'Ocultar' : 'Publicar'}
         </Button>
         <Button
           size='sm'
+          variant='destructive'
           disabled={disabled || isPending}
           onClick={onDeleteChapter}
         >

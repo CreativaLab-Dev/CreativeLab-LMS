@@ -94,6 +94,7 @@ const EventNewForm = () => {
               </Link>
               <Button
                 type='submit'
+                variant='primary'
                 disabled={isPending}
               >
                 Continuar

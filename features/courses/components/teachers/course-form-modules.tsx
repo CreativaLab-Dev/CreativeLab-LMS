@@ -75,8 +75,8 @@ const ChaptersList = ({
                 {(provided) => (
                   <div
                     className={cn(
-                      "flex items-center gap-x-2 border rounded-md mb-4 text-sm bg-slate-200 border-slate-200 text-slate-700",
-                      chapter.isPublished && "bg-sky-100 border-sky-200 text-sky-700"
+                      "flex items-center gap-x-2 border rounded-md mb-4 text-sm bg-slate-300 border-slate-200 text-slate-700",
+                      chapter.isPublished && "bg-blue-100 border-blue-200 text-blue-700"
                     )}
                     ref={provided.innerRef}
                     {...provided.draggableProps}

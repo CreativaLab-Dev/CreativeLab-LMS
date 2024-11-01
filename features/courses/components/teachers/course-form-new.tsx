@@ -94,6 +94,7 @@ const CourseFormNew = () => {
               </Link>
               <Button
                 type='submit'
+                variant='primary'
                 disabled={isPending}
               >
                 Continuar

@@ -64,8 +64,9 @@ const MentorOfTeacherList = ({
             </span>
           </div>
         </div>
-        <Button variant="default"
+        <Button
           size='sm'
+          variant='primary'
           className='flex items-center px-3'
           onClick={() => router.push('/teacher/mentors/new')}>
           <Plus size={15} />

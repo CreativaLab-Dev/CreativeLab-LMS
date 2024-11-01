@@ -1,5 +1,8 @@
+import Link from "next/link"
+import { redirect } from "next/navigation"
 import { Banner } from "@/components/ui/banner"
 import { IconBadge } from "@/components/ui/icon-badge"
+import { ArrowLeft, File, LayoutDashboard, ListChecks } from "lucide-react"
 import { getCategories } from "@/features/categories/actions/get-categories"
 import { getCourseOfTeacherById } from "@/features/courses/actions/teachers/get-course-of-teacher-by-id"
 import CourseActions from "@/features/courses/components/teachers/course-actions"
@@ -11,9 +14,6 @@ import CourseFormImage from "@/features/courses/components/teachers/course-form-
 import CourseFormTitle from "@/features/courses/components/teachers/course-form-title"
 import CourseIsFeaturedForm from "@/features/courses/components/teachers/course-is-featured-form"
 import CourseIsNewForm from "@/features/courses/components/teachers/course-is-new-form"
-import { ArrowLeft, File, LayoutDashboard, ListChecks } from "lucide-react"
-import Link from "next/link"
-import { redirect } from "next/navigation"
 
 type CourseIdPageProps = {
   params: {
@@ -81,7 +81,8 @@ export default async function CourseIdPage({
         <div>
           <div className="flex items-center gap-x-2">
             <IconBadge
-              icon={LayoutDashboard} />
+              icon={LayoutDashboard}
+            />
             <h2 className="text-xl">
               Personaliza tu curso
             </h2>

@@ -71,7 +71,7 @@ const ChapterActions = ({
         <Button
           onClick={onPublish}
           disabled={disabled || isPending}
-          variant={isPublished ? 'destructive' : 'outline'}
+          variant={isPublished ? 'destructive' : 'primary'}
           size='sm'
         >
           {isPublished ? 'Ocultar' : 'Publicar'}
