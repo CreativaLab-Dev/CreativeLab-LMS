@@ -2,7 +2,7 @@
 
 import * as z from "zod"
 import { useForm } from "react-hook-form";
-import { resourceTitleFormSchema } from "../schemas";
+import { MentorNameFormSchema } from "../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import {
@@ -21,12 +21,12 @@ import { updateNameMentor } from "../actions/update-name-mentor";
 
 interface ResourceTitleFormProps {
   initialData: {
-    title: string;
+    name: string;
   };
   mentorId: string;
 }
 
-const ResourceTitleForm = ({
+const MentorNameForm = ({
   mentorId,
   initialData
 }: ResourceTitleFormProps) => {
@@ -34,12 +34,12 @@ const ResourceTitleForm = ({
   const [isEditting, setIsEditting] = useState(false);
 
   const router = useRouter();
-  const form = useForm<z.infer<typeof resourceTitleFormSchema>>({
-    resolver: zodResolver(resourceTitleFormSchema),
+  const form = useForm<z.infer<typeof MentorNameFormSchema>>({
+    resolver: zodResolver(MentorNameFormSchema),
     defaultValues: initialData
   });
 
-  const onSubmit = async (data: z.infer<typeof resourceTitleFormSchema>) => {
+  const onSubmit = async (data: z.infer<typeof MentorNameFormSchema>) => {
     startTransition(() => {
       updateNameMentor(mentorId, data)
         .then((response) => {
@@ -84,7 +84,7 @@ const ResourceTitleForm = ({
       </div>
       {!isEditting && (
         <p className="text-sm mt-2">
-          {initialData.title}
+          {initialData.name}
         </p>
       )}
       {isEditting && (
@@ -122,4 +122,4 @@ const ResourceTitleForm = ({
   );
 }
 
-export default ResourceTitleForm;
+export default MentorNameForm;

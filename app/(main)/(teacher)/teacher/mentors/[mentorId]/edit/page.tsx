@@ -5,7 +5,7 @@ import { IconBadge } from "@/components/ui/icon-badge"
 import { ArrowLeft, LayoutGrid, Link2, Link2Off, LinkIcon, PlusCircle } from "lucide-react"
 import { getMentorById } from "@/features/mentors/actions/get-mentor-by-id"
 import MentorActions from "@/features/mentors/components/mentor-actions"
-import ResourceTitleForm from "@/features/mentors/components/mentor-name-form"
+import MentorNameForm from "@/features/mentors/components/mentor-name-form"
 import MentorAboutMeForm from "@/features/mentors/components/mentor-about-me-form"
 import MentorImageForm from "@/features/mentors/components/mentor-image-form"
 import MentorRoleForm from "@/features/mentors/components/mentor-role-form"
@@ -86,7 +86,7 @@ export default async function MentorIdPage({
               Personaliza tu mentoría
             </h2>
           </div>
-          <ResourceTitleForm
+          <MentorNameForm
             mentorId={mentor.id}
             initialData={{ name: mentor.name }}
           />
