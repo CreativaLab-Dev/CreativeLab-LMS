@@ -2,42 +2,34 @@ import Link from "next/link"
 import { redirect } from "next/navigation"
 import { Banner } from "@/components/ui/banner"
 import { IconBadge } from "@/components/ui/icon-badge"
-import { ArrowLeft, LayoutGrid, Link2, Link2Off, LinkIcon, PlusCircle } from "lucide-react"
-import { getMentorById } from "@/features/mentors/actions/get-mentor-by-id"
+import { ArrowLeft, LayoutGrid } from "lucide-react"
 import MentorActions from "@/features/mentors/components/mentor-actions"
-import MentorNameForm from "@/features/mentors/components/mentor-name-form"
-import MentorAboutMeForm from "@/features/mentors/components/mentor-about-me-form"
 import MentorImageForm from "@/features/mentors/components/mentor-image-form"
-import MentorRoleForm from "@/features/mentors/components/mentor-role-form"
-import MentorSocialNetworksForm from "@/features/mentors/components/mentor-social-networks-form"
-import MentorSpecialitiesForm from "@/features/mentors/components/mentor-specialities-form"
-import MentorIndustriesForm from "@/features/mentors/components/mentor-industries-form"
-import MentorIdiomsForm from "@/features/mentors/components/mentor-idioms-form"
-import MentorEmailForm from "@/features/mentors/components/mentor-email-form"
-import MentorExternalLinkForm from "@/features/mentors/components/mentor-external-link-form"
+import { getResourceById } from "@/features/resource/actions/get-resource-by-id"
+import ResourceTitleForm from "@/features/resource/components/resource-title-form"
+import ResourceContentForm from "@/features/resource/components/resource-content-form"
+import ResourceImageForm from "@/features/resource/components/resource-image-form"
+import ResourceActions from "@/features/resource/components/resource-actions"
 
-type MentorIdPageProps = {
+type ResourceIdPageProps = {
   params: {
-    mentorId: string
+    resourceId: string
   }
 }
 
-export default async function MentorIdPage({
+export default async function ResourceIdPage({
   params
-}: MentorIdPageProps) {
-  const mentorId = params.mentorId
-  const mentor = await getMentorById(mentorId)
-  if (!mentor) {
+}: ResourceIdPageProps) {
+  const resourceId = params.resourceId
+  const resource = await getResourceById(resourceId)
+  if (!resource) {
     return redirect('/teacher/mentors')
   }
 
   const requiredField = [
-    mentor.name,
-    mentor.aboutMe,
-    mentor.email,
-    mentor.imageUrl,
-    mentor.linkedinUrl || mentor.twitterUrl,
-    mentor.externaLink,
+    resource.title,
+    resource.content,
+    resource.imageUrl,
   ]
 
   const totalFields = requiredField.length;
@@ -48,14 +40,14 @@ export default async function MentorIdPage({
 
   return (
     <>
-      {!mentor.isPublished && (
+      {!resource.isPublished && (
         <Banner
-          label="Este mentor no es visible para los estudiantes"
+          label="Este recurso no es visible para los estudiantes"
         />
       )}
       <div className="p-6">
         <Link
-          href={`/teacher/mentors`}
+          href={`/teacher/resources`}
           className="flex itesm-center text-sm hover:opacity-75 transition mb-6"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
@@ -64,16 +56,16 @@ export default async function MentorIdPage({
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-y-2">
             <h1 className="text-2xl font-bold">
-              Configuracion del mentor
+              Configuracion de recurso
             </h1>
             <span className="text-sm text-slate-700">
               Completa todos los campos {completionText}
             </span>
           </div>
-          <MentorActions
+          <ResourceActions
             disabled={!isComplete}
-            mentorId={mentorId}
-            isPublished={mentor.isPublished}
+            resourceId={resourceId}
+            isPublished={resource.isPublished}
           />
         </div>
       </div>
@@ -86,74 +78,21 @@ export default async function MentorIdPage({
               Personaliza tu mentoría
             </h2>
           </div>
-          <MentorNameForm
-            mentorId={mentor.id}
-            initialData={{ name: mentor.name }}
+          <ResourceTitleForm
+            resourceId={resource.id}
+            initialData={{ title: resource.title }}
           />
-          <MentorAboutMeForm
-            mentorId={mentor.id}
-            initialData={{ aboutMe: mentor.aboutMe || '' }}
-          />
-          <MentorEmailForm
-            mentorId={mentor.id}
-            initialData={{ email: mentor.email || '' }}
-          />
-          <MentorRoleForm
-            mentorId={mentor.id}
-            initialData={{ role: mentor.role || '' }}
-          />
-          <MentorImageForm
-            mentorId={mentor.id}
-            initialData={{ image: mentor.imageUrl || '' }}
+          <ResourceImageForm
+            resourceId={resource.id}
+            initialData={{ imageUrl: resource.imageUrl || '' }}
           />
         </div>
-        <div className="space-y-6">
-          <div className="flex items-center gap-x-2">
-            <IconBadge
-              icon={LinkIcon} />
-            <h2 className="text-xl">
-              Link de enlace externo
-            </h2>
-          </div>
-          <MentorExternalLinkForm
-            mentorId={mentor.id}
-            initialData={{ externalLink: mentor.externaLink || '' }}
-          />
-          <div className="flex items-center gap-x-2">
-            <IconBadge
-              icon={Link2} />
-            <h2 className="text-xl">
-              Redes sociales
-            </h2>
-          </div>
-          <MentorSocialNetworksForm
-            mentorId={mentor.id}
-            initialData={{
-              linkedinUrl: mentor.linkedinUrl || '',
-              twitterUrl: mentor.twitterUrl || ''
-            }}
-          />
-          <div className="flex items-center gap-x-2">
-            <IconBadge
-              icon={PlusCircle} />
-            <h2 className="text-xl">
-              Adicional
-            </h2>
-          </div>
-          <MentorSpecialitiesForm
-            mentorId={mentor.id}
-            initialData={{ specialities: mentor.specialty }}
-          />
-          <MentorIndustriesForm
-            mentorId={mentor.id}
-            initialData={{ industries: mentor.industry }}
-          />
-          <MentorIdiomsForm
-            mentorId={mentor.id}
-            initialData={{ idioms: mentor.idioms }}
+        <div>
+          <ResourceContentForm
+            resourceId={resource.id}
+            initialData={{ content: resource.content || '' }}
           />
         </div>
-
       </div>
     </>
   )

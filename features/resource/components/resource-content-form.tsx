@@ -2,9 +2,11 @@
 
 import * as z from "zod"
 import { useForm } from "react-hook-form";
-import { resourceTitleFormSchema } from "../schemas";
+import { useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { Pencil } from "lucide-react";
+import { toast } from "sonner";
 import {
   Form,
   FormControl,
@@ -13,42 +15,42 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Button } from "@/components/ui/button";
-import { Pencil } from "lucide-react";
-import { useState, useTransition } from "react";
-import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
-import { updateNameMentor } from "../actions/update-name-mentor";
+import { cn } from "@/lib/utils";
+import Editor from "@/components/ui/editor";
+import Preview from "@/components/ui/preview";
+import { updateContentResource } from "../actions/update-content-resource";
+import { resourceContentFormSchema } from "../schemas";
 
-interface ResourceTitleFormProps {
+interface ResourceContentFormProps {
   initialData: {
-    title: string;
+    content: string;
   };
-  mentorId: string;
+  resourceId: string;
 }
 
-const ResourceTitleForm = ({
-  mentorId,
+const ResourceContentForm = ({
+  resourceId,
   initialData
-}: ResourceTitleFormProps) => {
+}: ResourceContentFormProps) => {
   const [isPending, startTransition] = useTransition()
   const [isEditting, setIsEditting] = useState(false);
 
   const router = useRouter();
-  const form = useForm<z.infer<typeof resourceTitleFormSchema>>({
-    resolver: zodResolver(resourceTitleFormSchema),
+  const form = useForm<z.infer<typeof resourceContentFormSchema>>({
+    resolver: zodResolver(resourceContentFormSchema),
     defaultValues: initialData
   });
 
-  const onSubmit = async (data: z.infer<typeof resourceTitleFormSchema>) => {
+  const onSubmit = async (data: z.infer<typeof resourceContentFormSchema>) => {
     startTransition(() => {
-      updateNameMentor(mentorId, data)
+      updateContentResource(resourceId, data)
         .then((response) => {
           if (response.success) {
             setIsEditting(false);
-            toast.success("Titulo actualizado correctamente");
+            toast.success("Contenido actualizada");
             router.refresh();
           } else {
-            toast.error(response?.error ?? 'Error al actualizar el titulo');
+            toast.error(response?.error ?? 'Error al actualizar el contenido');
           }
         })
     })
@@ -59,10 +61,9 @@ const ResourceTitleForm = ({
     <div className="mt-6 border bg-blue-100 rounded-md p-4">
       <div className="font-medium  flex items-center justify-between">
         <span className="text-xs">
-          Titulo del recurso
+          Contenido del recurso
           <span className="text-red-500">*</span>
         </span>
-
         <Button
           onClick={toggleEdit}
           variant='ghost'
@@ -83,22 +84,23 @@ const ResourceTitleForm = ({
         </Button>
       </div>
       {!isEditting && (
-        <p className="text-sm mt-2">
-          {initialData.title}
-        </p>
+        <div className={cn("text-sm mt-2",
+          !initialData.content && "text-slate-500 italic"
+        )}>
+          {!initialData.content && <span className="text-muted-foreground">Sin contenido</span>}
+          {initialData.content && <Preview value={initialData.content} />}
+        </div>
       )}
       {isEditting && (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
               control={form.control}
-              name="name"
+              name="content"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input
-                      disabled={isPending}
-                      placeholder="Ejemplo 'Recurso 1'"
+                    <Editor
                       {...field}
                     />
                   </FormControl>
@@ -117,9 +119,8 @@ const ResourceTitleForm = ({
           </form>
         </Form>
       )}
-
     </div>
   );
 }
 
-export default ResourceTitleForm;
+export default ResourceContentForm;

@@ -1,10 +1,12 @@
+'use server'
+
 import * as z from "zod";
-import { NewResourceFormSchema } from "../schemas";
+import { newResourceFormSchema } from "../schemas";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 
 export const createNewResource = async (
-  values: z.infer<typeof NewResourceFormSchema>,
+  values: z.infer<typeof newResourceFormSchema>,
 ) => {
   try {
     const session = await auth()

@@ -1,5 +1,17 @@
 import * as z from "zod";
 
-export const NewResourceFormSchema = z.object({
+export const newResourceFormSchema = z.object({
   title: z.string().min(3, { message: "El titulo debe tener al menos 3 caracteres" }),
+});
+
+export const resourceTitleFormSchema = z.object({
+  title: z.string().min(3, { message: "El titulo debe tener al menos 3 caracteres" }),
+});
+
+export const resourceContentFormSchema = z.object({
+  content: z.string().min(3, { message: "El contenido debe tener al menos 3 caracteres" }),
+});
+
+export const resourceImageFormSchema = z.object({
+  imageUrl: z.string().url({ message: "La URL de la imagen no es válida" }),
 });

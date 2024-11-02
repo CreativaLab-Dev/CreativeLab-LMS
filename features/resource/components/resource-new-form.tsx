@@ -18,20 +18,20 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { NewResourceFormSchema } from "../schemas"
+import { newResourceFormSchema } from "../schemas"
 import { createNewResource } from "../actions/create-new-resource"
 
 const ResourceNewForm = () => {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
-  const form = useForm<z.infer<typeof NewResourceFormSchema>>({
-    resolver: zodResolver(NewResourceFormSchema),
+  const form = useForm<z.infer<typeof newResourceFormSchema>>({
+    resolver: zodResolver(newResourceFormSchema),
     defaultValues: {
       title: ""
     }
   })
 
-  const onSubmit = (values: z.infer<typeof NewResourceFormSchema>) => {
+  const onSubmit = (values: z.infer<typeof newResourceFormSchema>) => {
     if (isPending) return
     startTransition(() => {
       createNewResource(values).then((result) => {
