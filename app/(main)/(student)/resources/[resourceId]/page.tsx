@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { getResourceById } from "@/features/resource/actions/get-resource-by-id";
+import { updateVisitOfResource } from "@/features/resource/actions/update-visits-resource";
 import ResourceDetails from "@/features/resource/components/resource-detail";
 import { redirect } from "next/navigation";
 
@@ -17,14 +17,18 @@ const ResourceIdPage = async ({
     return redirect("/");
   }
   const resourceId = params.resourceId;
-  const resource = await getResourceById(resourceId)
-  if (!resource) {
-    return redirect("/resources")
+  const updatedResource = await updateVisitOfResource(resourceId);
+
+  if (!updatedResource) {
+    return redirect("/");
   }
+
   return (
-    <ResourceDetails
-      resource={resource}
-    />
+    <div className="p-2 md:p-10">
+      <ResourceDetails
+        resource={updatedResource}
+      />
+    </div>
   );
 }
 
