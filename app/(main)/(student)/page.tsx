@@ -3,9 +3,11 @@ import HeaderPage from "@/components/ui/header-page";
 import { getDashboardCourses } from "@/features/dashboard/actions/get-dashboard-courses";
 import { getLastEvents } from "@/features/dashboard/actions/get-last-events";
 import { getLastMentors } from "@/features/dashboard/actions/get-last-mentors";
+import { getLastResources } from "@/features/dashboard/actions/get-last-resources";
 import InfoCard from "@/features/dashboard/components/info-card";
 import EventCard from "@/features/events/components/students/event-card";
 import MentorCard from "@/features/mentors/components/students/mentor-card";
+import ResourceCard from "@/features/resource/components/resource-card";
 import CoursesList from "@/features/search/components/courses-list";
 import { getMembershipActive } from "@/features/settings/actions/get-membership-active";
 
@@ -22,6 +24,7 @@ const DashboardPage = async () => {
 
   const lastEvents = await getLastEvents(session.user.id)
   const lastMentors = await getLastMentors(session.user.id)
+  const lastRecursos = await getLastResources(session.user.id)
   const membershipActive = await getMembershipActive(session.user.id)
 
   return (
@@ -33,9 +36,9 @@ const DashboardPage = async () => {
         icon="dashboard"
         iconColor="text-white"
       />
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div>
-          <div className="text-sm text-blue-500 mb-4 font-bold text-center border-b border-blue-400">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 p-4">
+        <div className="p-3 border border-blue-400 rounded-lg">
+          <div className="text-xs text-blue-500 text-center pb-1">
             Mis cursos
           </div>
           <InfoCard
@@ -54,10 +57,15 @@ const DashboardPage = async () => {
             items={[...completedCourses, ...coursesInProgress]}
           />
         </div>
-        <div>
-          <div className="text-sm text-blue-500 mb-4 font-bold text-center border-b border-blue-400">
+        <div className="p-3 border border-blue-400 rounded-lg">
+          <div className="text-xs text-blue-500 text-center pb-1">
             Proximos eventos
           </div>
+          {lastEvents.length === 0 && (
+            <div className="text-center text-gray-500 text-sm">
+              No hay eventos proximos
+            </div>
+          )}
           <div className='grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2'>
             {lastEvents.map((event) => (
               <EventCard
@@ -68,8 +76,8 @@ const DashboardPage = async () => {
             ))}
           </div>
         </div>
-        <div>
-          <div className="text-sm text-blue-500 mb-4 font-bold text-center border-b border-blue-400">
+        <div className="p-3 border border-blue-400 rounded-lg">
+          <div className="text-xs text-blue-500 text-center pb-1">
             Mentores destacados
           </div>
           <div className='grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2'>
@@ -82,22 +90,20 @@ const DashboardPage = async () => {
             ))}
           </div>
         </div>
-        <div>
-          <div className="text-sm text-blue-500 mb-4 font-bold text-center border-b border-blue-400">
-            Recursos destacados
+        <div className="p-3 border border-blue-400 rounded-lg">
+          <div className="text-xs text-blue-500 text-center pb-1">
+            Recursos recientes
           </div>
-          <div className='grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2'>
-            {lastMentors.map((mentor) => (
-              <MentorCard
-                mentor={mentor}
-                isPremium={!!membershipActive}
-                key={mentor.id}
+          <div className='space-y-4'>
+            {lastRecursos.map((resource) => (
+              <ResourceCard
+                resource={resource}
+                key={resource.id}
               />
             ))}
           </div>
         </div>
       </div>
-
     </div>
   );
 }

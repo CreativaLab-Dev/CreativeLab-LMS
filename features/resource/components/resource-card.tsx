@@ -20,7 +20,7 @@ const ResourceCard = ({
     .slice(0, 100) + ' ...';
   return (
     <div
-      className="p-4 rounded-lg shadow-lg flex flex-col md:flex-row items-start gap-4 cursor-pointer border border-blue-500 group hover:shadow-sm"
+      className="p-4 rounded-lg shadow-lg flex flex-col md:flex-row items-start gap-4 cursor-pointer border border-gray-300 group hover:shadow-sm hover:border-blue-500"
       key={resource.id}
       onClick={onClick}
     >
