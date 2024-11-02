@@ -51,20 +51,22 @@ const EventCard = ({
   return (
     <>
       <Card
-        className="max-w-md rounded-lg shadow-sm overflow-hidden border border-gray-200 transition-transform duration-300 hover:shadow-xl bg-white flex flex-col h-full"
+        className="group max-w-md rounded-lg overflow-hidden border border-gray-200 transition group-hover:shadow-sm hover:border-blue-400 bg-white flex flex-col h-full"
       >
-        {event.imageUrl && (
-          <div className="relative w-full aspect-video rounded-md overflow-auto">
-            <Image
-              fill
-              className="object-cover"
-              alt={event.title}
-              src={event.imageUrl}
-            />
-          </div>
-        )}
+        <div className="p-3">
+          {event.imageUrl && (
+            <div className="relative w-full aspect-video rounded-md overflow-auto">
+              <Image
+                fill
+                className="object-cover"
+                alt={event.title}
+                src={event.imageUrl}
+              />
+            </div>
+          )}
+        </div>
         <CardHeader className="p-4">
-          <CardTitle className="text-2xl font-semibold text-gray-800">
+          <CardTitle className="text-2xl font-semibold text-gray-800 group-hover:text-blue-500">
             {event.title}
           </CardTitle>
           <div className="flex flex-col gap-3">

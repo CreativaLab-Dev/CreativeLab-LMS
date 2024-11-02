@@ -46,21 +46,23 @@ const MentorCard = ({
   return (
     <>
       <Card
-        className="max-w-md rounded-lg shadow-sm overflow-hidden border border-gray-200 transition-transform duration-300 hover:shadow-xl bg-white flex flex-col h-full"
+        className="group max-w-md rounded-lg overflow-hidden border border-gray-200 transition-transform duration-300 hover:shadow-sm hover:border-blue-400 bg-white flex flex-col h-full"
       >
-        {mentor.imageUrl && (
-          <div className="relative w-full aspect-video rounded-md overflow-auto">
-            <Image
-              fill
-              className="object-cover"
-              alt={mentor.name}
-              src={mentor.imageUrl}
-            />
-          </div>
-        )}
+        <div className="p-3">
+          {mentor.imageUrl && (
+            <div className="relative w-full aspect-video rounded-md overflow-auto">
+              <Image
+                fill
+                className="object-cover"
+                alt={mentor.name}
+                src={mentor.imageUrl}
+              />
+            </div>
+          )}
+        </div>
         <CardHeader className="p-4">
           <CardTitle className="">
-            <div className="text-xl font-semibold text-gray-800">
+            <div className="text-xl font-semibold text-gray-800 group-hover:text-blue-500">
               {mentor.name}
             </div>
             <div className="text-gray-500 text-sm font-normal">

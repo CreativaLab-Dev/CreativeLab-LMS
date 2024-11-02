@@ -36,6 +36,7 @@ model User {
   valorations         Valoration[]
   eventParticipations EventParticipant[]
   Attendance          Attendance[]
+  ResourceFavorite    ResourceFavorite[]
   stripeCustomer      stripeCustomer?    @relation(fields: [stripeCustomerId], references: [id], onDelete: Cascade)
   student             Student?           @relation(fields: [studentId], references: [id], onDelete: Cascade)
   teacher             Teacher?           @relation(fields: [teacherId], references: [id], onDelete: Cascade)
@@ -331,4 +332,29 @@ model Mentor {
   createdAt   DateTime @default(now()) @map("created_at")
 
   @@map("mentors")
+}
+
+model Resource {
+  id               String             @id @default(cuid())
+  title            String
+  content          String?
+  url              String?
+  imageUrl         String?            @map("image_url")
+  isPublished      Boolean            @default(false) @map("is_published")
+  visitedCount     Int                @default(0) @map("visited_count")
+  updatedAt        DateTime           @updatedAt @map("updated_at")
+  createdAt        DateTime           @default(now()) @map("created_at")
+  ResourceFavorite ResourceFavorite[]
+
+  @@map("resources")
+}
+
+model ResourceFavorite {
+  id         String   @id @default(cuid())
+  userId     String   @map("user_id")
+  resourceId String   @map("resource_id")
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resource   Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  @@map("resource_favorites")
 }
