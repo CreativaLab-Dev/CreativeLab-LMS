@@ -20,7 +20,7 @@ const ResourceCard = ({
     .slice(0, 100) + ' ...';
   return (
     <div
-      className="p-4 bg-gray-800 rounded-lg shadow-lg flex flex-col md:flex-row items-start gap-4 cursor-pointer"
+      className="p-4 rounded-lg shadow-lg flex flex-col md:flex-row items-start gap-4 cursor-pointer border border-blue-500 group hover:shadow-sm"
       key={resource.id}
       onClick={onClick}
     >
@@ -35,11 +35,11 @@ const ResourceCard = ({
         </div>
       )}
       <div className="flex-1 space-y-2">
-        <h2 className="text-xl font-semibold text-white">{resource.title}</h2>
-        <p className="text-gray-400 text-sm">
+        <h2 className="text-xl font-semibold text-gray-900 group-hover:text-sky-700 transition">{resource.title}</h2>
+        <p className="text-gray-800 text-sm">
           {contentWithoutHtml(resource.content ?? '')}
         </p>
-        <div className="text-xs text-gray-500 flex items-center gap-2">
+        <div className="text-xs text-gray-600 flex items-center gap-2">
           <span>Nuevo</span>
           <span>•</span>
           <span>{resource.visitedCount} visitas</span>

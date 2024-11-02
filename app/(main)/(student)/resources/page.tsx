@@ -20,13 +20,13 @@ const ResourcesPage = async () => {
         icon="resource"
         iconColor="text-white"
       />
-      <div className="p-6">
+      <div className="p-6 max-w-5xl mx-auto">
         {resources.length === 0 && (
           <div className="text-sm p-6 text-gray-500">
             <p>No hay recursos disponibles</p>
           </div>
         )}
-        <div className="space-y-6">
+        <div className="space-y-6 ">
           {resources.map((resource) => (
             <ResourceCard
               resource={resource}

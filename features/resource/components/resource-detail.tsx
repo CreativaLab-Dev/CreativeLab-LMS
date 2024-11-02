@@ -1,6 +1,7 @@
 import Preview from "@/components/ui/preview";
 import { Resource } from "@prisma/client";
-import { Eye } from "lucide-react";
+import { ArrowLeft, Eye } from "lucide-react";
+import Link from "next/link";
 
 interface ResourceDetailsProps {
   resource: Resource;
@@ -11,6 +12,13 @@ const ResourceDetails = ({
 }: ResourceDetailsProps) => {
   return (
     <div className="max-w-3xl mx-auto p-4">
+      <Link
+        href={`/resources`}
+        className="flex itesm-center text-sm hover:opacity-75 transition mb-6"
+      >
+        <ArrowLeft className="h-4 w-4 mr-2" />
+        Regresar al listado
+      </Link>
       <h1 className="text-5xl font-bold mb-6">{resource.title}</h1>
       <div className="flex items-center justify-around mb-5 px-6 border-t py-2 border-b">
         <div className="flex gap-2 items-center justify-center">
@@ -34,7 +42,7 @@ const ResourceDetails = ({
         />
       )}
       {resource.content && (
-        <div className="prose max-w-none mb-6">
+        <div className="prose prose-img:rounded-xl prose-a:text-blue-600">
           <Preview value={resource.content} />
         </div>
       )}
