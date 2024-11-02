@@ -83,6 +83,7 @@ const ResourceOfTeacherList = ({
             <TableHead className="text-center">Miniatura</TableHead>
             <TableHead className="text-center">Titulo</TableHead>
             <TableHead className="text-center">Publicado</TableHead>
+            <TableHead className="text-center">Vistos</TableHead>
             <TableHead className="text-center">Fecha C.</TableHead>
             <TableHead className="text-center">Acciones</TableHead>
           </TableRow>
@@ -95,9 +96,9 @@ const ResourceOfTeacherList = ({
               </TableCell>
             </TableRow>
           )}
-          {resources.map((mentor, index) => (
+          {resources.map((resource, index) => (
             <TableRow
-              key={mentor.id + '-' + index}
+              key={resource.id + '-' + index}
               className={cn(
                 "h-24 md:h-52",
               )}
@@ -107,11 +108,11 @@ const ResourceOfTeacherList = ({
               </TableCell>
               <TableCell className="flex items-center justify-center">
                 <div className="w-36 h-24 md:w-80 md:h-44 relative cursor-pointer hover:scale-105 transform transition-transform"
-                  onClick={() => router.push(`/teacher/resources/${mentor.id}/edit`)}
+                  onClick={() => router.push(`/teacher/resources/${resource.id}/edit`)}
                 >
                   <Image
-                    src={mentor.imageUrl || '/placeholder.png'}
-                    alt={`image-${mentor.title}`}
+                    src={resource.imageUrl || '/placeholder.png'}
+                    alt={`image-${resource.title}`}
                     objectFit="cover"
                     fill
                     className='rounded' />
@@ -121,17 +122,18 @@ const ResourceOfTeacherList = ({
                 </div>
               </TableCell>
               <TableCell className="text-center">
-                {mentor.title}
+                {resource.title}
               </TableCell>
               <TableCell>
-                <Badge variant={mentor.isPublished ? 'published' : 'draft'}>
-                  {mentor.isPublished ? 'Publicado' : 'Oculto'}
+                <Badge variant={resource.isPublished ? 'published' : 'draft'}>
+                  {resource.isPublished ? 'Publicado' : 'Oculto'}
                 </Badge>
               </TableCell>
               <TableCell className="text-center">
-                {
-                  format(new Date(mentor.createdAt), 'dd/MM/yyyy')
-                }
+                {resource.visitedCount}
+              </TableCell>
+              <TableCell className="text-center">
+                {format(new Date(resource.createdAt), 'dd/MM/yyyy')}
               </TableCell>
               <TableCell className="text-center">
                 <TooltipContainer title='Editar'>
@@ -139,7 +141,7 @@ const ResourceOfTeacherList = ({
                     variant="link"
                     size='sm'
                     className='text-green-400 px-2'
-                    onClick={() => router.push(`/teacher/resources/${mentor.id}/edit`)}>
+                    onClick={() => router.push(`/teacher/resources/${resource.id}/edit`)}>
                     <Edit2 size={15} />
                   </Button>
                 </TooltipContainer>
