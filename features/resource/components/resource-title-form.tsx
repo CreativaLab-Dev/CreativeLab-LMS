@@ -17,17 +17,17 @@ import { Pencil } from "lucide-react";
 import { useState, useTransition } from "react";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { updateNameMentor } from "../actions/update-name-mentor";
+import { updateTitleResource } from "../actions/update-title-resource";
 
 interface ResourceTitleFormProps {
   initialData: {
     title: string;
   };
-  mentorId: string;
+  resourceId: string;
 }
 
 const ResourceTitleForm = ({
-  mentorId,
+  resourceId,
   initialData
 }: ResourceTitleFormProps) => {
   const [isPending, startTransition] = useTransition()
@@ -41,7 +41,7 @@ const ResourceTitleForm = ({
 
   const onSubmit = async (data: z.infer<typeof resourceTitleFormSchema>) => {
     startTransition(() => {
-      updateNameMentor(mentorId, data)
+      updateTitleResource(resourceId, data)
         .then((response) => {
           if (response.success) {
             setIsEditting(false);
@@ -82,41 +82,48 @@ const ResourceTitleForm = ({
           }
         </Button>
       </div>
-      {!isEditting && (
+      {!isEditting && initialData.title && (
         <p className="text-sm mt-2">
           {initialData.title}
         </p>
       )}
-      {isEditting && (
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      disabled={isPending}
-                      placeholder="Ejemplo 'Recurso 1'"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div className="flex items-center gap-x-2">
-              <Button
-                type="submit"
-                disabled={isPending}
-              >
-                Guardar
-              </Button>
-            </div>
-          </form>
-        </Form>
+      {!isEditting && !initialData.title && (
+        <p className="text-xs mt-2 text-gray-500">
+          {initialData.title}
+        </p>
       )}
+      {
+        isEditting && (
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <FormField
+                control={form.control}
+                name="title"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        disabled={isPending}
+                        placeholder="Ejemplo 'Alber Einstein'"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="flex items-center gap-x-2">
+                <Button
+                  type="submit"
+                  disabled={isPending}
+                >
+                  Guardar
+                </Button>
+              </div>
+            </form>
+          </Form>
+        )
+      }
 
     </div>
   );

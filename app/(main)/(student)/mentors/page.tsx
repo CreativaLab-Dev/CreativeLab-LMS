@@ -39,7 +39,6 @@ const MentorPage = async () => {
           />
         ))}
       </div>
-
     </div>
   );
 }

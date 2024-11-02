@@ -26,6 +26,9 @@ export const ourFileRouter = {
   mentorImage: f({ image: { maxFileSize: "4MB" } })
     .middleware(async () => handleAuth())
     .onUploadComplete(() => { }),
+  resourceImage: f({ image: { maxFileSize: "4MB" } })
+    .middleware(async () => handleAuth())
+    .onUploadComplete(() => { }),
   userAvatar: f({ image: { maxFileSize: "4MB" } })
     .middleware(async () => handleAuth())
     .onUploadComplete(() => { }),
