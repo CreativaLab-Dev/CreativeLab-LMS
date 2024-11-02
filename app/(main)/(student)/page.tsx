@@ -36,7 +36,7 @@ const DashboardPage = async () => {
         icon="dashboard"
         iconColor="text-white"
       />
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 p-4">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-6 p-4">
         <div className="p-3 border border-blue-400 rounded-lg">
           <div className="text-xs text-blue-500 text-center pb-1">
             Mis cursos
