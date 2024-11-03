@@ -7,6 +7,7 @@ interface CourseProgressProps {
   value: number;
   variant?: "success" | "default";
   size?: "default" | "sm"
+  isMain?: boolean
 }
 
 const colorByVariant = {
@@ -16,13 +17,14 @@ const colorByVariant = {
 
 const sizeByVariant = {
   default: "text-sm",
-  sm: "text-xs"
+  sm: "text-xs",
 }
 
 const CourseProgress = ({
   value,
   size,
-  variant
+  variant,
+  isMain = false
 }: CourseProgressProps) => {
   return (
     <div>
@@ -32,9 +34,10 @@ const CourseProgress = ({
         value={value}
       />
       <p className={cn(
-        "font-medium mt-2 text-sky-700",
+        "font-medium mt-2",
         colorByVariant[variant || 'default'],
-        sizeByVariant[size || 'default']
+        sizeByVariant[size || 'default'],
+        !isMain ? "text-sky-700" : "text-sky-100"
       )}>
         {Math.round(value)}% Completado
       </p>

@@ -4,13 +4,13 @@ import { db } from "@/lib/db"
 
 export const getResourcesPublished = async (userId: string) => {
   try {
-    const teacher = await db.teacher.findFirst({
+    const student = await db.student.findFirst({
       where: {
         userId
       }
     })
 
-    if (!teacher) {
+    if (!student) {
       return []
     }
 
@@ -22,7 +22,7 @@ export const getResourcesPublished = async (userId: string) => {
 
     return resources
   } catch (error) {
-    console.log("[GET_RESOURCE_OF_TEACHER_ERROR]", error)
+    console.log("[GET_RESOURCE_PUBLISHED_ERROR]", error)
     return []
   }
 }
