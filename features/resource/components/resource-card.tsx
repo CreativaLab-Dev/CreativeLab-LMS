@@ -4,6 +4,12 @@ import { Resource } from "@prisma/client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
+const levelMap = {
+  'intermediate': 'Intermedio',
+  'advanced': 'Avanzado',
+  'beginner': 'Principiante',
+}
+
 interface ResourceCardProps {
   resource: Resource;
 }
@@ -15,34 +21,47 @@ const ResourceCard = ({
   const onClick = () => {
     router.push(`/resources/${resource.id}`);
   }
-  const contentWithoutHtml = (content: string) => content
-    .replace(/<[^>]*>?/gm, "")
-    .slice(0, 100) + ' ...';
+  const levelText = levelMap[resource.nivel as keyof typeof levelMap] ?? 'Principiante';
   return (
     <div
-      className="p-4 rounded-lg shadow-lg flex flex-col md:flex-row items-start gap-4 cursor-pointer border border-gray-300 group hover:shadow-sm hover:border-blue-500"
-      key={resource.id}
+      className="group w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg hover:shadow-md cursor-pointer overflow-hidden hover:border-blue-500 transition"
       onClick={onClick}
+      key={resource.id}
     >
-      {resource.imageUrl && (
-        <div className="flex-shrink-0 w-24 h-24 md:w-32 md:h-32 relative">
-          <Image
-            src={resource.imageUrl}
-            alt={resource.title}
-            layout="fill"
-            className="rounded-md object-cover"
-          />
-        </div>
-      )}
-      <div className="flex-1 space-y-2">
-        <h2 className="text-xl font-semibold text-gray-900 group-hover:text-sky-700 transition">{resource.title}</h2>
-        <p className="text-gray-800 text-sm">
-          {contentWithoutHtml(resource.content ?? '')}
-        </p>
-        <div className="text-xs text-gray-600 flex items-center gap-2">
-          <span>Nuevo</span>
-          <span>•</span>
-          <span>{resource.visitedCount} visitas</span>
+      {/* Image Section */}
+      <div className="p-3">
+        {resource.imageUrl && (
+          <div className="relative w-full h-60">
+            <Image
+              src={resource.imageUrl}
+              alt={resource.title}
+              layout="fill"
+              className="object-cover w-full h-full"
+            />
+          </div>
+        )}
+      </div>
+
+      {/* Content Section */}
+      <div className="p-4 flex flex-col gap-2">
+        {/* Title */}
+        <h2 className="text-lg font-semibold text-gray-900 group-hover:text-blue-500 transition">
+          {resource.title}
+        </h2>
+
+        {/* Category */}
+        {resource.category && (
+          <span className="text-xs bg-gray-200 text-gray-600 rounded-full px-2 py-1 inline-block">
+            {resource.category}
+          </span>
+        )}
+
+        {/* Footer with Price */}
+        <div className="flex items-center justify-between mt-4">
+          <span className="text-gray-700 font-medium">
+            {resource.price ? `${resource.price} $` : 'Gratis'}
+          </span>
+          <span className="text-xs text-gray-500">{levelText}</span>
         </div>
       </div>
     </div>

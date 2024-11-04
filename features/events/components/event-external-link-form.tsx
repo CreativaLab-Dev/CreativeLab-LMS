@@ -2,11 +2,9 @@
 
 import * as z from "zod"
 import { useForm } from "react-hook-form";
-import { useState, useTransition } from "react";
+import { EventExternalLinkSchema } from "../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { Pencil } from "lucide-react";
-import { toast } from "sonner";
 import {
   Form,
   FormControl,
@@ -15,42 +13,39 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import Editor from "@/components/ui/editor";
-import Preview from "@/components/ui/preview";
-import { updateContentResource } from "../actions/update-content-resource";
-import { resourceContentFormSchema } from "../schemas";
+import { Pencil } from "lucide-react";
+import { useState, useTransition } from "react";
+import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+import { updateExternalLinkEvent } from "../actions/update-external-link-event";
 
-interface ResourceContentFormProps {
+interface EventExternalLinkFormProps {
   initialData: {
-    description: string;
+    externalLink: string;
   };
-  resourceId: string;
+  eventId: string;
 }
 
-const ResourceDescriptionForm = ({
-  resourceId,
-  initialData
-}: ResourceContentFormProps) => {
+const EventExternalLinkForm = ({ eventId, initialData }: EventExternalLinkFormProps) => {
   const [isPending, startTransition] = useTransition()
   const [isEditting, setIsEditting] = useState(false);
 
   const router = useRouter();
-  const form = useForm<z.infer<typeof resourceContentFormSchema>>({
-    resolver: zodResolver(resourceContentFormSchema),
+  const form = useForm<z.infer<typeof EventExternalLinkSchema>>({
+    resolver: zodResolver(EventExternalLinkSchema),
     defaultValues: initialData
   });
 
-  const onSubmit = async (data: z.infer<typeof resourceContentFormSchema>) => {
+  const onSubmit = async (data: z.infer<typeof EventExternalLinkSchema>) => {
     startTransition(() => {
-      updateContentResource(resourceId, data)
+      updateExternalLinkEvent(eventId, data)
         .then((response) => {
           if (response.success) {
             setIsEditting(false);
-            toast.success("Descripcion actualizada");
+            toast.success("Link externo actualizado correctamente");
             router.refresh();
           } else {
-            toast.error(response?.error ?? 'Error al actualizar la descripcion');
+            toast.error(response?.error ?? 'Error al actualizar el link externo');
           }
         })
     })
@@ -61,9 +56,10 @@ const ResourceDescriptionForm = ({
     <div className="mt-6 border bg-blue-100 rounded-md p-4">
       <div className="font-medium  flex items-center justify-between">
         <span className="text-xs">
-          Contenido del recurso
+          Enlace externo
           <span className="text-red-500">*</span>
         </span>
+
         <Button
           onClick={toggleEdit}
           variant='ghost'
@@ -83,24 +79,33 @@ const ResourceDescriptionForm = ({
           }
         </Button>
       </div>
-      {!isEditting && (
-        <div className={cn("text-sm mt-2",
-          !initialData.description && "text-slate-500 italic"
-        )}>
-          {!initialData.description && <span className="text-muted-foreground">Sin contenido</span>}
-          {initialData.description && <Preview value={initialData.description} />}
-        </div>
+      {!isEditting && !initialData.externalLink && (
+        <p className="text-xs text-gray-500 mt-2">
+          No se ha agregado un link externo
+        </p>
+      )}
+      {!isEditting && initialData.externalLink && (
+        <a
+          className="text-xs mt-2 text-blue-500"
+          href={initialData.externalLink}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {initialData.externalLink}
+        </a>
       )}
       {isEditting && (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
               control={form.control}
-              name="description"
+              name="externalLink"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Editor
+                    <Input
+                      disabled={isPending}
+                      placeholder="Ejemplo 'https://www.example.com'"
                       {...field}
                     />
                   </FormControl>
@@ -119,8 +124,9 @@ const ResourceDescriptionForm = ({
           </form>
         </Form>
       )}
+
     </div>
   );
 }
 
-export default ResourceDescriptionForm;
+export default EventExternalLinkForm;

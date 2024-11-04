@@ -5,13 +5,11 @@ import {
   CardHeader,
   CardFooter,
   CardTitle,
-  CardDescription,
   CardContent
 } from "@/components/ui/card";
 import Image from "next/image";
 import { Mentor } from "@prisma/client";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 import { usePremium } from "@/hooks/use-premium";
 import { Badge } from "@/components/ui/badge";
 import { LinkedInLogoIcon, TwitterLogoIcon } from "@radix-ui/react-icons";
@@ -28,13 +26,11 @@ const MentorCard = ({
 }: EventCardProps) => {
   const [SalesPlans, openPlans] = usePremium()
 
-  const router = useRouter()
-
   const onClick = () => {
     if (!isPremium) {
       openPlans()
     } else {
-      router.push(`/events/${mentor.id}`)
+      window.open(mentor.externaLink ?? '', '_blank')
     }
   }
 
@@ -71,7 +67,7 @@ const MentorCard = ({
             <div className="text-gray-500 text-xs font-normal underline">
               {mentor.email}
             </div>
-            <div className="py-3">
+            <div className="py-3 flex gap-2">
               {mentor.linkedinUrl && (
                 <LinkedInLogoIcon
                   onClick={() => onClickSocialNetwork(mentor.linkedinUrl)}

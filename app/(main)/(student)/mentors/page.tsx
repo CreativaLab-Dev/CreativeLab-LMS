@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import HeaderPage from "@/components/ui/header-page";
-import { getEventsPublished } from "@/features/events/actions/get-events-published";
+import { getEventsNewPublished } from "@/features/events/actions/get-events-new-published";
 import EventCard from "@/features/events/components/students/event-card";
 import { getMentorsPublished } from "@/features/mentors/actions/students/get-mentors-published";
 import MentorCard from "@/features/mentors/components/students/mentor-card";

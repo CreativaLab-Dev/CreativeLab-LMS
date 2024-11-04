@@ -2,14 +2,16 @@ import Link from "next/link"
 import { redirect } from "next/navigation"
 import { Banner } from "@/components/ui/banner"
 import { IconBadge } from "@/components/ui/icon-badge"
-import { ArrowLeft, LayoutGrid } from "lucide-react"
-import MentorActions from "@/features/mentors/components/mentor-actions"
-import MentorImageForm from "@/features/mentors/components/mentor-image-form"
+import { ArrowLeft, CheckIcon, DollarSign, LayoutGrid, Link2Icon } from "lucide-react"
 import { getResourceById } from "@/features/resource/actions/get-resource-by-id"
 import ResourceTitleForm from "@/features/resource/components/resource-title-form"
-import ResourceContentForm from "@/features/resource/components/resource-content-form"
+import ResourceDescriptionForm from "@/features/resource/components/resource-content-form"
 import ResourceImageForm from "@/features/resource/components/resource-image-form"
 import ResourceActions from "@/features/resource/components/resource-actions"
+import ResourcePriceForm from "@/features/resource/components/resource-price-form"
+import ResourceLevelForm from "@/features/resource/components/resource-level-form"
+import ResourceExternalLinkForm from "@/features/resource/components/resource-external-link-form"
+import ResourceCategoryForm from "@/features/resource/components/resource-category-form"
 
 type ResourceIdPageProps = {
   params: {
@@ -28,8 +30,10 @@ export default async function ResourceIdPage({
 
   const requiredField = [
     resource.title,
-    resource.content,
+    resource.description,
     resource.imageUrl,
+    resource.url,
+    resource.price !== null,
   ]
 
   const totalFields = requiredField.length;
@@ -82,15 +86,57 @@ export default async function ResourceIdPage({
             resourceId={resource.id}
             initialData={{ title: resource.title }}
           />
+          <ResourceDescriptionForm
+            resourceId={resource.id}
+            initialData={{ description: resource.description || '' }}
+          />
+          <ResourceLevelForm
+            resourceId={resource.id}
+            initialData={resource}
+            options={[
+              { value: 'beginner', label: 'Principiante' },
+              { value: 'intermediate', label: 'Intermedio' },
+              { value: 'advanced', label: 'Avanzado' },
+            ]}
+          />
           <ResourceImageForm
             resourceId={resource.id}
             initialData={{ imageUrl: resource.imageUrl || '' }}
           />
         </div>
         <div>
-          <ResourceContentForm
+          <div className="flex items-center gap-x-2">
+            <IconBadge
+              icon={DollarSign} />
+            <h2 className="text-xl">
+              Precio
+            </h2>
+          </div>
+          <ResourcePriceForm
             resourceId={resource.id}
-            initialData={{ content: resource.content || '' }}
+            initialData={{ price: resource.price }}
+          />
+          <div className="flex items-center gap-x-2 mt-4">
+            <IconBadge
+              icon={Link2Icon} />
+            <h2 className="text-xl">
+              Enlace externo
+            </h2>
+          </div>
+          <ResourceExternalLinkForm
+            resourceId={resource.id}
+            initialData={{ url: resource.url || '' }}
+          />
+          <div className="flex items-center gap-x-2 mt-4">
+            <IconBadge
+              icon={CheckIcon} />
+            <h2 className="text-xl">
+              Categoria
+            </h2>
+          </div>
+          <ResourceCategoryForm
+            resourceId={resource.id}
+            initialData={{ category: resource.category || '' }}
           />
         </div>
       </div>

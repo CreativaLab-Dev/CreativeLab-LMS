@@ -65,14 +65,14 @@ const teacherRoutes = [
     href: "/teacher/mentors",
   },
   {
-    label: "Estadisticas",
-    icon: BarChart2,
-    href: "/teacher/history",
-  },
-  {
     icon: Book,
     label: "Recursos",
     href: "/teacher/resources",
+  },
+  {
+    label: "Estadisticas",
+    icon: BarChart2,
+    href: "/teacher/statistics",
   },
 ]
 
@@ -90,6 +90,10 @@ const SidebarRoutes = ({
   const isTeacherPage = pathname.includes("/teacher")
   const routes = isTeacherPage ? teacherRoutes : studentRoutes;
 
+  const currentYear = new Date().getFullYear();
+
+  const statisticsRoute = (href: string) => href.includes("statistics") ? `${href}?year=${currentYear}` : href;
+
   return (
     <div className="flex flex-col justify-between h-full">
       <div className="flex flex-col">
@@ -98,7 +102,7 @@ const SidebarRoutes = ({
             key={index}
             icon={route.icon}
             label={route.label}
-            href={route.href}
+            href={statisticsRoute(route.href)}
           />
         ))}
       </div>
@@ -120,7 +124,7 @@ const SidebarRoutes = ({
             key={index}
             icon={route.icon}
             label={route.label}
-            href={route.href}
+            href={statisticsRoute(route.href)}
           />
         ))}
       </div>

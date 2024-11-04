@@ -86,94 +86,102 @@ const MentorSocialNetworksForm = ({
           }
         </Button>
       </div>
-      {!isEditting && initialData.linkedinUrl && (
-        <a
-          href={initialData.linkedinUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-500 underline text-xs">
-          {initialData.linkedinUrl}
-        </a>
-      )}
-      {!isEditting && !initialData.linkedinUrl && !initialData.twitterUrl && (
-        <p className="text-xs text-gray-500">
-          No se ha configurado ninguna red social
-        </p>
-      )}
-      {!isEditting && initialData.twitterUrl && (
-        <a
-          href={initialData.twitterUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-500 underline text-xs">
-          {initialData.twitterUrl}
-        </a>
-      )}
-      {
-        isEditting && (
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-4"
-            >
-              <FormField
-                control={form.control}
-                name="linkedinUrl"
-                render={({ field }) => (
-                  <FormItem
-                    className="flex flex-row items-center space-x-3 space-y-0 rounded-md border p-3"
-                  >
-                    <div className="flex itesm-center justify-center">
-                      <FormDescription>
-                        <LinkedInLogoIcon className="h-4 w-4 mr-2" />
-                      </FormDescription>
-                    </div>
-                    <FormControl>
-                      <Input
-                        disabled={isPending}
-                        placeholder="https://linkedin.com/in/alber-einstein"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="twitterUrl"
-                render={({ field }) => (
-                  <FormItem
-                    className="flex flex-row items-center space-x-3 space-y-0 rounded-md border p-3"
-                  >
-                    <div className="flex itesm-center justify-center">
-                      <FormDescription>
-                        <TwitterLogoIcon className="h-4 w-4" />
-                      </FormDescription>
-                    </div>
-                    <FormControl>
-                      <Input
-                        disabled={isPending}
-                        placeholder="https://twitter.com/alber-einstein"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="flex items-center gap-x-2">
-                <Button
-                  type="submit"
-                  disabled={isPending}
+      <div className="flex flex-col gap-2">
+        {!isEditting && initialData.linkedinUrl && (
+          <div className="flex items-center gap-x-2">
+            <LinkedInLogoIcon className="h-4 w-4 mr-2" />
+            <a
+              href={initialData.linkedinUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline text-xs">
+              {initialData.linkedinUrl}
+            </a>
+          </div>
+
+        )}
+        {!isEditting && !initialData.linkedinUrl && !initialData.twitterUrl && (
+          <p className="text-xs text-gray-500">
+            No se ha configurado ninguna red social
+          </p>
+        )}
+        {!isEditting && initialData.twitterUrl && (
+          <div className="flex items-center gap-x-2">
+            <TwitterLogoIcon className="h-4 w-4 mr-2" />
+            <a
+              href={initialData.twitterUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline text-xs">
+              {initialData.twitterUrl}
+            </a>
+          </div>
+
+        )}
+      </div>
+      {isEditting && (
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-4"
+          >
+            <FormField
+              control={form.control}
+              name="linkedinUrl"
+              render={({ field }) => (
+                <FormItem
+                  className="flex flex-row items-center space-x-3 space-y-0 rounded-md border p-3"
                 >
-                  Guardar
-                </Button>
-              </div>
-            </form>
-          </Form>
-        )
-      }
+                  <div className="flex itesm-center justify-center">
+                    <FormDescription>
+                      <LinkedInLogoIcon className="h-4 w-4" />
+                    </FormDescription>
+                  </div>
+                  <FormControl>
+                    <Input
+                      disabled={isPending}
+                      placeholder="https://linkedin.com/in/alber-einstein"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="twitterUrl"
+              render={({ field }) => (
+                <FormItem
+                  className="flex flex-row items-center space-x-3 space-y-0 rounded-md border p-3"
+                >
+                  <div className="flex itesm-center justify-center">
+                    <FormDescription>
+                      <TwitterLogoIcon className="h-4 w-4" />
+                    </FormDescription>
+                  </div>
+                  <FormControl>
+                    <Input
+                      disabled={isPending}
+                      placeholder="https://twitter.com/alber-einstein"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="flex items-center gap-x-2">
+              <Button
+                type="submit"
+                disabled={isPending}
+              >
+                Guardar
+              </Button>
+            </div>
+          </form>
+        </Form>
+      )}
     </div>
   );
 }
