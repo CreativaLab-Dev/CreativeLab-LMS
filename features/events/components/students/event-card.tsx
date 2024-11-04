@@ -12,12 +12,9 @@ import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { Event } from "@prisma/client";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 import EventGoogleMap from "../event-google-map";
 import { usePremium } from "@/hooks/use-premium";
 import { Badge } from "@/components/ui/badge";
-import { useState } from "react";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import CollapsibleDescription from "@/components/ui/collapsible-description";
 
 const typeTextMap = {
@@ -37,13 +34,11 @@ const EventCard = ({
 }: EventCardProps) => {
   const [SalesPlans, openPlans] = usePremium()
 
-  const router = useRouter()
-
   const onClick = () => {
     if (!isPremium) {
       openPlans()
     } else {
-      router.push(`/events/${event.id}`)
+      window.open(event.link ?? '', '_blank')
     }
   }
 

@@ -271,6 +271,7 @@ model Event {
   isPublished  Boolean            @default(false) @map("is_published")
   isFree       Boolean            @default(false) @map("is_free")
   link         String?
+  externalLink String?            @map("external_link")
   type         EventType?
   organizer    String?
   updatedAt    DateTime           @updatedAt @map("updated_at")

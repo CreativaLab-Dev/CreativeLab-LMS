@@ -59,7 +59,7 @@ const MentorNameForm = ({
     <div className="mt-6 border bg-blue-100 rounded-md p-4">
       <div className="font-medium  flex items-center justify-between">
         <span className="text-xs">
-          Titulo del recurso
+          Nombre del mentor
           <span className="text-red-500">*</span>
         </span>
 

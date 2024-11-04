@@ -59,7 +59,7 @@ const ResourceCard = ({
         {/* Footer with Price */}
         <div className="flex items-center justify-between mt-4">
           <span className="text-gray-700 font-medium">
-            {resource.price ? `${resource.price} €` : 'Gratis'}
+            {resource.price ? `${resource.price} $` : 'Gratis'}
           </span>
           <span className="text-xs text-gray-500">{levelText}</span>
         </div>
