@@ -65,14 +65,14 @@ const teacherRoutes = [
     href: "/teacher/mentors",
   },
   {
-    label: "Estadisticas",
-    icon: BarChart2,
-    href: "/teacher/history",
-  },
-  {
     icon: Book,
     label: "Recursos",
     href: "/teacher/resources",
+  },
+  {
+    label: "Estadisticas",
+    icon: BarChart2,
+    href: "/teacher/history",
   },
 ]
 

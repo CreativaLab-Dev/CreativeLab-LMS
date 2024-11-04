@@ -2,7 +2,7 @@
 
 import * as z from "zod"
 import { useForm } from "react-hook-form";
-import { resourcePriceFormSchema } from "../schemas";
+import { resourceUrlFormSchema } from "../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import {
@@ -13,44 +13,42 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Button } from "@/components/ui/button";
-import { DollarSign, Pencil } from "lucide-react";
+import { Pencil } from "lucide-react";
 import { useState, useTransition } from "react";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { updatePriceResource } from "../actions/update-price-resource";
+import { updateExternalLinkResource } from "../actions/update-external-link-resource";
 
-interface ResourcePriceFormProps {
+interface ResourceExternalLinkFormProps {
   initialData: {
-    price: number | null;
+    url: string;
   };
   resourceId: string;
 }
 
-const ResourcePriceForm = ({
+const ResourceExternalLinkForm = ({
   resourceId,
   initialData
-}: ResourcePriceFormProps) => {
+}: ResourceExternalLinkFormProps) => {
   const [isPending, startTransition] = useTransition()
   const [isEditting, setIsEditting] = useState(false);
 
   const router = useRouter();
-  const form = useForm<z.infer<typeof resourcePriceFormSchema>>({
-    resolver: zodResolver(resourcePriceFormSchema),
-    defaultValues: {
-      price: `${initialData.price ?? ''}`,
-    }
+  const form = useForm<z.infer<typeof resourceUrlFormSchema>>({
+    resolver: zodResolver(resourceUrlFormSchema),
+    defaultValues: initialData
   });
 
-  const onSubmit = async (data: z.infer<typeof resourcePriceFormSchema>) => {
+  const onSubmit = async (data: z.infer<typeof resourceUrlFormSchema>) => {
     startTransition(() => {
-      updatePriceResource(resourceId, data)
+      updateExternalLinkResource(resourceId, data)
         .then((response) => {
           if (response.success) {
             setIsEditting(false);
-            toast.success("Precio actualizado correctamente");
+            toast.success("Enlace externo actualizado correctamente");
             router.refresh();
           } else {
-            toast.error(response?.error ?? 'Error al actualizar el precio');
+            toast.error(response?.error ?? 'Error al actualizar el enlace externo');
           }
         })
     })
@@ -61,7 +59,7 @@ const ResourcePriceForm = ({
     <div className="mt-6 border bg-blue-100 rounded-md p-4">
       <div className="font-medium  flex items-center justify-between">
         <span className="text-xs">
-          Precio del recurso
+          Enlace externo
           <span className="text-red-500">*</span>
         </span>
 
@@ -69,35 +67,29 @@ const ResourcePriceForm = ({
           onClick={toggleEdit}
           variant='ghost'
         >
-          {
-            isEditting && (
-              <>Cancel</>
-            )
-          }
-          {
-            !isEditting && (
-              <>
-                <Pencil className="h-4 w-4 mr-2" />
-                Editar
-              </>
-            )
-          }
+          {isEditting && (
+            <>Cancel</>
+          )}
+          {!isEditting && (
+            <>
+              <Pencil className="h-4 w-4 mr-2" />
+              Editar
+            </>
+          )}
         </Button>
       </div>
-      {!isEditting && initialData.price && (
-        <div className="flex items-center gap-2">
-          {/* <DollarSign className="h-4 w-4" /> */}
-          <p className="text-sm">
-            {initialData.price.toLocaleString('en-US', {
-              style: 'currency',
-              currency: 'USD',
-            })}
-          </p>
-        </div>
+      {!isEditting && initialData.url && (
+        <a className="text-xs mt-2 text-blue-500 cursor-pointer"
+          target="_blank"
+          rel="noopener noreferrer"
+          href={initialData.url}
+        >
+          {initialData.url}
+        </a>
       )}
-      {!isEditting && !initialData.price && initialData.price !== 0 && (
+      {!isEditting && !initialData.url && (
         <p className="text-xs mt-2 text-gray-500">
-          No hay precio asignado
+          No se ha agregado un enlace externo
         </p>
       )}
       {
@@ -106,14 +98,13 @@ const ResourcePriceForm = ({
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
                 control={form.control}
-                name="price"
+                name="url"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
                       <Input
                         disabled={isPending}
-                        placeholder="Ejemplo '20'"
-                        type='number'
+                        placeholder="https://example.com"
                         {...field}
                       />
                     </FormControl>
@@ -138,4 +129,4 @@ const ResourcePriceForm = ({
   );
 }
 
-export default ResourcePriceForm;
+export default ResourceExternalLinkForm;

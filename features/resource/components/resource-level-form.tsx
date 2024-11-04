@@ -2,7 +2,7 @@
 
 import * as z from "zod"
 import { useForm } from "react-hook-form";
-import { resourcePriceFormSchema } from "../schemas";
+import { resourceLevelFormSchema } from "../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import {
@@ -13,65 +13,68 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Button } from "@/components/ui/button";
-import { DollarSign, Pencil } from "lucide-react";
+import { Pencil } from "lucide-react";
 import { useState, useTransition } from "react";
-import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { updatePriceResource } from "../actions/update-price-resource";
+import { Resource } from "@prisma/client";
+import { cn } from "@/lib/utils";
+import { Combobox } from "@/components/ui/combobox";
+import { updateLevelResource } from "../actions/update-level-resource";
 
-interface ResourcePriceFormProps {
-  initialData: {
-    price: number | null;
-  };
+interface ResourceLevelFormProps {
+  initialData: Resource
   resourceId: string;
+  options: { label: string, value: string }[]
 }
 
-const ResourcePriceForm = ({
+const ResourceLevelForm = ({
   resourceId,
-  initialData
-}: ResourcePriceFormProps) => {
+  initialData,
+  options
+}: ResourceLevelFormProps) => {
   const [isPending, startTransition] = useTransition()
   const [isEditting, setIsEditting] = useState(false);
 
   const router = useRouter();
-  const form = useForm<z.infer<typeof resourcePriceFormSchema>>({
-    resolver: zodResolver(resourcePriceFormSchema),
+  const form = useForm<z.infer<typeof resourceLevelFormSchema>>({
+    resolver: zodResolver(resourceLevelFormSchema),
     defaultValues: {
-      price: `${initialData.price ?? ''}`,
+      level: ''
     }
   });
 
-  const onSubmit = async (data: z.infer<typeof resourcePriceFormSchema>) => {
+  const onSubmit = async (data: z.infer<typeof resourceLevelFormSchema>) => {
     startTransition(() => {
-      updatePriceResource(resourceId, data)
+      updateLevelResource(resourceId, data)
         .then((response) => {
           if (response.success) {
             setIsEditting(false);
-            toast.success("Precio actualizado correctamente");
+            toast.success("Nivel de recurso actualizado");
             router.refresh();
           } else {
-            toast.error(response?.error ?? 'Error al actualizar el precio');
+            toast.error(response?.error ?? 'Error al actualizar el nivel del recurso');
           }
         })
     })
   };
 
   const toggleEdit = () => setIsEditting((current) => !current);
+  const selectedOption = options.find((option) => option.value === initialData.nivel);
+
   return (
     <div className="mt-6 border bg-blue-100 rounded-md p-4">
       <div className="font-medium  flex items-center justify-between">
         <span className="text-xs">
-          Precio del recurso
+          Nivel de recurso
           <span className="text-red-500">*</span>
         </span>
-
         <Button
           onClick={toggleEdit}
           variant='ghost'
         >
           {
             isEditting && (
-              <>Cancel</>
+              <>Cancelar</>
             )
           }
           {
@@ -84,36 +87,27 @@ const ResourcePriceForm = ({
           }
         </Button>
       </div>
-      {!isEditting && initialData.price && (
-        <div className="flex items-center gap-2">
-          {/* <DollarSign className="h-4 w-4" /> */}
-          <p className="text-sm">
-            {initialData.price.toLocaleString('en-US', {
-              style: 'currency',
-              currency: 'USD',
-            })}
+      {
+        !isEditting && (
+          <p className={cn("text-sm mt-2",
+            !initialData?.nivel && "text-slate-500 italic"
+          )}>
+            {selectedOption?.label || <span className="text-muted-foreground">Sin nivel</span>}
           </p>
-        </div>
-      )}
-      {!isEditting && !initialData.price && initialData.price !== 0 && (
-        <p className="text-xs mt-2 text-gray-500">
-          No hay precio asignado
-        </p>
-      )}
+        )
+      }
       {
         isEditting && (
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
                 control={form.control}
-                name="price"
+                name="level"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input
-                        disabled={isPending}
-                        placeholder="Ejemplo '20'"
-                        type='number'
+                      <Combobox
+                        options={options}
                         {...field}
                       />
                     </FormControl>
@@ -138,4 +132,4 @@ const ResourcePriceForm = ({
   );
 }
 
-export default ResourcePriceForm;
+export default ResourceLevelForm;

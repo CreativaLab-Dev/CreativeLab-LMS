@@ -47,10 +47,10 @@ const ResourceDescriptionForm = ({
         .then((response) => {
           if (response.success) {
             setIsEditting(false);
-            toast.success("Contenido actualizada");
+            toast.success("Descripcion actualizada");
             router.refresh();
           } else {
-            toast.error(response?.error ?? 'Error al actualizar el contenido');
+            toast.error(response?.error ?? 'Error al actualizar la descripcion');
           }
         })
     })

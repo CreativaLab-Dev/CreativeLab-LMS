@@ -3,11 +3,11 @@
 import * as z from "zod"
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
-import { resourceContentFormSchema } from "../schemas";
+import { resourceUrlFormSchema } from "../schemas";
 
-export const updateContentResource = async (
+export const updateExternalLinkResource = async (
   resourceId: string,
-  values: z.infer<typeof resourceContentFormSchema>
+  values: z.infer<typeof resourceUrlFormSchema>
 ) => {
   try {
     const session = await auth()
@@ -29,13 +29,13 @@ export const updateContentResource = async (
         id: resourceId
       },
       data: {
-        description: values.description,
+        url: values.url,
       }
     })
 
     return { success: true }
   } catch (error) {
-    console.error("[UPDATE_CONTENT_RESOURCE]", error)
+    console.error("[UPDATE_TITLE_RESOURCE]", error)
     return { error: "Algo salió mal" }
   }
 };

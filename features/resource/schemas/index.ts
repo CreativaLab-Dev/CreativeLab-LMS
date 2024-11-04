@@ -19,3 +19,16 @@ export const resourceImageFormSchema = z.object({
 export const resourcePriceFormSchema = z.object({
   price: z.string().min(1, { message: "El precio es obligatorio" }),
 });
+
+
+export const resourceLevelFormSchema = z.object({
+  level: z.string().min(1, { message: "El nivel es obligatorio" }),
+});
+
+export const resourceUrlFormSchema = z.object({
+  url: z.string().url({ message: "La URL no es válida" }),
+});
+
+export const resourceCategoryFormSchema = z.object({
+  category: z.string().min(3, { message: "Categoria es obligatorio" }),
+});
