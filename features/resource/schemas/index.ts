@@ -9,9 +9,13 @@ export const resourceTitleFormSchema = z.object({
 });
 
 export const resourceContentFormSchema = z.object({
-  content: z.string().min(3, { message: "El contenido debe tener al menos 3 caracteres" }),
+  description: z.string().min(3, { message: "La description debe tener al menos 3 caracteres" }),
 });
 
 export const resourceImageFormSchema = z.object({
   imageUrl: z.string().url({ message: "La URL de la imagen no es válida" }),
+});
+
+export const resourcePriceFormSchema = z.object({
+  price: z.string().min(1, { message: "El precio es obligatorio" }),
 });

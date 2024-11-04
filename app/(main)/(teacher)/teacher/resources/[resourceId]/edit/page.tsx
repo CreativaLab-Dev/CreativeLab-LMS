@@ -7,9 +7,10 @@ import MentorActions from "@/features/mentors/components/mentor-actions"
 import MentorImageForm from "@/features/mentors/components/mentor-image-form"
 import { getResourceById } from "@/features/resource/actions/get-resource-by-id"
 import ResourceTitleForm from "@/features/resource/components/resource-title-form"
-import ResourceContentForm from "@/features/resource/components/resource-content-form"
+import ResourceDescriptionForm from "@/features/resource/components/resource-content-form"
 import ResourceImageForm from "@/features/resource/components/resource-image-form"
 import ResourceActions from "@/features/resource/components/resource-actions"
+import ResourcePriceForm from "@/features/resource/components/resource-price-form"
 
 type ResourceIdPageProps = {
   params: {
@@ -28,7 +29,7 @@ export default async function ResourceIdPage({
 
   const requiredField = [
     resource.title,
-    resource.content,
+    resource.description,
     resource.imageUrl,
   ]
 
@@ -82,15 +83,19 @@ export default async function ResourceIdPage({
             resourceId={resource.id}
             initialData={{ title: resource.title }}
           />
+          <ResourceDescriptionForm
+            resourceId={resource.id}
+            initialData={{ description: resource.description || '' }}
+          />
           <ResourceImageForm
             resourceId={resource.id}
             initialData={{ imageUrl: resource.imageUrl || '' }}
           />
         </div>
         <div>
-          <ResourceContentForm
+          <ResourcePriceForm
             resourceId={resource.id}
-            initialData={{ content: resource.content || '' }}
+            initialData={{ price: resource.price }}
           />
         </div>
       </div>

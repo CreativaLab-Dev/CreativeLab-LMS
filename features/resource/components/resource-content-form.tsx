@@ -23,12 +23,12 @@ import { resourceContentFormSchema } from "../schemas";
 
 interface ResourceContentFormProps {
   initialData: {
-    content: string;
+    description: string;
   };
   resourceId: string;
 }
 
-const ResourceContentForm = ({
+const ResourceDescriptionForm = ({
   resourceId,
   initialData
 }: ResourceContentFormProps) => {
@@ -85,10 +85,10 @@ const ResourceContentForm = ({
       </div>
       {!isEditting && (
         <div className={cn("text-sm mt-2",
-          !initialData.content && "text-slate-500 italic"
+          !initialData.description && "text-slate-500 italic"
         )}>
-          {!initialData.content && <span className="text-muted-foreground">Sin contenido</span>}
-          {initialData.content && <Preview value={initialData.content} />}
+          {!initialData.description && <span className="text-muted-foreground">Sin contenido</span>}
+          {initialData.description && <Preview value={initialData.description} />}
         </div>
       )}
       {isEditting && (
@@ -96,7 +96,7 @@ const ResourceContentForm = ({
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
               control={form.control}
-              name="content"
+              name="description"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
@@ -123,4 +123,4 @@ const ResourceContentForm = ({
   );
 }
 
-export default ResourceContentForm;
+export default ResourceDescriptionForm;
