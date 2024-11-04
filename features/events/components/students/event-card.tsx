@@ -38,7 +38,7 @@ const EventCard = ({
     if (!isPremium) {
       openPlans()
     } else {
-      window.open(event.link ?? '', '_blank')
+      window.open(event.externalLink ?? '', '_blank')
     }
   }
 
@@ -122,7 +122,7 @@ const EventCard = ({
             variant='premium'
             className="w-full"
           >
-            Reserva tu lugar
+            Agregar al calendario
           </Button>
         </CardFooter>
       </Card>
