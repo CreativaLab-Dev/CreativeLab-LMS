@@ -29,6 +29,7 @@ export const updateVideoChapter = async (
       },
       data: {
         videoUrl,
+        youtubeUrl: null
       }
     })
 

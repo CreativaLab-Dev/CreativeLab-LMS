@@ -271,6 +271,7 @@ model Event {
   isPublished  Boolean            @default(false) @map("is_published")
   isFree       Boolean            @default(false) @map("is_free")
   link         String?
+  externalLink String?            @map("external_link")
   type         EventType?
   organizer    String?
   updatedAt    DateTime           @updatedAt @map("updated_at")
@@ -337,8 +338,11 @@ model Mentor {
 model Resource {
   id               String             @id @default(cuid())
   title            String
-  content          String?
+  description      String?
   url              String?
+  price            Float?
+  nivel            String?
+  category         String?
   imageUrl         String?            @map("image_url")
   isPublished      Boolean            @default(false) @map("is_published")
   visitedCount     Int                @default(0) @map("visited_count")

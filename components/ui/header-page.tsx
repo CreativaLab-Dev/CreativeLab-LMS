@@ -1,10 +1,10 @@
 'use client'
 
 import { cn } from "@/lib/utils";
-import { BookUser, Book, Calendar1, Layout, Settings, User, UserCircle } from "lucide-react";
+import { BookUser, Book, Calendar1, Layout, Settings, User, UserCircle, BarChart2 } from "lucide-react";
 
 interface HeaderPageProps {
-  icon: 'settings' | 'dashboard' | 'user' | 'course' | 'event' | 'mentor' | 'resource'
+  icon: 'settings' | 'dashboard' | 'user' | 'course' | 'event' | 'mentor' | 'resource' | 'statistics';
   title: string;
   description: string;
   bgColor: string;
@@ -18,7 +18,8 @@ const Icons = {
   course: BookUser,
   event: Calendar1,
   mentor: UserCircle,
-  resource: Book
+  resource: Book,
+  statistics: BarChart2
 }
 
 const HeaderPage = ({

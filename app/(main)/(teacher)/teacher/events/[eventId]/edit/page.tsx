@@ -8,12 +8,13 @@ import EventDescriptionForm from "@/features/events/components/event-description
 import EventImageForm from "@/features/events/components/event-image-form"
 import EventTitleForm from "@/features/events/components/event-title-form"
 import EventTypeForm from "@/features/events/components/event-type-form"
-import { ArrowLeft, CalendarArrowDown, LayoutGrid, ListCheckIcon } from "lucide-react"
+import { ArrowLeft, CalendarArrowDown, LayoutGrid, Link2, ListCheckIcon } from "lucide-react"
 import { getEventById } from "@/features/events/actions/get-event-by-id"
 import EventTimeForm from "@/features/events/components/event-time-form"
 import EventLinkForm from "@/features/events/components/event-link-form"
 import EventLocationForm from "@/features/events/components/event-location-form"
 import EventOrganizersForm from "@/features/events/components/event-organizers-form"
+import EventExternalLinkForm from "@/features/events/components/event-external-link-form"
 
 type EventIdPageProps = {
   params: {
@@ -35,7 +36,8 @@ export default async function EventIdPage({
     event.description,
     event.imageUrl,
     event.type,
-    event.date
+    event.date,
+    event.externalLink
   ]
 
   const totalFields = requiredField.length;
@@ -103,6 +105,17 @@ export default async function EventIdPage({
           />
         </div>
         <div className="space-y-6">
+          <div className="flex items-center gap-x-2">
+            <IconBadge
+              icon={Link2} />
+            <h2 className="text-xl">
+              Enlace externo
+            </h2>
+          </div>
+          <EventExternalLinkForm
+            eventId={event.id}
+            initialData={{ externalLink: event.externalLink || '' }}
+          />
           <div className="flex items-center gap-x-2">
             <IconBadge
               icon={CalendarArrowDown} />

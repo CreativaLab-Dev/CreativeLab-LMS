@@ -144,7 +144,7 @@ const MentorOfTeacherList = ({
                     variant="link"
                     size='sm'
                     className='text-green-400 px-2'
-                    onClick={() => router.push(`/teacher/events/${mentor.id}/edit`)}>
+                    onClick={() => router.push(`/teacher/mentors/${mentor.id}/edit`)}>
                     <Edit2 size={15} />
                   </Button>
                 </TooltipContainer>

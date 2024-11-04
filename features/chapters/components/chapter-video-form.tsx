@@ -193,6 +193,11 @@ const ChapterVideoForm = ({
           Este proceso puede tardar unos minutos
         </div>
       )}
+      {initialData.videoUrl && (
+        <div className="text-xs text-muted-foreground mt-2">
+          Refresca la pagina si no se ve el video
+        </div>
+      )}
 
     </div>
   );

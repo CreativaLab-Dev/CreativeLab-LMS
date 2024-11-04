@@ -26,6 +26,7 @@ const CourseSidebar = ({
         {isMembershipActive && (
           <div className="mt-10">
             <CourseProgress
+              isMain
               value={progressCount || 0}
               variant={progressCount && progressCount === 100 ? 'success' : 'default'}
             />

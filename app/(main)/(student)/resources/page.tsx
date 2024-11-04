@@ -1,8 +1,8 @@
 import { auth } from "@/auth";
-import HeaderPage from "@/components/ui/header-page";
-import { getResourcesPublished } from "@/features/resource/actions/get-resources-published";
 import { redirect } from "next/navigation";
+import HeaderPage from "@/components/ui/header-page";
 import ResourceCard from "@/features/resource/components/resource-card";
+import { getResourcesPublished } from "@/features/resource/actions/get-resources-published";
 
 const ResourcesPage = async () => {
   const session = await auth();
@@ -20,13 +20,13 @@ const ResourcesPage = async () => {
         icon="resource"
         iconColor="text-white"
       />
-      <div className="p-6 max-w-5xl mx-auto">
+      <div className="p-6 max-w-6xl mx-auto">
         {resources.length === 0 && (
           <div className="text-sm p-6 text-gray-500">
             <p>No hay recursos disponibles</p>
           </div>
         )}
-        <div className="space-y-6 ">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {resources.map((resource) => (
             <ResourceCard
               resource={resource}
