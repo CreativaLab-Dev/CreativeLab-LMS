@@ -19,12 +19,13 @@ const SidebarItem = ({
   const router = useRouter();
 
   const isActive =
-    (pathname === '/dashboard' && href === '/dashboard') ||
-    (pathname === href || pathname?.startsWith(`${href}`) || href?.startsWith(`${pathname}`));
+    (pathname === href || (pathname !== '/' && href !== '/' && href?.startsWith(`${pathname}`)));
 
   const onClick = () => {
     router.push(href);
   }
+
+
 
   return (
     <button

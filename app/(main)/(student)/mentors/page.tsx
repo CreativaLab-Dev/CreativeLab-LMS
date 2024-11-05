@@ -17,7 +17,7 @@ const MentorPage = async () => {
   const membershipActive = await getMembershipActive(session.user.id)
   const mentors = await getMentorsPublished()
   return (
-    <div className="p-6 space-y-4">
+    <div className="space-y-3 py-4 lg:py-8">
       <HeaderPage
         title="Mentorias"
         description="Descubre las mentorias disponibles"
@@ -25,19 +25,21 @@ const MentorPage = async () => {
         icon="mentor"
         iconColor="text-white"
       />
-      {mentors.length === 0 && (
-        <div className="text-sm p-6 text-gray-500">
-          <p>No hay mentores disponibles</p>
+      <div className="px-2 md:px-6">
+        {mentors.length === 0 && (
+          <div className="text-sm p-6 text-gray-500">
+            <p>No hay mentores disponibles</p>
+          </div>
+        )}
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-3">
+          {mentors.map((mentor) => (
+            <MentorCard
+              key={mentor.id}
+              mentor={mentor}
+              isPremium={!!membershipActive}
+            />
+          ))}
         </div>
-      )}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-3">
-        {mentors.map((mentor) => (
-          <MentorCard
-            key={mentor.id}
-            mentor={mentor}
-            isPremium={!!membershipActive}
-          />
-        ))}
       </div>
     </div>
   );

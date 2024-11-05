@@ -12,7 +12,7 @@ const ResourcesPage = async () => {
   const resources = await getResourcesPublished(session.user.id);
 
   return (
-    <div className="p-6 space-y-4">
+    <div className="space-y-3 py-4 lg:py-8">
       <HeaderPage
         title="Recursos"
         description="Descubre los recursos disponibles"
@@ -20,7 +20,7 @@ const ResourcesPage = async () => {
         icon="resource"
         iconColor="text-white"
       />
-      <div className="p-6 max-w-6xl mx-auto">
+      <div className="px-2 md:px-6">
         {resources.length === 0 && (
           <div className="text-sm p-6 text-gray-500">
             <p>No hay recursos disponibles</p>
