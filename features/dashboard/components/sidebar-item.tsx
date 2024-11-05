@@ -21,8 +21,6 @@ const SidebarItem = ({
   const isActive =
     (pathname === href || (pathname !== '/' && href !== '/' && href?.startsWith(`${pathname}`)));
 
-  console.log(pathname, href, isActive);
-
   const onClick = () => {
     router.push(href);
   }
