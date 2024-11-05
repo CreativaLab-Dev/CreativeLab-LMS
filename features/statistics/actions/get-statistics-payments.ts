@@ -10,6 +10,8 @@ export type ChartRevenueData = {
 
 export type GetStatisticsRevenue = {
   totalYearlyRevenue: number; // Ingreso total anual
+  totalYearlyRevenueOfMontlyMemberships: number; // Ingreso total anual de membresías mensuales
+  totalYearlyRevenueOfYearlyMemberships: number; // Ingreso total anual de membres
   chartRevenueData: ChartRevenueData[];
 }
 
@@ -44,19 +46,54 @@ export const getStatisticsPayments = async (year: number): Promise<GetStatistics
       }));
     });
 
-    // Esperamos que todas las promesas se resuelvan
+    // In this year
+    const totalYearlyRevenueOfMontlyMemberships = await db.paymentOrder.aggregate({
+      _sum: {
+        amount: true,
+      },
+      where: {
+        membership: {
+          type: "monthly",
+          createdAt: {
+            gte: new Date(currentYear, 0, 1),
+            lte: new Date(currentYear, 11, 31),
+          }
+        },
+      },
+    }).then((result) => result._sum.amount || 0);
+
+    const totalYearlyRevenueOfYearlyMemberships = await db.paymentOrder.aggregate({
+      _sum: {
+        amount: true,
+      },
+      where: {
+        membership: {
+          type: "yearly",
+          createdAt: {
+            gte: new Date(currentYear, 0, 1),
+            lte: new Date(currentYear, 11, 31),
+          }
+        }
+      },
+    }).then((result) => result._sum.amount || 0);
+
     const monthlyData = await Promise.all(monthlyDataPromises);
 
     const getRevenueStatistics: GetStatisticsRevenue = {
       chartRevenueData: monthlyData,
-      totalYearlyRevenue: monthlyData.reduce((acc, curr) => acc + curr.totalMonthlyRevenue, 0), // Ingreso total del año
+      totalYearlyRevenue: monthlyData.reduce((acc, curr) => acc + curr.totalMonthlyRevenue, 0),
+      totalYearlyRevenueOfMontlyMemberships,
+      totalYearlyRevenueOfYearlyMemberships,
     };
 
     return getRevenueStatistics;
   } catch (error) {
+    console.log("[GET_STATISTICS_PAYMENTS_ERROR]", error);
     return {
       chartRevenueData: [],
       totalYearlyRevenue: 0,
+      totalYearlyRevenueOfMontlyMemberships: 0,
+      totalYearlyRevenueOfYearlyMemberships: 0,
     };
   }
 };

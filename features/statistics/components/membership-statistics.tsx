@@ -21,7 +21,7 @@ const MembershipStatistics = ({
   currentYear
 }: MembershipStatisticsProps) => {
   return (
-    <div className="w-full px-10 py-4">
+    <div className="w-full px-1 md:px-10 py-4">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <CardDashboard
           label="Total de membresías por mes"
