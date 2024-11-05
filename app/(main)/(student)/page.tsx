@@ -28,7 +28,7 @@ const DashboardPage = async () => {
   const membershipActive = await getMembershipActive(session.user.id)
 
   return (
-    <div className="p-6 space-y-4">
+    <div className="space-y-3 py-4 lg:py-8">
       <HeaderPage
         title="Dashboard"
         description="Descubre todo lo que hemos preparado para ti."
@@ -36,71 +36,73 @@ const DashboardPage = async () => {
         icon="dashboard"
         iconColor="text-white"
       />
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-6 p-4">
-        <div className="p-3 border border-blue-400 rounded-lg">
-          <div className="text-xs text-blue-500 text-center pb-1">
-            Mis cursos
-          </div>
-          <InfoCard
-            icon='clock'
-            label="En progreso"
-            numberOfItems={coursesInProgress.length}
-          />
-          <InfoCard
-            icon='checkCircle'
-            label="Completados"
-            numberOfItems={completedCourses.length}
-            variant="success"
-          />
-          <CoursesList
-            isDashboard
-            items={[...completedCourses, ...coursesInProgress]}
-          />
-        </div>
-        <div className="p-3 border border-blue-400 rounded-lg">
-          <div className="text-xs text-blue-500 text-center pb-1">
-            Proximos eventos
-          </div>
-          {lastEvents.length === 0 && (
-            <div className="text-center text-gray-500 text-sm">
-              No hay eventos proximos
+      <div className="px-2 md:px-6">
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-6 p-4">
+          <div className="p-3 border border-blue-400 rounded-lg">
+            <div className="text-xs text-blue-500 text-center pb-1">
+              Mis cursos
             </div>
-          )}
-          <div className='grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2'>
-            {lastEvents.map((event) => (
-              <EventCard
-                key={event.id}
-                event={event}
-                isPremium={!!membershipActive}
-              />
-            ))}
+            <InfoCard
+              icon='clock'
+              label="En progreso"
+              numberOfItems={coursesInProgress.length}
+            />
+            <InfoCard
+              icon='checkCircle'
+              label="Completados"
+              numberOfItems={completedCourses.length}
+              variant="success"
+            />
+            <CoursesList
+              isDashboard
+              items={[...completedCourses, ...coursesInProgress]}
+            />
           </div>
-        </div>
-        <div className="p-3 border border-blue-400 rounded-lg">
-          <div className="text-xs text-blue-500 text-center pb-1">
-            Mentores destacados
+          <div className="p-3 border border-blue-400 rounded-lg">
+            <div className="text-xs text-blue-500 text-center pb-1">
+              Proximos eventos
+            </div>
+            {lastEvents.length === 0 && (
+              <div className="text-center text-gray-500 text-sm">
+                No hay eventos proximos
+              </div>
+            )}
+            <div className='grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2'>
+              {lastEvents.map((event) => (
+                <EventCard
+                  key={event.id}
+                  event={event}
+                  isPremium={!!membershipActive}
+                />
+              ))}
+            </div>
           </div>
-          <div className='grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2'>
-            {lastMentors.map((mentor) => (
-              <MentorCard
-                mentor={mentor}
-                isPremium={!!membershipActive}
-                key={mentor.id}
-              />
-            ))}
+          <div className="p-3 border border-blue-400 rounded-lg">
+            <div className="text-xs text-blue-500 text-center pb-1">
+              Mentores destacados
+            </div>
+            <div className='grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2'>
+              {lastMentors.map((mentor) => (
+                <MentorCard
+                  mentor={mentor}
+                  isPremium={!!membershipActive}
+                  key={mentor.id}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-        <div className="p-3 border border-blue-400 rounded-lg">
-          <div className="text-xs text-blue-500 text-center pb-1">
-            Recursos recientes
-          </div>
-          <div className='space-y-4'>
-            {lastRecursos.map((resource) => (
-              <ResourceCard
-                resource={resource}
-                key={resource.id}
-              />
-            ))}
+          <div className="p-3 border border-blue-400 rounded-lg">
+            <div className="text-xs text-blue-500 text-center pb-1">
+              Recursos recientes
+            </div>
+            <div className='space-y-4'>
+              {lastRecursos.map((resource) => (
+                <ResourceCard
+                  resource={resource}
+                  key={resource.id}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
