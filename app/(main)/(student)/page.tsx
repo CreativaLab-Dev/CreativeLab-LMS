@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import HeaderPage from "@/components/ui/header-page";
+import { validationExistsStudent } from "@/features/auth/actions/validation-exists-student";
 import { getDashboardCourses } from "@/features/dashboard/actions/get-dashboard-courses";
 import { getLastEvents } from "@/features/dashboard/actions/get-last-events";
 import { getLastMentors } from "@/features/dashboard/actions/get-last-mentors";
@@ -16,6 +17,8 @@ const DashboardPage = async () => {
   if (!session || !session.user || !session.user.id) {
     return null
   }
+
+  validationExistsStudent(session.user.id)
 
   const {
     completedCourses,
