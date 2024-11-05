@@ -12,6 +12,7 @@ export type ChartStudentData = {
 export type GetStatisticsStudents = {
   totalActiveStudents: number; // Total de estudiantes activos
   totalNewStudents: number; // Total de estudiantes nuevos
+  totalStudents: number; // Total de estudiantes
   chartStudentData: ChartStudentData[];
 }
 
@@ -45,7 +46,7 @@ export const getStatisticsStudents = async (year: number): Promise<GetStatistics
           memberships: {
             some: {
               expiresAt: {
-                gte: new Date(), // La membresía debe ser válida hasta la fecha actual
+                gte: new Date(), // Deben tener al menos una membresía activa
               },
             },
           },
@@ -67,7 +68,6 @@ export const getStatisticsStudents = async (year: number): Promise<GetStatistics
     // Esperamos que todas las promesas se resuelvan
     const monthlyData = await Promise.all(monthlyDataPromises);
 
-    // Obtener el total de estudiantes activos
     const totalActiveStudents = await db.user.count({
       where: {
         memberships: {
@@ -81,19 +81,23 @@ export const getStatisticsStudents = async (year: number): Promise<GetStatistics
     });
 
     // Obtener el total de nuevos estudiantes
-    const totalNewStudents = await db.user.count({
+    const currentMonth = new Date().getMonth();
+    const totalNewStudentsCurrentMonth = await db.user.count({
       where: {
         createdAt: {
-          gte: startOfMonth(new Date(currentYear, 0)), // Desde enero del año actual
-          lte: endOfMonth(new Date(currentYear, 11)), // Hasta diciembre del año actual
+          gte: startOfMonth(new Date(currentYear, currentMonth, 1)),
+          lte: endOfMonth(new Date(currentYear, currentMonth, 1)),
         },
       },
     });
 
+    const totalStudents = await db.user.count();
+
     const getStudentStatistics: GetStatisticsStudents = {
       chartStudentData: monthlyData,
       totalActiveStudents, // Total de estudiantes con membresía activa
-      totalNewStudents, // Total de estudiantes nuevos en el año
+      totalNewStudents: totalNewStudentsCurrentMonth, // Total de estudiantes nuevos en el año
+      totalStudents, // Total de estudiantes
     };
 
     return getStudentStatistics;
@@ -102,6 +106,7 @@ export const getStatisticsStudents = async (year: number): Promise<GetStatistics
       chartStudentData: [],
       totalActiveStudents: 0,
       totalNewStudents: 0,
+      totalStudents: 0,
     };
   }
 };

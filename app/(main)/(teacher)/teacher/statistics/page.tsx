@@ -33,13 +33,16 @@ const statisticsPage = async ({
 
   const {
     chartRevenueData,
-    totalYearlyRevenue
+    totalYearlyRevenue,
+    totalYearlyRevenueOfMontlyMemberships,
+    totalYearlyRevenueOfYearlyMemberships
   } = await getStatisticsPayments(year);
 
   const {
     chartStudentData,
     totalActiveStudents,
-    totalNewStudents
+    totalNewStudents,
+    totalStudents
   } = await getStatisticsStudents(year);
 
   return (
@@ -51,7 +54,7 @@ const statisticsPage = async ({
         icon="statistics"
         iconColor="text-sky-500"
       />
-      <div className="px-6">
+      <div className="px-2 md:px-6">
         <Tabs defaultValue="memberships">
           <TabsList className="flex flex-row gap-3 justify-start w-full">
             <TabsTrigger value="memberships">Membresias</TabsTrigger>
@@ -70,8 +73,10 @@ const statisticsPage = async ({
           </TabsContent>
           <TabsContent value="payments">
             <PaymentStatistics
-              totalYearlyRevenue={totalYearlyRevenue}
               chartRevenueData={chartRevenueData}
+              totalYearlyRevenue={totalYearlyRevenue}
+              totalYearlyRevenueOfMontlyMemberships={totalYearlyRevenueOfMontlyMemberships}
+              totalYearlyRevenueOfYearlyMemberships={totalYearlyRevenueOfYearlyMemberships}
               currentYear={year}
             />
           </TabsContent>
@@ -80,6 +85,7 @@ const statisticsPage = async ({
               chartStudentData={chartStudentData}
               totalActiveStudents={totalActiveStudents}
               totalNewStudents={totalNewStudents}
+              totalStudents={totalStudents}
               currentYear={year}
             />
           </TabsContent>
