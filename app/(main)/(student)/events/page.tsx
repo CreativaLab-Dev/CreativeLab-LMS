@@ -19,7 +19,7 @@ const EventPage = async () => {
   const eventsNew = await getEventsNewPublished()
   const eventsPast = await getEventsPastPublished()
   return (
-    <div className="p-6 space-y-4">
+    <div className="space-y-3 py-4 lg:py-8">
       <HeaderPage
         title="Eventos"
         description="Descubre los eventos que tenemos para ti."
@@ -27,45 +27,46 @@ const EventPage = async () => {
         icon="event"
         iconColor="text-white"
       />
-      <Tabs defaultValue="new">
-        <TabsList className="grid grid-cols-1 mb-10 sm:mb-2 sm:grid-cols-2 max-w-sm">
-          <TabsTrigger value="new">Nuevos</TabsTrigger>
-          <TabsTrigger value="pass">Pasados</TabsTrigger>
-        </TabsList>
-        <TabsContent value="new">
-          {eventsNew.length === 0 && (
-            <div className="text-sm p-6 text-gray-500">
-              <p>No hay eventos disponibles</p>
+      <div className="px-2 md:px-6">
+        <Tabs defaultValue="new">
+          <TabsList className="grid grid-cols-1 mb-10 sm:mb-2 sm:grid-cols-2 max-w-sm">
+            <TabsTrigger value="new">Nuevos</TabsTrigger>
+            <TabsTrigger value="pass">Pasados</TabsTrigger>
+          </TabsList>
+          <TabsContent value="new">
+            {eventsNew.length === 0 && (
+              <div className="text-sm p-6 text-gray-500">
+                <p>No hay eventos disponibles</p>
+              </div>
+            )}
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-3">
+              {eventsNew.map((event) => (
+                <EventCard
+                  key={event.id}
+                  event={event}
+                  isPremium={!!membershipActive}
+                />
+              ))}
             </div>
-          )}
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-3">
-            {eventsNew.map((event) => (
-              <EventCard
-                key={event.id}
-                event={event}
-                isPremium={!!membershipActive}
-              />
-            ))}
-          </div>
-        </TabsContent>
-        <TabsContent value="pass">
-          {eventsPast.length === 0 && (
-            <div className="text-sm p-6 text-gray-500">
-              <p>No hay eventos disponibles</p>
+          </TabsContent>
+          <TabsContent value="pass">
+            {eventsPast.length === 0 && (
+              <div className="text-sm p-6 text-gray-500">
+                <p>No hay eventos disponibles</p>
+              </div>
+            )}
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-3">
+              {eventsPast.map((event) => (
+                <EventCard
+                  key={event.id}
+                  event={event}
+                  isPremium={!!membershipActive}
+                />
+              ))}
             </div>
-          )}
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-3">
-            {eventsPast.map((event) => (
-              <EventCard
-                key={event.id}
-                event={event}
-                isPremium={!!membershipActive}
-              />
-            ))}
-          </div>
-        </TabsContent>
-      </Tabs>
-
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 }

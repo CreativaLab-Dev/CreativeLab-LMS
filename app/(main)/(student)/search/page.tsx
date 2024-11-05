@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import HeaderPage from "@/components/ui/header-page";
+import StudentPageSkeleton from "@/components/ui/sckeleton-student";
 import SearchInput from "@/components/ui/search-input";
 import { getCategories } from "@/features/categories/actions/get-categories";
 import Categories from "@/features/categories/components/categories";
@@ -29,10 +30,11 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
   })
   return (
     <>
+      {/* <StudentPageSkeleton /> */}
       <div className="px-6 pt-6 md:hidden md:mb-0 block">
         <SearchInput />
       </div>
-      <div className="p-6 space-y-4">
+      <div className="space-y-3 py-4 lg:py-8">
         <HeaderPage
           title="Cursos"
           description="Descubre los cursos que tenemos para ti."
@@ -40,10 +42,12 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
           icon="course"
           iconColor="text-white"
         />
-        <Categories
-          items={categories}
-        />
-        <CoursesList items={courses} />
+        <div className="px-2 md:px-6">
+          <Categories
+            items={categories}
+          />
+          <CoursesList items={courses} />
+        </div>
       </div>
     </>
 
