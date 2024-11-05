@@ -13,9 +13,18 @@ export const validationExistsStudent = async (userId: string) => {
   }
 
   if (!user.studentId && !user.teacherId) {
-    await db.student.create({
+    const student = await db.student.create({
       data: {
         userId,
+      }
+    })
+
+    await db.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        studentId: student.id,
       }
     })
   }
