@@ -27,7 +27,7 @@ const EventPage = async () => {
         icon="event"
         iconColor="text-white"
       />
-      <div className="px-2 md:px-6">
+      <div className="px-4 md:px-6">
         <Tabs defaultValue="new">
           <TabsList className="grid grid-cols-1 mb-10 sm:mb-2 sm:grid-cols-2 max-w-sm">
             <TabsTrigger value="new">Nuevos</TabsTrigger>

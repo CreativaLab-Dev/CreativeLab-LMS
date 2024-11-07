@@ -20,7 +20,7 @@ const ResourcesPage = async () => {
         icon="resource"
         iconColor="text-white"
       />
-      <div className="px-2 md:px-6">
+      <div className="px-4 md:px-6">
         {resources.length === 0 && (
           <div className="text-sm p-6 text-gray-500">
             <p>No hay recursos disponibles</p>

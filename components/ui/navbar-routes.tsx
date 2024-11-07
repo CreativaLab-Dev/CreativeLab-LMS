@@ -12,11 +12,13 @@ import { LogOut } from "lucide-react";
 interface NavbarRoutesProps {
   currentUser: User;
   isPremium: boolean
+  isSales?: boolean
 }
 
 export const NavbarRoutes = ({
   currentUser,
-  isPremium
+  isPremium,
+  isSales
 }: NavbarRoutesProps) => {
   const pathname = usePathname()
 

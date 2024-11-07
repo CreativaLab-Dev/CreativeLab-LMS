@@ -24,7 +24,7 @@ export default async function SettingPage() {
         bgColor="bg-sky-700/10"
         iconColor="text-sky-700"
       />
-      <div className="px-2 md:px-6 space-y-2">
+      <div className="px-4 md:px-6 space-y-2">
         <CurrentPlan plan={planText} membership={membershipActive} />
         {
           !membershipActive ?

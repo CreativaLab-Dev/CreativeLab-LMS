@@ -21,7 +21,7 @@ export default async function ProfilePage() {
         icon="user"
         iconColor="text-sky-500"
       />
-      <div className="px-2 md:px-6">
+      <div className="px-4 md:px-6">
         <ProfileForm currentUser={currentUser} />
       </div>
     </div>

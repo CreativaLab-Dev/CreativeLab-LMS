@@ -3,14 +3,20 @@
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-const Logo = () => {
+interface LogoProps {
+  isSales?: boolean
+}
+
+const Logo = ({
+  isSales
+}: LogoProps) => {
   const router = useRouter();
   const handleClick = () => {
     router.push("/");
   }
   return (
     <Image
-      src="/logo_blanco.png"
+      src={isSales ? "/logo.png" : "/logo_blanco.png"}
       alt="logo"
       className="cursor-pointer"
       width={130}

@@ -42,7 +42,7 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
           icon="course"
           iconColor="text-white"
         />
-        <div className="px-2 md:px-6">
+        <div className="px-4 md:px-6">
           <Categories
             items={categories}
           />

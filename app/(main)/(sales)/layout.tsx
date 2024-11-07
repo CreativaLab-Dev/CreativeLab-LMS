@@ -21,6 +21,7 @@ export default async function SalesLayout({
     <div className="bg-sky-100">
       <div className="h-[80px] fixed inset-y-0 w-full">
         <NavbarPlans
+          isSales
           currentUser={currentUser}
           isPremium={!!membershipActive}
         />
