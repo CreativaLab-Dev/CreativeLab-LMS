@@ -14,7 +14,7 @@ const Sidebar = ({
   isPremium
 }: SidebarProps) => {
   return (
-    <div className="bg-gradient-to-b from-blue-800 to-blue-500 h-full border-r flex flex-col overflow-y-auto">
+    <div className="bg-gradient-to-b border-blue-600 from-blue-800 to-blue-500 h-full border-r flex flex-col overflow-y-auto">
       <div className="p-6">
         <Logo />
       </div>

@@ -49,7 +49,9 @@ const CourseSidebarItem = ({
             isCompleted && "text-green-300"
           )}
         />
-        {label}
+        <span className="text-start">
+          {label}
+        </span>
       </div>
       <div className={cn(
         "ml-auto opacity-0 border-2 border-gray-800 h-full transition-all",

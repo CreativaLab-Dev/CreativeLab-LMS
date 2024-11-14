@@ -18,8 +18,8 @@ const CourseSidebar = ({
   isMembershipActive
 }: CourseSidebarProps) => {
   return (
-    <div className="h-full border-r flex flex-col overflow-y-auto shadow-sm bg-gradient-to-b from-blue-800 to-blue-500">
-      <div className="p-8 flex flex-col border-b">
+    <div className="h-full border-r border-blue-500 flex flex-col overflow-y-auto shadow-sm bg-gradient-to-b from-blue-800 to-blue-500">
+      <div className="p-8 flex flex-col border-b border-blue-500">
         <h1 className="font-semibold text-blue-100">
           {course.name}
         </h1>

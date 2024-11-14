@@ -26,9 +26,9 @@ const CourseMobileSidebar = ({
   return (
     <Sheet>
       <SheetTrigger className="md:hidden pr-4 hover:opacity-75 transition">
-        <Menu size={24} />
+        <Menu size={24} className="text-gray-100" />
       </SheetTrigger>
-      <SheetContent side={'left'} className="p-0 bg-white w-72">
+      <SheetContent side={'left'} className="p-0 bg-blue-500 w-72 border-r border-blue-500">
         <CourseSidebar
           isMembershipActive={false}
           course={course}
