@@ -1,11 +1,11 @@
-import { redirectToPayments } from "@/features/payu/actions/redirec-to-payments"
+import { getDetailsToPayment } from "@/features/payu/actions/get-detail-to-payment"
+import RedirectPayuEffect from "@/features/payu/components/redirect-payu-effect"
 
 const PayUPage = async () => {
-  const redirectPayments = await redirectToPayments()
+  const redirectPayments = await getDetailsToPayment()
+  console.log(redirectPayments)
   return (
-    <div>
-      <h1>PayU</h1>
-    </div>
+    <RedirectPayuEffect />
   )
 }
 

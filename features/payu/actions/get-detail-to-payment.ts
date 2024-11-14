@@ -1,21 +1,22 @@
+'use server'
+
 import { auth } from "@/auth"
 import { db } from "@/lib/db"
-import { redirect } from "next/navigation"
 
-export const redirectToPayments = async () => {
+export const getDetailsToPayment = async () => {
   const session = await auth()
   if (!session || !session.user || !session.user.id) {
-    return redirect('/payu?error=auth')
+    return null
   }
 
-  const user = db.user.findUnique({
+  const user = await db.user.findUnique({
     where: {
       id: session.user.id
     }
   })
 
   if (!user) {
-    return redirect('/payu?error=user')
+    return null
   }
 
   const paymentCount = await db.paymentOrder.count() || 0
@@ -23,9 +24,15 @@ export const redirectToPayments = async () => {
   const requiredFields = {
     merchantId: '1025855',
     referenceCode: `${paymentCount + 1}`,
+    accountId: '',
+    description: 'Test PAYU',
+    currency: 'COP',
+    amount: '10000',
+    tax: '0',
+    taxReturnBase: '0',
+    signature: '',
+    buyerEmail: user.email,
+    telephone: '',
   }
-
-  console.log('Redirecting to payments...')
-  return
-
+  return requiredFields
 }
