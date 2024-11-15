@@ -1,10 +1,10 @@
 import authConfig from "./auth.config";
 import NextAuth from "next-auth";
-import { getToken } from 'next-auth/jwt';
 
 import {
   DEFAULT_LOGIN_REDIRECT,
   apiAuthPrefix,
+  apiGeoPrefix,
   apiStripePrefix,
   apiUploadThingPrefix,
   authRoutes,
@@ -20,10 +20,11 @@ export default auth((req) => {
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isApiWebhook = nextUrl.pathname.startsWith(apiStripePrefix);
   const isApiUploadThingRoute = nextUrl.pathname.startsWith(apiUploadThingPrefix);
+  const isApiGeoRoute = nextUrl.pathname.startsWith(apiGeoPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
-  if (isApiAuthRoute || isApiWebhook || isApiUploadThingRoute) {
+  if (isApiAuthRoute || isApiWebhook || isApiUploadThingRoute || isApiGeoRoute) {
     return null;
   }
 

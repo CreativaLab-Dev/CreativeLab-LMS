@@ -22,7 +22,15 @@ interface RedirectPayuEffectProps {
 }
 
 const RedirectPayuEffect = ({ payuDetail, isProduction }: RedirectPayuEffectProps) => {
-  const [country, setCountry] = useState('');
+  const [country, setCountry] = useState<{
+    accountId: string
+    name: string
+    currency: string
+  }>({
+    accountId: '',
+    name: '',
+    currency: ''
+  });
   const refForm = useRef<any>(null)
   const {
     merchantId,
@@ -42,11 +50,15 @@ const RedirectPayuEffect = ({ payuDetail, isProduction }: RedirectPayuEffectProp
   useEffect(() => {
     getGeoLocation()
       .then((data) => {
-        console.log(data)
-        setCountry(data.country)
+        setCountry({
+          accountId: data.accountId,
+          name: data.name,
+          currency: data.currency
+        })
+
+        if (!refForm.current) return
+        refForm.current.submit()
       })
-    // if (!refForm.current) return
-    // refForm.current.submit()
   }, [])
 
   const ckeckoutUrl = isProduction
@@ -62,13 +74,13 @@ const RedirectPayuEffect = ({ payuDetail, isProduction }: RedirectPayuEffectProp
       action={ckeckoutUrl}
     >
       <input name="merchantId" type="hidden" value={merchantId} />
-      <input name="accountId" type="hidden" value={accountId} />
+      <input name="accountId" type="hidden" value={country.accountId} />
       <input name="description" type="hidden" value={description} />
       <input name="referenceCode" type="hidden" value={referenceCode} />
       <input name="amount" type="hidden" value={amount} />
       <input name="tax" type="hidden" value={tax} />
       <input name="taxReturnBase" type="hidden" value={taxReturnBase} />
-      <input name="currency" type="hidden" value={currency} />
+      <input name="currency" type="hidden" value={country.currency} />
       <input name="signature" type="hidden" value={`${signature}`} />
       <input name="test" type="hidden" value={isTest} />
       <input name="buyerEmail" type="hidden" value={buyerEmail} />

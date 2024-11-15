@@ -29,6 +29,12 @@ export const apiAuthPrefix = "/api/auth"
 export const apiUploadThingPrefix = "/api/uploadthing"
 
 /**
+ * The prefix for geo api
+ * @type {string}
+  */
+export const apiGeoPrefix = "/api/geo"
+
+/**
  * The prefix for webhook stripe api
  * @type {string}
  */
