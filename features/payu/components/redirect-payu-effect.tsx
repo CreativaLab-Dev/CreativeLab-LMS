@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useRef } from "react"
+import { getGeoLocation } from "@/lib/get-geolocalization"
+import { useEffect, useRef, useState } from "react"
 
 interface RedirectPayuEffectProps {
   payuDetail: {
@@ -21,6 +22,7 @@ interface RedirectPayuEffectProps {
 }
 
 const RedirectPayuEffect = ({ payuDetail, isProduction }: RedirectPayuEffectProps) => {
+  const [country, setCountry] = useState('');
   const refForm = useRef<any>(null)
   const {
     merchantId,
@@ -38,8 +40,13 @@ const RedirectPayuEffect = ({ payuDetail, isProduction }: RedirectPayuEffectProp
   } = payuDetail
 
   useEffect(() => {
-    if (!refForm.current) return
-    refForm.current.submit()
+    getGeoLocation()
+      .then((data) => {
+        console.log(data)
+        setCountry(data.country)
+      })
+    // if (!refForm.current) return
+    // refForm.current.submit()
   }, [])
 
   const ckeckoutUrl = isProduction
