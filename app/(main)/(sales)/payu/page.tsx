@@ -1,5 +1,5 @@
 import { getDetailsToPayment } from "@/features/payu/actions/get-detail-to-payment"
-import { getGeoLocation } from "@/lib/get-geolocalization"
+import RedirectPayuEffect from "@/features/payu/components/redirect-payu-effect"
 import { redirect } from "next/navigation"
 
 interface PayUPageProps {
@@ -11,17 +11,15 @@ interface PayUPageProps {
 // export const dynamic = 'force-dynamic'
 
 const PayUPage = async () => {
-  const geolocation = await getGeoLocation()
-  const payuDetail = await getDetailsToPayment('monthly', geolocation)
+  const payuDetail = await getDetailsToPayment('monthly')
   if (!payuDetail) return redirect('/')
   const isProduction = process.env.PAYU_ENVIRONMENT === 'production'
 
   return (
-    <></>
-    // <RedirectPayuEffect
-    //   payuDetail={payuDetail}
-    //   isProduction={isProduction}
-    // />
+    <RedirectPayuEffect
+      payuDetail={payuDetail}
+      isProduction={isProduction}
+    />
   )
 }
 
