@@ -8,10 +8,10 @@ interface PayUPageProps {
   }>
 }
 
-const PayUPage = async (props: PayUPageProps) => {
-  let searchParams = await props.searchParams
-  let plan = searchParams?.plan || 'monthly'
-  const payuDetail = await getDetailsToPayment(plan)
+const PayUPage = async () => {
+  // let searchParams = await props.searchParams
+  // let plan = searchParams?.plan || 'monthly'
+  const payuDetail = await getDetailsToPayment('monthly')
   if (!payuDetail) return redirect('/')
   const isProduction = process.env.PAYU_ENVIRONMENT === 'production'
 
