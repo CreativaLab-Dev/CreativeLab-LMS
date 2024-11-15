@@ -36,20 +36,26 @@ const getLocalizedPrices = (countryCode: keyof typeof EXCHANGE_RATES) => {
 
 export const runtime = 'nodejs';
 
-export default async function GET(request: Request) {
-  const { country = 'PE' } = geolocation(request);
-  const countryData = COUNTRY_ACCOUNT_IDS[country as keyof typeof COUNTRY_ACCOUNT_IDS];
+export async function GET(request: Request) {
+  try {
+    const { country = 'PE' } = geolocation(request);
+    const countryData = COUNTRY_ACCOUNT_IDS[country as keyof typeof COUNTRY_ACCOUNT_IDS];
 
-  if (!countryData) {
-    return NextResponse.json({ error: "País no soportado" }, { status: 404 });
+    if (!countryData) {
+      return NextResponse.json({ error: "País no soportado" }, { status: 404 });
+    }
+
+    // Agregamos los precios en moneda local al objeto de datos del país
+    const localizedPrices = getLocalizedPrices(country as keyof typeof EXCHANGE_RATES);
+    const response = {
+      ...countryData,
+      plans: localizedPrices
+    };
+
+    return NextResponse.json(response);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.error();
+
   }
-
-  // Agregamos los precios en moneda local al objeto de datos del país
-  const localizedPrices = getLocalizedPrices(country as keyof typeof EXCHANGE_RATES);
-  const response = {
-    ...countryData,
-    plans: localizedPrices
-  };
-
-  return NextResponse.json(response);
 }
