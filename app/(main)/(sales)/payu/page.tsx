@@ -4,14 +4,17 @@ import { redirect } from "next/navigation"
 
 interface PayUPageProps {
   searchParams: {
-    plan: 'monthly' | 'annual'
+    plan: 'monthly' | 'annual' | undefined
   }
 }
 
 const PayUPage = async ({
   searchParams
 }: PayUPageProps) => {
-  const { plan } = searchParams
+  let { plan } = searchParams
+  if (plan === undefined) {
+    plan = 'monthly'
+  }
   const payuDetail = await getDetailsToPayment(plan)
   if (!payuDetail) return redirect('/')
   const isProduction = process.env.PAYU_ENVIRONMENT === 'production'
