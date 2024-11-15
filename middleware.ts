@@ -4,7 +4,9 @@ import NextAuth from "next-auth";
 import {
   DEFAULT_LOGIN_REDIRECT,
   apiAuthPrefix,
+  apiDevPayUPrefix,
   apiGeoPrefix,
+  apiProdPayUPrefix,
   apiStripePrefix,
   apiUploadThingPrefix,
   authRoutes,
@@ -21,10 +23,11 @@ export default auth((req) => {
   const isApiWebhook = nextUrl.pathname.startsWith(apiStripePrefix);
   const isApiUploadThingRoute = nextUrl.pathname.startsWith(apiUploadThingPrefix);
   const isApiGeoRoute = nextUrl.pathname.startsWith(apiGeoPrefix);
+  const isApiPayURoute = nextUrl.pathname.startsWith(apiProdPayUPrefix) || nextUrl.pathname.startsWith(apiDevPayUPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
-  if (isApiAuthRoute || isApiWebhook || isApiUploadThingRoute || isApiGeoRoute) {
+  if (isApiAuthRoute || isApiWebhook || isApiUploadThingRoute || isApiGeoRoute || isApiPayURoute) {
     return null;
   }
 

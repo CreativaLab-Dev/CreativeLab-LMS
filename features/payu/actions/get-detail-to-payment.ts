@@ -3,8 +3,9 @@
 import { auth } from "@/auth"
 import { db } from "@/lib/db"
 import { calculateMD5Props, generateSignature } from "@/lib/generate-signature"
+import { getGeoLocation } from "@/lib/get-geolocalization"
 
-export const getDetailsToPayment = async () => {
+export const getDetailsToPayment = async (plan: 'monthly' | 'annual') => {
   const session = await auth()
   if (!session || !session.user || !session.user.id) {
     return null
@@ -20,25 +21,37 @@ export const getDetailsToPayment = async () => {
     return null
   }
 
+  const geolocation = await getGeoLocation() as {
+    accountId: string,
+    currency: string
+    plans: {
+      monthly: string,
+      annual: string
+    }
+  }
   const paymentCount = await db.paymentOrder.count() || 0
+
+  const merchantId = '1016915'
+  const price = geolocation.plans[plan] || '10'
+  const description = plan === 'monthly' ? 'Plan mensual' : 'Plan anual'
 
   const asignatureProps: calculateMD5Props = {
     apiKey: process.env.PAYU_SECRET_KEY || '',
-    merchantId: '1016915',
-    reference: `TestPayU`,
-    price: '20000',
-    currency: 'COP'
+    merchantId,
+    reference: `TestPayU${paymentCount}`,
+    price,
+    currency: geolocation.currency,
   }
 
   const newAsignature = generateSignature(asignatureProps)
 
   const requiredFields = {
-    merchantId: '1016915',
-    referenceCode: `TestPayU`,
-    accountId: '512326',
-    description: 'Test PAYU',
-    currency: 'COP',
-    amount: '20000',
+    merchantId,
+    referenceCode: asignatureProps.reference,
+    accountId: geolocation.accountId,
+    description,
+    currency: geolocation.currency,
+    amount: price,
     tax: '3193',
     taxReturnBase: '16806',
     signature: newAsignature,

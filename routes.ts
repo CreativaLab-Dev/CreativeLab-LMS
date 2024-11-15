@@ -35,6 +35,19 @@ export const apiUploadThingPrefix = "/api/uploadthing"
 export const apiGeoPrefix = "/api/geo"
 
 /**
+ * The prefix for prod pay api
+ * @type {string}
+  */
+export const apiProdPayUPrefix = "https://sandbox.checkout.payulatam.com"
+
+/**
+ * The prefix for dev pay api
+ * @type {string}
+  */
+export const apiDevPayUPrefix = "https://checkout.payulatam.com"
+
+
+/**
  * The prefix for webhook stripe api
  * @type {string}
  */

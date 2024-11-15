@@ -1,6 +1,7 @@
 'use client'
 
 import { getGeoLocation } from "@/lib/get-geolocalization"
+import { Lock } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 
 interface RedirectPayuEffectProps {
@@ -21,73 +22,56 @@ interface RedirectPayuEffectProps {
   isProduction: boolean
 }
 
-const RedirectPayuEffect = ({ payuDetail, isProduction }: RedirectPayuEffectProps) => {
-  const [country, setCountry] = useState<{
-    accountId: string
-    name: string
-    currency: string
-  }>({
-    accountId: '',
-    name: '',
-    currency: ''
-  });
-  const refForm = useRef<any>(null)
-  const {
-    merchantId,
-    referenceCode,
-    accountId,
-    description,
-    currency,
-    amount,
-    tax,
-    taxReturnBase,
-    signature,
-    buyerEmail,
-    responseUrl,
-    confirmationUrl,
-  } = payuDetail
+const RedirectPayuEffect = ({
+  payuDetail,
+  isProduction
+}: RedirectPayuEffectProps) => {
 
   useEffect(() => {
-    getGeoLocation()
-      .then((data) => {
-        setCountry({
-          accountId: data.accountId,
-          name: data.name,
-          currency: data.currency
-        })
-
-        if (!refForm.current) return
-        refForm.current.submit()
-      })
+    onCreateFormAndSubmit()
   }, [])
 
   const ckeckoutUrl = isProduction
     ? 'https://checkout.payulatam.com/ppp-web-gateway-payu/'
     : 'https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/'
 
-  const isTest = isProduction ? '0' : '1'
+  const isTest = isProduction ? '1' : '0'
 
+  const onCreateFormAndSubmit = () => {
+    const form = document.createElement('form')
+    form.method = 'post'
+    form.action = ckeckoutUrl
+    form.style.display = 'none'
+
+    //Aplicar for
+    const keys = Object.keys(payuDetail)
+    keys.forEach((key) => {
+      const input = document.createElement('input')
+      input.type = 'hidden'
+      input.name = key
+      input.value = payuDetail[key as keyof typeof payuDetail] || ''
+      form.appendChild(input)
+    })
+
+    const inputTest = document.createElement('input')
+    inputTest.type = 'hidden'
+    inputTest.name = 'test'
+    inputTest.value = isTest
+    form.appendChild(inputTest)
+    document.body.appendChild(form)
+    form.submit()
+  }
   return (
-    <form
-      ref={refForm}
-      method="post"
-      action={ckeckoutUrl}
-    >
-      <input name="merchantId" type="hidden" value={merchantId} />
-      <input name="accountId" type="hidden" value={country.accountId} />
-      <input name="description" type="hidden" value={description} />
-      <input name="referenceCode" type="hidden" value={referenceCode} />
-      <input name="amount" type="hidden" value={amount} />
-      <input name="tax" type="hidden" value={tax} />
-      <input name="taxReturnBase" type="hidden" value={taxReturnBase} />
-      <input name="currency" type="hidden" value={country.currency} />
-      <input name="signature" type="hidden" value={`${signature}`} />
-      <input name="test" type="hidden" value={isTest} />
-      <input name="buyerEmail" type="hidden" value={buyerEmail} />
-      <input name="responseUrl" type="hidden" value={responseUrl} />
-      <input name="confirmationUrl" type="hidden" value={confirmationUrl} />
-      <input name="Submit" type="submit" value="Enviar" />
-    </form>
+    <div className="flex justify-center items-center h-screen bg-gray-100">
+      <div className="flex flex-col items-center">
+        <div className="animate-pulse bg-primary text-white rounded-full h-20 w-20 flex items-center justify-center opacity-90 shadow-lg">
+          <span className="text-lg font-bold">
+            <Lock className="w-6 h-6" />
+          </span>
+        </div>
+        <p className="mt-4 text-gray-700 text-lg font-medium">Validando datos...</p>
+      </div>
+    </div>
   )
 }
 

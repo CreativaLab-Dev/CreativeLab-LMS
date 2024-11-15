@@ -1,10 +1,18 @@
 import { getDetailsToPayment } from "@/features/payu/actions/get-detail-to-payment"
 import RedirectPayuEffect from "@/features/payu/components/redirect-payu-effect"
-import { getGeoLocation } from "@/lib/get-geolocalization"
 import { redirect } from "next/navigation"
 
-const PayUPage = async () => {
-  const payuDetail = await getDetailsToPayment()
+interface PayUPageProps {
+  searchParams: {
+    plan: 'monthly' | 'annual'
+  }
+}
+
+const PayUPage = async ({
+  searchParams
+}: PayUPageProps) => {
+  const { plan } = searchParams
+  const payuDetail = await getDetailsToPayment(plan)
   if (!payuDetail) return redirect('/')
   const isProduction = process.env.PAYU_ENVIRONMENT === 'production'
 

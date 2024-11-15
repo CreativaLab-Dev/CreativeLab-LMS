@@ -28,6 +28,7 @@ const SalesPlans = ({
           price={10}
           bgColor="bg-sky-500"
           features={[]}
+          plan="monthly"
         />
         <CardPlan
           title="Anual"
@@ -36,6 +37,7 @@ const SalesPlans = ({
           price={100}
           bgColor="bg-sky-900"
           features={[]}
+          plan="annual"
           isPro
         />
       </div>

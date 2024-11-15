@@ -5,6 +5,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { checkoutMembership } from "@/features/courses/actions/checkout-membership";
 import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
 
@@ -16,6 +17,7 @@ interface CardPlanProps {
   titleColor?: string;
   isPro?: boolean;
   features: string[];
+  plan: string;
 }
 
 const CardPlan = ({
@@ -25,21 +27,24 @@ const CardPlan = ({
   bgColor,
   titleColor,
   isPro,
-  features
+  features,
+  plan
 }: CardPlanProps) => {
   const [isPending, startTransition] = useTransition()
+  const router = useRouter()
   const onClick = () => {
-    startTransition(() => {
-      checkoutMembership(price)
-        .then((response) => {
-          if (response.error) {
-            toast.error(response.error)
-          }
-          if (response.success && response.url) {
-            window.location.assign(response.url)
-          }
-        })
-    })
+    // startTransition(() => {
+    //   checkoutMembership(price)
+    //     .then((response) => {
+    //       if (response.error) {
+    //         toast.error(response.error)
+    //       }
+    //       if (response.success && response.url) {
+    //         window.location.assign(response.url)
+    //       }
+    //     })
+    // })
+    router.push(`/payu?plan=${plan}`)
   }
 
   return (
