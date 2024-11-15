@@ -36,7 +36,7 @@ const getLocalizedPrices = (countryCode: keyof typeof EXCHANGE_RATES) => {
 
 export const runtime = 'nodejs';
 
-export function GET(request: Request) {
+export default async function GET(request: Request) {
   const { country = 'PE' } = geolocation(request);
   const countryData = COUNTRY_ACCOUNT_IDS[country as keyof typeof COUNTRY_ACCOUNT_IDS];
 
