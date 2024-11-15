@@ -24,26 +24,25 @@ export const getDetailsToPayment = async () => {
 
   const asignatureProps: calculateMD5Props = {
     apiKey: process.env.PAYU_SECRET_KEY || '',
-    merchantId: '1025855',
-    reference: `${paymentCount + 1}`,
-    price: '10000',
+    merchantId: '1016915',
+    reference: `TestPayU`,
+    price: '20000',
     currency: 'COP'
   }
 
   const newAsignature = generateSignature(asignatureProps)
 
   const requiredFields = {
-    merchantId: '1025855',
-    referenceCode: `${paymentCount + 1}`,
-    accountId: '',
+    merchantId: '1016915',
+    referenceCode: `TestPayU`,
+    accountId: '512326',
     description: 'Test PAYU',
     currency: 'COP',
-    amount: '10000',
-    tax: '0',
-    taxReturnBase: '0',
+    amount: '20000',
+    tax: '3193',
+    taxReturnBase: '16806',
     signature: newAsignature,
     buyerEmail: user.email,
-    telephone: '',
     responseUrl: 'http://www.test.com/response',
     confirmationUrl: 'http://www.test.com/confirmation',
   }

@@ -2,33 +2,71 @@
 
 import { useEffect, useRef } from "react"
 
-const RedirectPayuEffect = () => {
+interface RedirectPayuEffectProps {
+  payuDetail: {
+    merchantId: string,
+    referenceCode: string,
+    accountId: string,
+    description: string,
+    currency: string,
+    amount: string,
+    tax: string,
+    taxReturnBase: string,
+    signature: string | null,
+    buyerEmail: string,
+    responseUrl: string,
+    confirmationUrl: string,
+  }
+  isProduction: boolean
+}
+
+const RedirectPayuEffect = ({ payuDetail, isProduction }: RedirectPayuEffectProps) => {
   const refForm = useRef<any>(null)
+  const {
+    merchantId,
+    referenceCode,
+    accountId,
+    description,
+    currency,
+    amount,
+    tax,
+    taxReturnBase,
+    signature,
+    buyerEmail,
+    responseUrl,
+    confirmationUrl,
+  } = payuDetail
 
   useEffect(() => {
     if (!refForm.current) return
     refForm.current.submit()
   }, [])
 
+  const ckeckoutUrl = isProduction
+    ? 'https://checkout.payulatam.com/ppp-web-gateway-payu/'
+    : 'https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/'
+
+  const isTest = isProduction ? '0' : '1'
+
   return (
     <form
       ref={refForm}
       method="post"
-      action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/"
+      action={ckeckoutUrl}
     >
-      <input name="merchantId" type="hidden" value="508029" />
-      <input name="accountId" type="hidden" value="512321" />
-      <input name="description" type="hidden" value="Test PAYU" />
-      <input name="referenceCode" type="hidden" value="Testss" />
-      <input name="amount" type="hidden" value="20000" />
-      <input name="tax" type="hidden" value="3193" />
-      <input name="taxReturnBase" type="hidden" value="16806" />
-      <input name="currency" type="hidden" value="COP" />
-      <input name="signature" type="hidden" value="7b9b3a35fc00f99dacdd7d83f1974d82" />
-      <input name="test" type="hidden" value="0" />
-      <input name="buyerEmail" type="hidden" value="test@test.com" />
-      <input name="responseUrl" type="hidden" value="http://www.test.com/response" />
-      <input name="confirmationUrl" type="hidden" value="http://www.test.com/confirmation" />
+      <input name="merchantId" type="hidden" value={merchantId} />
+      <input name="accountId" type="hidden" value={accountId} />
+      <input name="description" type="hidden" value={description} />
+      <input name="referenceCode" type="hidden" value={referenceCode} />
+      <input name="amount" type="hidden" value={amount} />
+      <input name="tax" type="hidden" value={tax} />
+      <input name="taxReturnBase" type="hidden" value={taxReturnBase} />
+      <input name="currency" type="hidden" value={currency} />
+      <input name="signature" type="hidden" value={`${signature}`} />
+      <input name="test" type="hidden" value={isTest} />
+      <input name="buyerEmail" type="hidden" value={buyerEmail} />
+      <input name="responseUrl" type="hidden" value={responseUrl} />
+      <input name="confirmationUrl" type="hidden" value={confirmationUrl} />
       <input name="Submit" type="submit" value="Enviar" />
     </form>
   )

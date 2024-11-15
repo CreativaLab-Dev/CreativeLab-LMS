@@ -11,8 +11,8 @@ export interface calculateMD5Props {
 export const generateSignature = (data: calculateMD5Props) => {
   try {
     const { apiKey, merchantId, reference, price, currency } = data
-    console.log({ ...data })
     const string = `${apiKey}~${merchantId}~${reference}~${price}~${currency}`
+    console.log('string', string)
     return MD5(string).toString()
   } catch (error) {
     return null
