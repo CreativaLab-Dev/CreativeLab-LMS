@@ -34,7 +34,7 @@ const getLocalizedPrices = (countryCode: keyof typeof EXCHANGE_RATES) => {
   };
 };
 
-export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
   try {
@@ -54,8 +54,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json(response);
   } catch (error) {
-    console.error(error);
+    console.log("[ERROR_GET_API_GEO_ROUTE]", error);
     return NextResponse.error();
-
   }
 }

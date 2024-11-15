@@ -10,28 +10,7 @@ export const {
   signIn,
   signOut
 } = NextAuth({
-  callbacks: {
-    async session({ session, token }) {
-      if (token.sub && session.user) {
-        session.user.id = token.sub
-      }
-
-      if (token.role && session.user) {
-        session.user.role = token.role
-      }
-      return session
-    },
-    async jwt({ token }) {
-      const existingUser = await db.user.findFirst({
-        where: { id: token.sub }
-      })
-      if (!existingUser) {
-        return null
-      }
-      token.role = existingUser.role
-      return token
-    },
-  },
+  callbacks: {},
   adapter: PrismaAdapter(db),
   session: { strategy: 'jwt' },
   ...authConfig,

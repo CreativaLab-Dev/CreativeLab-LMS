@@ -12,6 +12,7 @@ export type GetResourceList = {
   pagination: PaginationResults
 }
 
+
 export const getResourceOfTeacher = async (
   searchParams: PageParamasProps
 ): Promise<GetResourceList> => {

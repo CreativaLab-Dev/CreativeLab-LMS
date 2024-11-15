@@ -3,6 +3,8 @@ import HeaderPage from "@/components/ui/header-page";
 import { getResourceOfTeacher } from "@/features/resource/actions/get-resources-of-teacher";
 import ResourceOfTeacherList from "@/features/resource/components/resource-of-teacher-list";
 
+export const dynamic = 'force-dynamic';
+
 export default async function ResourceTeacherPage(
   searchParams: PageParamasProps
 ) {
