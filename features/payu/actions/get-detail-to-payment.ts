@@ -3,9 +3,18 @@
 import { auth } from "@/auth"
 import { db } from "@/lib/db"
 import { calculateMD5Props, generateSignature } from "@/lib/generate-signature"
-import { getGeoLocation } from "@/lib/get-geolocalization"
 
-export const getDetailsToPayment = async (plan: 'monthly' | 'annual') => {
+export const getDetailsToPayment = async (
+  plan: 'monthly' | 'annual',
+  geolocation: {
+    accountId: string,
+    currency: string
+    plans: {
+      monthly: string,
+      annual: string
+    }
+  }
+) => {
   const session = await auth()
   if (!session || !session.user || !session.user.id) {
     return null
@@ -21,14 +30,6 @@ export const getDetailsToPayment = async (plan: 'monthly' | 'annual') => {
     return null
   }
 
-  const geolocation = await getGeoLocation() as {
-    accountId: string,
-    currency: string
-    plans: {
-      monthly: string,
-      annual: string
-    }
-  }
   const paymentCount = await db.paymentOrder.count() || 0
 
   const merchantId = '1016915'

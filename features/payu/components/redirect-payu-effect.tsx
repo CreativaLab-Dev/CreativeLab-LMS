@@ -1,8 +1,7 @@
 'use client'
 
-import { getGeoLocation } from "@/lib/get-geolocalization"
 import { Lock } from "lucide-react"
-import { useEffect, useRef, useState } from "react"
+import { useEffect } from "react"
 
 interface RedirectPayuEffectProps {
   payuDetail: {
