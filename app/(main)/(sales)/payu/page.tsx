@@ -3,18 +3,14 @@ import RedirectPayuEffect from "@/features/payu/components/redirect-payu-effect"
 import { redirect } from "next/navigation"
 
 interface PayUPageProps {
-  searchParams: {
-    plan: 'monthly' | 'annual' | undefined
-  }
+  searchParams?: Promise<{
+    plan?: 'monthly' | 'annual'
+  }>
 }
 
-const PayUPage = async ({
-  searchParams
-}: PayUPageProps) => {
-  let { plan } = searchParams
-  if (plan === undefined) {
-    plan = 'monthly'
-  }
+const PayUPage = async (props: PayUPageProps) => {
+  let searchParams = await props.searchParams
+  let plan = searchParams?.plan || 'monthly'
   const payuDetail = await getDetailsToPayment(plan)
   if (!payuDetail) return redirect('/')
   const isProduction = process.env.PAYU_ENVIRONMENT === 'production'
