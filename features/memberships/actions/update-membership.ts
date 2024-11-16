@@ -16,7 +16,7 @@ export const updateMembership = async (
     }
   }
 
-  const { userId, type, startDate } = values
+  const { userId, type, startDate, endDate } = values
 
   const student = await db.student.findUnique({
     where: {
@@ -30,17 +30,11 @@ export const updateMembership = async (
     }
   }
 
-  const startDateFormatted = new Date(startDate)
-  let expiresAt = new Date(startDateFormatted)
-
-  if (type === 'month') {
-    expiresAt.setMonth(expiresAt.getMonth() + 1)
-  }
-
-  if (type === 'year') {
-    expiresAt.setFullYear(expiresAt.getFullYear() + 1)
-  }
-
+  //Add a one day in the start date to avoid the same day
+  let startDateFormatted = new Date(startDate)
+  startDateFormatted.setDate(startDateFormatted.getDate() + 1)
+  let expiresAt = new Date(endDate)
+  expiresAt.setDate(expiresAt.getDate() + 1)
 
   const membership = await db.membership.update({
     where: {

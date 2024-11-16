@@ -48,12 +48,12 @@ export function Combobox({ options, value, onChange }: ComboboxProps) {
         <Command>
           <CommandInput placeholder="Selecciona una opción..." />
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>Elemento no encontrado</CommandEmpty>
             <CommandGroup>
               {options.map((option) => (
                 <CommandItem
                   key={option.value}
-                  value={option.value}
+                  value={option.label}
                   onSelect={() => {
                     onChange(option?.value)
                     setOpen(false)

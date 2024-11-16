@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useTransition } from "react"
+import { useEffect, useState, useTransition } from "react"
 import * as z from "zod"
 import Link from "next/link"
 import { useForm } from "react-hook-form"
@@ -40,8 +40,10 @@ const MembershipEditForm = ({
   options,
   membership
 }: MembershipEditFormProps) => {
-  const router = useRouter()
+  const [isEditting, setIsEditting] = useState(false);
   const [isPending, startTransition] = useTransition()
+
+  const router = useRouter()
   const form = useForm<z.infer<typeof EditMembershipFormSchema>>({
     resolver: zodResolver(EditMembershipFormSchema),
     defaultValues: {
@@ -68,6 +70,10 @@ const MembershipEditForm = ({
   }
 
   useEffect(() => {
+    if (!isEditting) {
+      setIsEditting(true)
+      return
+    }
     const type = form.getValues("type")
     const startDate = form.getValues("startDate")
     if (!startDate) return
@@ -142,8 +148,8 @@ const MembershipEditForm = ({
                     <FormControl>
                       <Combobox
                         options={[
-                          { label: "Mensual", value: "monthly" },
-                          { label: "Anual", value: "yearly" },
+                          { label: "Mensual", value: "yearly" },
+                          { label: "Anual", value: "annual" },
                         ]}
                         {...field}
                       />
@@ -189,7 +195,7 @@ const MembershipEditForm = ({
                 <FormControl>
                   <FormItem>
                     <FormLabel>
-                      Fecha de fin
+                      Fecha fin
                       <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>

@@ -109,7 +109,7 @@ const MembershipsList = ({
                 {membership.user.name}
               </TableCell>
               <TableCell className="text-center">
-                {membership.expiresAt
+                {membership.expiresAt > new Date()
                   ? <Badge variant='published'>Activo</Badge>
                   : <Badge variant='draft'>Inactivo</Badge>}
               </TableCell>

@@ -13,7 +13,7 @@ export const getUsersWithoutMembership = async () => {
           {
             memberships: {
               some: {
-                expiresAt: { gte: new Date() }
+                expiresAt: { lte: new Date() }
               }
             }
           }
