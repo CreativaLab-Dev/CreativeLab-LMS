@@ -16,5 +16,6 @@ export type PageParamasProps = {
     isDesc?: string
     title?: string
     name?: string
+    mount?: string
   }
 }
