@@ -19,6 +19,7 @@ import { Building, LogOut, Settings2, UserIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Separator } from "./separator";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 interface UserButtonProps {
   currentUser: User;
@@ -50,7 +51,11 @@ const UserButton = ({
       <PopoverTrigger asChild>
         <div className="w-9 h-9 rounded-full overflow-hidden cursor-pointer">
           <Avatar>
-            <AvatarImage src={avatarPath} alt="@shadcn" className="w-full h-full" />
+            <AvatarImage
+              src={avatarPath}
+              alt="@shadcn"
+              className="rounded-full object-fit"
+            />
             <AvatarFallback>
               <div className=" loading-spinner">
                 <span className="sr-only">Loading...</span>
@@ -67,7 +72,11 @@ const UserButton = ({
           >
             <div className="w-11 h-11 rounded-full overflow-hidden">
               <Avatar>
-                <AvatarImage src={avatarPath} alt="@shadcn" className="w-full h-full" />
+                <AvatarImage
+                  src={avatarPath}
+                  alt="@shadcn"
+                  className="rounded-full object-fit"
+                />
                 <AvatarFallback>
                   <div className=" loading-spinner">
                     <span className="sr-only">Loading...</span>

@@ -98,7 +98,7 @@ const DashboardPage = async () => {
             <div className="text-xs text-blue-500 text-center pb-1">
               Recursos recientes
             </div>
-            <div className='space-y-4'>
+            <div className='space-y-4 grid grid-cols-1 lg:grid-cols-2 gap-4'>
               {lastRecursos.map((resource) => (
                 <ResourceCard
                   resource={resource}

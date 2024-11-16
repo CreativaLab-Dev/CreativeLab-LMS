@@ -66,7 +66,7 @@ export const ProfileForm = ({ currentUser }: ProfileFormProps) => {
         className="space-y-6"
       >
         <div className="space-y-4">
-          <div className="bg-gray-900 rounded py-4 px-10 flex flex-col md:flex-row gap-y-4 gap-x-4 md:gap-x-8 justify-center items-center">
+          <div className="bg-gradient-to-b border-blue-600 from-blue-800 to-blue-500 rounded py-4 px-10 flex flex-col md:flex-row gap-y-4 gap-x-4 md:gap-x-8 justify-center items-center">
 
             {
               isEdittingImage
@@ -114,11 +114,12 @@ export const ProfileForm = ({ currentUser }: ProfileFormProps) => {
                 </div>
                 : <div className="relative">
 
-                  <div className="relative aspect-[500/300] w-24 h-24 md:w-32 md:h-32">
+                  <div className="relative aspect-video  w-24 md:w-32 h-24 md:h-32 rounded-full overflow-hidden">
                     <Image
                       src={form.getValues('image') || "https://github.com/shadcn.png"}
                       className="rounded-full object-fit"
                       alt="user"
+                      objectFit="cover"
                       fill
                     />
                   </div>
@@ -213,6 +214,7 @@ export const ProfileForm = ({ currentUser }: ProfileFormProps) => {
         </div>
         <Button
           type='submit'
+          variant='premium'
           className="w-full"
           disabled={isPending}
         >
