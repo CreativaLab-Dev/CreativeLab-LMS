@@ -44,7 +44,7 @@ const CardPlan = ({
     //       }
     //     })
     // })
-    router.push(`/payu?plan=${plan}`)
+    router.push(`/plans/${plan}`)
   }
 
   return (
