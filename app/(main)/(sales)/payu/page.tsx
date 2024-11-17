@@ -15,8 +15,6 @@ const PayUPage = async (search: PayUPageProps) => {
   const payuDetail = await getDetailsToPayment(searchParams?.plan || 'monthly')
   if (!payuDetail) return redirect('/')
   const isProduction = process.env.PAYU_ENVIRONMENT === 'production'
-  console.log('payuDetail', payuDetail)
-  console.log('isProduction', isProduction)
   return (
     <RedirectPayuEffect
       payuDetail={payuDetail}

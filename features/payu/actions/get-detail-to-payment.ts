@@ -34,7 +34,7 @@ export const getDetailsToPayment = async (
 
   const merchantId = '1016915'
   const description = plan === 'monthly' ? 'Plan mensual' : 'Plan anual'
-  const price = plan === 'monthly' ? '38.08' : '380'
+  const price = plan === 'monthly' ? '39.90' : '389.90'
   const currency = 'PEN'
   const accountId = '512323'
 
