@@ -35,7 +35,7 @@ export const getDetailsToPayment = async (
   const merchantId = '1016915'
   const description = plan === 'monthly' ? 'Plan mensual' : 'Plan anual'
   const price = plan === 'monthly' ? '47282' : '472818'
-  const currency = 'PEN'
+  const currency = 'CO'
   const accountId = '512321'
 
   const asignatureProps: calculateMD5Props = {
