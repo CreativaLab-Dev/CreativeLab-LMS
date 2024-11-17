@@ -34,9 +34,9 @@ export const getDetailsToPayment = async (
 
   const merchantId = '1016915'
   const description = plan === 'monthly' ? 'Plan mensual' : 'Plan anual'
-  const price = plan === 'monthly' ? '39.90' : '389.90'
+  const price = plan === 'monthly' ? '47282' : '472818'
   const currency = 'PEN'
-  const accountId = '512323'
+  const accountId = '512321'
 
   const asignatureProps: calculateMD5Props = {
     apiKey: process.env.PAYU_SECRET_KEY || '',
