@@ -62,7 +62,8 @@ const CardPlan = ({
               price === 0 ? 'Gratis' : price}
             {
               price !== 0 && <span className=" px-1 text-lg font-normal">
-                USD/mes
+                USD/
+                {plan === 'monthly' ? 'mes' : 'año'}
               </span>
             }
           </p>
