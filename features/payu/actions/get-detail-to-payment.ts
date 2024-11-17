@@ -33,15 +33,15 @@ export const getDetailsToPayment = async (
   const paymentCount = await db.paymentOrder.count() || 0
 
   const merchantId = '1016915'
-  const price = '10'
   const description = plan === 'monthly' ? 'Plan mensual' : 'Plan anual'
-  const currency = 'COP'
-  const accountId = ''
+  const price = plan === 'monthly' ? '38.08' : '380'
+  const currency = 'PEN'
+  const accountId = '512323'
 
   const asignatureProps: calculateMD5Props = {
     apiKey: process.env.PAYU_SECRET_KEY || '',
     merchantId,
-    reference: `TestPayU${paymentCount}`,
+    reference: `CreativaLab-${paymentCount}`,
     price,
     currency: currency,
   }
@@ -55,8 +55,8 @@ export const getDetailsToPayment = async (
     description,
     currency: currency,
     amount: price,
-    tax: '3193',
-    taxReturnBase: '16806',
+    tax: '0',
+    taxReturnBase: '0',
     signature: newAsignature,
     buyerEmail: user.email,
     responseUrl: 'http://www.test.com/response',
