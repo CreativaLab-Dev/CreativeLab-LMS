@@ -1,8 +1,6 @@
 import { PageParamasProps } from "@/dtype";
 import HeaderPage from "@/components/ui/header-page";
-
 import { getMembershipsAdmin } from "@/features/memberships/actions/get-memberships-list";
-import MentorOfTeacherList from "@/features/mentors/components/mentors-of-teacher-list";
 import MembershipsList from "@/features/memberships/components/memberships-list";
 
 

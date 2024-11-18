@@ -6,8 +6,6 @@ import { useEffect, useState } from "react";
 import { format } from 'date-fns';
 import qs from "query-string"
 
-import { Membership, Mentor } from "@prisma/client";
-
 import {
   Table,
   TableBody,
@@ -106,7 +104,7 @@ const MembershipsList = ({
                 {(pagination.page - 1) * pagination.sizePage + index + 1}
               </TableCell>
               <TableCell className="text-center">
-                {membership.user.name}
+                {membership.user.email}
               </TableCell>
               <TableCell className="text-center">
                 {membership.expiresAt > new Date()

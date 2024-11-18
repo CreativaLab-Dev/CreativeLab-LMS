@@ -9,7 +9,7 @@ import { PaginationResults } from "@/components/ui/pagination-list"
 
 export type MembershipWithStudent = Membership & {
   user: {
-    name: string | null
+    email: string | null
   }
 }
 
@@ -63,7 +63,7 @@ export const getMembershipsAdmin = async (
     db.membership.findMany({
       where: {
         user: {
-          name: {
+          email: {
             contains: name
           }
         }
@@ -79,12 +79,12 @@ export const getMembershipsAdmin = async (
         paymentOrderId: true,
         user: {
           select: {
-            name: true,
+            email: true,
           }
         },
       },
       orderBy: {
-        [sortBy || 'createdAt']: isDesc ? 'desc' : 'asc',
+        [sortBy || 'updatedAt']: isDesc ? 'desc' : 'asc',
       },
       skip: (page - 1) * sizePage,
       take: sizePage,

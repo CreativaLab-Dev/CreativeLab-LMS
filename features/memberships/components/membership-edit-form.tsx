@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState, useTransition } from "react"
-import { es } from 'date-fns/locale';
 import * as z from "zod"
 import Link from "next/link"
 import { useForm } from "react-hook-form"
@@ -23,8 +22,11 @@ import { Button } from "@/components/ui/button"
 import { Combobox } from "@/components/ui/combobox"
 
 import {
-  format
+  format,
+  parseISO
 } from "date-fns"
+import { fromZonedTime } from 'date-fns-tz';
+import { es } from 'date-fns/locale';
 import { Membership } from "@prisma/client"
 import { updateMembership } from "../actions/update-membership"
 import { ArrowLeft } from "lucide-react"
@@ -50,8 +52,12 @@ const MembershipEditForm = ({
     defaultValues: {
       userId: membership.userId,
       type: membership.type,
-      startDate: format(new Date(membership.createdAt), "yyyy-MM-dd"),
-      endDate: format(new Date(membership.expiresAt), "yyyy-MM-dd"),
+      startDate: membership.createdAt
+        ? format(new Date(membership.createdAt), "yyyy-MM-dd")
+        : '',
+      endDate: membership.expiresAt
+        ? format(new Date(membership.expiresAt), "yyyy-MM-dd")
+        : '',
     }
   })
 
@@ -71,6 +77,7 @@ const MembershipEditForm = ({
   }
 
   useEffect(() => {
+    console.log(form.getValues("startDate"))
     if (!isEditting) {
       setIsEditting(true)
       return
@@ -181,8 +188,13 @@ const MembershipEditForm = ({
                       />
                     </FormControl>
                     <FormDescription>
-                      {form.getValues('startDate') &&
-                        format(new Date(form.getValues('startDate')), "dd 'de' MMMM, yyyy", { locale: es })}
+                      {form.getValues('startDate') && (
+                        (() => {
+                          const isoDate = form.getValues('startDate'); // Fecha en formato ISO
+                          const zonedDate = fromZonedTime(parseISO(isoDate), 'America/Mexico_City'); // Convierte al timezone deseado
+                          return format(zonedDate, "dd 'de' MMMM, yyyy", { locale: es });
+                        })()
+                      )}
                       {!form.getValues('startDate') && 'La fecha en la que inicia la membresía'}
                     </FormDescription>
                     <FormMessage />
@@ -209,8 +221,13 @@ const MembershipEditForm = ({
                       />
                     </FormControl>
                     <FormDescription>
-                      {form.getValues('endDate') &&
-                        format(new Date(form.getValues('endDate')), "dd 'de' MMMM, yyyy", { locale: es })}
+                      {form.getValues('endDate') && (
+                        (() => {
+                          const isoDate = form.getValues('endDate'); // Fecha en formato ISO
+                          const zonedDate = fromZonedTime(parseISO(isoDate), 'America/Mexico_City'); // Convierte al timezone deseado
+                          return format(zonedDate, "dd 'de' MMMM, yyyy", { locale: es });
+                        })()
+                      )}
                       {!form.getValues('endDate') &&
                         'La fecha en la que termina la membresía'}
                     </FormDescription>

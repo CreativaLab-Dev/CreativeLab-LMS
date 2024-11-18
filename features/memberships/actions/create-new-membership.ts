@@ -31,14 +31,16 @@ export const createNewMembership = async (
 
   const startDateFormatted = new Date(startDate)
   let expiresAt = new Date(endDate)
+  console.log('startDateFormatted', startDateFormatted)
+  console.log('expiresAt', expiresAt)
 
-  // if (type === 'month') {
-  //   expiresAt.setMonth(expiresAt.getMonth() + 1)
-  // }
+  if (type === 'month') {
+    expiresAt.setMonth(expiresAt.getMonth() + 1)
+  }
 
-  // if (type === 'year') {
-  //   expiresAt.setFullYear(expiresAt.getFullYear() + 1)
-  // }
+  if (type === 'year') {
+    expiresAt.setFullYear(expiresAt.getFullYear() + 1)
+  }
 
   const amountNumber = parseFloat(amount) ?? 0
 
@@ -47,7 +49,7 @@ export const createNewMembership = async (
       type,
       expiresAt,
       status: 'active',
-      createdAt: startDateFormatted,
+      createdAt: startDateFormatted.toISOString(),
       paymentOrders: {
         create: {
           amount: amountNumber,
@@ -61,6 +63,8 @@ export const createNewMembership = async (
       }
     }
   })
+
+  console.log('membership', membership)
 
   if (!membership) {
     return {
