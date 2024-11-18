@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState, useTransition } from "react"
+import { es } from 'date-fns/locale';
 import * as z from "zod"
 import Link from "next/link"
 import { useForm } from "react-hook-form"
@@ -180,7 +181,9 @@ const MembershipEditForm = ({
                       />
                     </FormControl>
                     <FormDescription>
-                      La fecha en la que inicia la membresía
+                      {form.getValues('startDate') &&
+                        format(new Date(form.getValues('startDate')), "dd 'de' MMMM, yyyy", { locale: es })}
+                      {!form.getValues('startDate') && 'La fecha en la que inicia la membresía'}
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -206,7 +209,10 @@ const MembershipEditForm = ({
                       />
                     </FormControl>
                     <FormDescription>
-                      La fecha en la que termina la membresía
+                      {form.getValues('endDate') &&
+                        format(new Date(form.getValues('endDate')), "dd 'de' MMMM, yyyy", { locale: es })}
+                      {!form.getValues('endDate') &&
+                        'La fecha en la que termina la membresía'}
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
