@@ -30,10 +30,9 @@ export const createNewMembership = async (
   }
 
   const startDateFormatted = new Date(startDate)
+  startDateFormatted.setDate(startDateFormatted.getDate() + 1)
   let expiresAt = new Date(endDate)
-  console.log('startDateFormatted', startDateFormatted)
-  console.log('expiresAt', expiresAt)
-
+  expiresAt.setDate(expiresAt.getDate() + 1)
   if (type === 'month') {
     expiresAt.setMonth(expiresAt.getMonth() + 1)
   }
@@ -41,6 +40,7 @@ export const createNewMembership = async (
   if (type === 'year') {
     expiresAt.setFullYear(expiresAt.getFullYear() + 1)
   }
+  console.log('expiresAt', expiresAt)
 
   const amountNumber = parseFloat(amount) ?? 0
 
@@ -63,8 +63,6 @@ export const createNewMembership = async (
       }
     }
   })
-
-  console.log('membership', membership)
 
   if (!membership) {
     return {

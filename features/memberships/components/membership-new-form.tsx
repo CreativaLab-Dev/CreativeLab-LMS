@@ -51,7 +51,6 @@ const MembershipNewForm = ({
 
   const onSubmit = (values: z.infer<typeof NewMembershipFormSchema>) => {
     if (isPending) return
-    console.log(values)
     startTransition(() => {
       createNewMembership(values).then((result) => {
         if (result?.success && result?.id) {
