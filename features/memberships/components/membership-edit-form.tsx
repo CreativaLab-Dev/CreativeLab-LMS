@@ -148,7 +148,7 @@ const MembershipEditForm = ({
                     <FormControl>
                       <Combobox
                         options={[
-                          { label: "Mensual", value: "yearly" },
+                          { label: "Mensual", value: "monthly" },
                           { label: "Anual", value: "annual" },
                         ]}
                         {...field}

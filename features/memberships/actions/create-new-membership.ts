@@ -15,7 +15,7 @@ export const createNewMembership = async (
     }
   }
 
-  const { userId, type, startDate, amount } = values
+  const { userId, type, startDate, amount, endDate } = values
 
   const student = await db.student.findUnique({
     where: {
@@ -30,15 +30,15 @@ export const createNewMembership = async (
   }
 
   const startDateFormatted = new Date(startDate)
-  let expiresAt = new Date(startDateFormatted)
+  let expiresAt = new Date(endDate)
 
-  if (type === 'month') {
-    expiresAt.setMonth(expiresAt.getMonth() + 1)
-  }
+  // if (type === 'month') {
+  //   expiresAt.setMonth(expiresAt.getMonth() + 1)
+  // }
 
-  if (type === 'year') {
-    expiresAt.setFullYear(expiresAt.getFullYear() + 1)
-  }
+  // if (type === 'year') {
+  //   expiresAt.setFullYear(expiresAt.getFullYear() + 1)
+  // }
 
   const amountNumber = parseFloat(amount) ?? 0
 

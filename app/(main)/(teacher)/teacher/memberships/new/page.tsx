@@ -12,7 +12,7 @@ const NewMembershipPage = async () => {
   return (
     <MembershipNewForm
       options={users.map((user) => ({
-        label: user.name || '',
+        label: user.email || '',
         value: user.id
       }))}
     />
