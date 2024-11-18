@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 declare global {
   interface Window {
@@ -9,7 +9,9 @@ declare global {
 }
 
 const PayPalButton: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
+    setIsLoading(true);
     // Crear el script de PayPal y agregarlo al documento
     const script = document.createElement("script");
     script.src =
@@ -41,7 +43,7 @@ const PayPalButton: React.FC = () => {
     // Agregar el script al DOM
     document.body.appendChild(script);
 
-    // Limpiar el script cuando el componente se desmonta
+    setIsLoading(false);
     return () => {
       document.body.removeChild(script);
     };
@@ -49,7 +51,10 @@ const PayPalButton: React.FC = () => {
 
   return (
     <div>
-      <div id="paypal-button-container-P-0GE566183R282010RM44WDSY"></div>
+      {isLoading && <p>Cargando...</p>}
+      {!isLoading && (
+        <div id="paypal-button-container-P-0GE566183R282010RM44WDSY"></div>
+      )}
     </div>
   );
 };

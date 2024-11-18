@@ -5,6 +5,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { checkoutMembership } from "@/features/courses/actions/checkout-membership";
 import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
@@ -16,6 +17,7 @@ interface CardPlanProps {
   bgColor: string;
   titleColor?: string;
   isPro?: boolean;
+  url?: string;
   features: string[];
   plan: string;
 }
@@ -28,7 +30,8 @@ const CardPlan = ({
   titleColor,
   isPro,
   features,
-  plan
+  plan,
+  url
 }: CardPlanProps) => {
   const [isPending, startTransition] = useTransition()
   const router = useRouter()
@@ -44,6 +47,9 @@ const CardPlan = ({
     //       }
     //     })
     // })
+    if (url) {
+      return
+    }
     router.push(`/plans/${plan}`)
   }
 
@@ -69,14 +75,21 @@ const CardPlan = ({
           </p>
         </CardContent>
         <CardFooter>
-          <Button
-            disabled={isPending}
-            onClick={onClick}
-            className="rounded-xl w-full font-bold"
-            variant={isPro ? 'premium' : 'outline'}
+          <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full"
           >
-            Elegir
-          </Button>
+            <Button
+              disabled={isPending}
+              onClick={onClick}
+              className="rounded-xl w-full font-bold"
+              variant={isPro ? 'premium' : 'outline'}
+            >
+              Elegir
+            </Button>
+          </a>
         </CardFooter>
       </Card>
       <div className="flex flex-col gap-4 px-4 md:px-8 mt-4 md:mt-10">

@@ -25,12 +25,13 @@ const SalesPlans = ({
         <CardPlan
           title="Mensual"
           description="Comienza a diseñar con las funciones básicas de nuestra plataforma."
-          price={10}
+          price={19}
           bgColor="bg-sky-500"
           features={[]}
           plan="monthly"
+          url="https://www.google.com"
         />
-        <CardPlan
+        {/* <CardPlan
           title="Anual"
           titleColor="text-indigo-100"
           description="Desbloqueda funciones esenciales para diseñadores y equipos de diseño."
@@ -39,7 +40,7 @@ const SalesPlans = ({
           features={[]}
           plan="annual"
           isPro
-        />
+        /> */}
       </div>
       {!isModal && (
         <div className="py-5 md:py-10 px-6 md:px-10 flex items-center justify-center">
