@@ -2,11 +2,13 @@ import { PageParamasProps } from "@/dtype";
 import HeaderPage from "@/components/ui/header-page";
 import { getMembershipsAdmin } from "@/features/memberships/actions/get-memberships-list";
 import MembershipsList from "@/features/memberships/components/memberships-list";
+import { isAdminMiddleware } from "@/lib/is-admin-middleware";
 
 
 export default async function MembershipAdminPage(
   searchParams: PageParamasProps
 ) {
+  await isAdminMiddleware()
   const { memberships, pagination } = await getMembershipsAdmin(searchParams)
   return (
     <div className="space-y-3 py-4 lg:py-8">

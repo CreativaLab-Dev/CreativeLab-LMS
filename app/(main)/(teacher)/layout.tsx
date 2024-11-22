@@ -18,7 +18,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
     return redirect('/auth/login');
   }
 
-  if (!currentUser.isAdmin) {
+  if (!currentUser.teacherId) {
     return redirect('/');
   }
 
@@ -28,12 +28,14 @@ export default async function DashboardLayout({ children }: { children: React.Re
     <div className="h-full">
       <div className="h-[60px] md:pl-56 fixed inset-y-0 w-full z-10">
         <Navbar
+          isAdmin={currentUser.isAdmin}
           currentUser={currentUser}
           isPremium={!!membershipActive}
         />
       </div>
       <div className="hidden md:flex w-56 flex-col fixed inset-y-0">
         <Sidebar
+          isAdmin={currentUser.isAdmin}
           currentUser={currentUser}
           isPremium={!!membershipActive}
         />

@@ -8,6 +8,7 @@ import MembershipStatistics from "@/features/statistics/components/membership-st
 import PaymentStatistics from "@/features/statistics/components/payments-statistics";
 import StudentsStatistics from "@/features/statistics/components/students-statistics";
 import { getStatisticsStudents } from "@/features/statistics/actions/get-statistics-students";
+import { isAdminMiddleware } from "@/lib/is-admin-middleware";
 
 interface StatisticsPageProps {
   searchParams: {
@@ -18,10 +19,8 @@ interface StatisticsPageProps {
 const statisticsPage = async ({
   searchParams
 }: StatisticsPageProps) => {
-  const session = await auth()
-  if (!session || !session.user || !session.user.id) {
-    return redirect('/')
-  }
+  await isAdminMiddleware()
+
   const year = searchParams?.year || new Date().getFullYear()
 
   const {

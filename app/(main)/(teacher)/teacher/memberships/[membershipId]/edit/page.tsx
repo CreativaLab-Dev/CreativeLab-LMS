@@ -3,6 +3,7 @@ import { auth } from "@/auth"
 import { getMembershipById } from "@/features/memberships/actions/get-membership-by-id"
 import MembershipEditForm from "@/features/memberships/components/membership-edit-form"
 import { getUserById } from "@/features/memberships/actions/get-user-by-id"
+import { isAdminMiddleware } from "@/lib/is-admin-middleware"
 
 type MembershipIdPageProps = {
   params: {
@@ -14,10 +15,7 @@ export default async function MembershipIdPage({
   params
 }: MembershipIdPageProps) {
 
-  const session = await auth()
-  if (!session || !session.user || !session.user.id) {
-    return redirect('/')
-  }
+  await isAdminMiddleware()
 
   const membershipId = params.membershipId
   const membership = await getMembershipById(membershipId)

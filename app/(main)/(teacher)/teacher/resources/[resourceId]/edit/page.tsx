@@ -12,6 +12,7 @@ import ResourcePriceForm from "@/features/resource/components/resource-price-for
 import ResourceLevelForm from "@/features/resource/components/resource-level-form"
 import ResourceExternalLinkForm from "@/features/resource/components/resource-external-link-form"
 import ResourceCategoryForm from "@/features/resource/components/resource-category-form"
+import { isAdminMiddleware } from "@/lib/is-admin-middleware"
 
 type ResourceIdPageProps = {
   params: {
@@ -22,6 +23,7 @@ type ResourceIdPageProps = {
 export default async function ResourceIdPage({
   params
 }: ResourceIdPageProps) {
+  await isAdminMiddleware()
   const resourceId = params.resourceId
   const resource = await getResourceById(resourceId)
   if (!resource) {

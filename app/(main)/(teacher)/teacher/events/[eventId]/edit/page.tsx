@@ -15,6 +15,7 @@ import EventLinkForm from "@/features/events/components/event-link-form"
 import EventLocationForm from "@/features/events/components/event-location-form"
 import EventOrganizersForm from "@/features/events/components/event-organizers-form"
 import EventExternalLinkForm from "@/features/events/components/event-external-link-form"
+import { isAdminMiddleware } from "@/lib/is-admin-middleware"
 
 type EventIdPageProps = {
   params: {
@@ -25,6 +26,7 @@ type EventIdPageProps = {
 export default async function EventIdPage({
   params
 }: EventIdPageProps) {
+  await isAdminMiddleware()
   const eventId = params.eventId
   const event = await getEventById(eventId)
   if (!event) {

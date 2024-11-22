@@ -7,9 +7,11 @@ import SidebarRoutes from "./sidebar-routes";
 interface SidebarProps {
   currentUser: User;
   isPremium: boolean;
+  isAdmin?: boolean;
 }
 
 const Sidebar = ({
+  isAdmin = false,
   currentUser,
   isPremium
 }: SidebarProps) => {
@@ -20,6 +22,7 @@ const Sidebar = ({
       </div>
       <div className="flex flex-col w-full h-full">
         <SidebarRoutes
+          isAdmin={isAdmin}
           currentUser={currentUser}
           isPremium={!!isPremium}
         />

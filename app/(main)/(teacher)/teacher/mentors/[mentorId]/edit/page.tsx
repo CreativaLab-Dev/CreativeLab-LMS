@@ -15,6 +15,7 @@ import MentorIndustriesForm from "@/features/mentors/components/mentor-industrie
 import MentorIdiomsForm from "@/features/mentors/components/mentor-idioms-form"
 import MentorEmailForm from "@/features/mentors/components/mentor-email-form"
 import MentorExternalLinkForm from "@/features/mentors/components/mentor-external-link-form"
+import { isAdminMiddleware } from "@/lib/is-admin-middleware"
 
 type MentorIdPageProps = {
   params: {
@@ -25,6 +26,7 @@ type MentorIdPageProps = {
 export default async function MentorIdPage({
   params
 }: MentorIdPageProps) {
+  await isAdminMiddleware()
   const mentorId = params.mentorId
   const mentor = await getMentorById(mentorId)
   if (!mentor) {

@@ -51,7 +51,7 @@ const studentRoutes = [
 const teacherRoutes = [
   {
     icon: Book,
-    label: "Cursos",
+    label: "Mis cursos",
     href: "/teacher/courses",
   },
   {
@@ -84,16 +84,21 @@ const teacherRoutes = [
 interface SidebarRoutesProps {
   currentUser: User;
   isPremium: boolean;
+  isAdmin?: boolean;
 }
 
 const SidebarRoutes = ({
   currentUser,
+  isAdmin = false,
   isPremium
 }: SidebarRoutesProps) => {
   const pathname = usePathname();
 
   const isTeacherPage = pathname.includes("/teacher")
-  const routes = isTeacherPage ? teacherRoutes : studentRoutes;
+  let routes = isTeacherPage ? teacherRoutes : studentRoutes;
+  if (!isAdmin && isTeacherPage) {
+    routes = routes.filter(route => route.href === "/teacher/courses");
+  }
 
   const currentYear = new Date().getFullYear();
 

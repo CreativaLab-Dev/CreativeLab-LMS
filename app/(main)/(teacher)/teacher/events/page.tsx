@@ -2,11 +2,13 @@ import { PageParamasProps } from "@/dtype";
 import HeaderPage from "@/components/ui/header-page";
 import { getEventsOfTeacher } from "@/features/events/actions/get-events-of-teacher";
 import EventList from "@/features/events/components/events-list";
+import { isAdminMiddleware } from "@/lib/is-admin-middleware";
 
 
 export default async function EventTeacherPage(
   searchParams: PageParamasProps
 ) {
+  await isAdminMiddleware()
   const { events, pagination } = await getEventsOfTeacher(searchParams)
   return (
     <div className="space-y-3 py-4 lg:py-8">

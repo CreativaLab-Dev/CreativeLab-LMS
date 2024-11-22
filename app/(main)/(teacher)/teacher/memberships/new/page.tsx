@@ -1,13 +1,9 @@
-import { auth } from "@/auth";
 import { getUsersWithoutMembership } from "@/features/memberships/actions/get-users-active";
 import MembershipNewForm from "@/features/memberships/components/membership-new-form";
-import { redirect } from "next/navigation";
+import { isAdminMiddleware } from "@/lib/is-admin-middleware";
 
 const NewMembershipPage = async () => {
-  const session = await auth()
-  if (!session || !session.user || !session.user.id) {
-    return redirect('/')
-  }
+  await isAdminMiddleware()
   const users = await getUsersWithoutMembership();
   return (
     <MembershipNewForm

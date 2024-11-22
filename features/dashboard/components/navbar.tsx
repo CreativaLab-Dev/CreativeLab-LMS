@@ -7,16 +7,25 @@ import MobileSidebar from "./mobile-sidebar";
 interface NavbarProps {
   currentUser: User;
   isPremium: boolean
+  isAdmin?: boolean;
 }
 
 const Navbar = ({
   currentUser,
-  isPremium
+  isPremium,
+  isAdmin
 }: NavbarProps) => {
   return (
     <div className="bg-gradient-to-l from-blue-800 to-blue-500 p-4 border-b h-full flex items-center shadow-sm">
-      <MobileSidebar currentUser={currentUser} isPremium={isPremium} />
-      <NavbarRoutes currentUser={currentUser} isPremium={isPremium} />
+      <MobileSidebar
+        currentUser={currentUser}
+        isPremium={isPremium}
+      />
+      <NavbarRoutes
+        currentUser={currentUser}
+        isPremium={isPremium}
+        isAdmin={isAdmin}
+      />
     </div>
   );
 }

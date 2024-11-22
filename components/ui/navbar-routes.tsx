@@ -13,12 +13,14 @@ interface NavbarRoutesProps {
   currentUser: User;
   isPremium: boolean
   isSales?: boolean
+  isAdmin?: boolean;
 }
 
 export const NavbarRoutes = ({
   currentUser,
   isPremium,
-  isSales
+  isSales,
+  isAdmin = false
 }: NavbarRoutesProps) => {
   const pathname = usePathname()
 
@@ -26,7 +28,7 @@ export const NavbarRoutes = ({
   const isCoursePage = pathname.includes("/courses")
   const isSearchPage = pathname === "/search"
 
-  const isUserTeacher = currentUser.isAdmin
+  const isUserTeacher = currentUser.teacherId || isAdmin
 
   return (
     <>

@@ -1,6 +1,8 @@
 import EventNewForm from "@/features/events/components/event-new-form";
+import { isAdminMiddleware } from "@/lib/is-admin-middleware";
 
-const EventNewPage = () => {
+const EventNewPage = async () => {
+  await isAdminMiddleware()
   return (
     <EventNewForm />
   );
