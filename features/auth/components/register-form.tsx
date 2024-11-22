@@ -18,13 +18,15 @@ import { Button } from "@/components/ui/button"
 import { FormError } from "@/components/ui/form-error"
 import { FormSuccess } from "@/components/ui/form-success"
 import { register } from "../actions/register"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+// import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { toast } from "sonner"
+import { EyeClosedIcon, EyeIcon } from "lucide-react"
 
 export const RegisterForm = () => {
   const [isPending, startTransition] = useTransition()
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
+  const [showPassword, setShowPassword] = useState(false)
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
@@ -51,9 +53,13 @@ export const RegisterForm = () => {
     })
   }
 
+  const onTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword)
+  }
+
   return (
     <CardWrapper
-      headerLabel="Registro"
+      headerLabel="Crear cuenta"
       backButtonHref="/auth/login"
       backButtonLabel="Ya tienes cuenta? Inicia Sesion"
       showSocial
@@ -85,7 +91,7 @@ export const RegisterForm = () => {
                 </FormControl>
               )}
             />
-            <FormField
+            {/* <FormField
               control={form.control}
               name='role'
               render={({ field }) => (
@@ -110,7 +116,7 @@ export const RegisterForm = () => {
                   </FormItem>
                 </FormControl>
               )}
-            />
+            /> */}
             <FormField
               control={form.control}
               name='email'
@@ -142,12 +148,21 @@ export const RegisterForm = () => {
                       <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        {...field}
-                        disabled={isPending}
-                        placeholder="**********"
-                        type='password'
-                      />
+                      <div className="relative w-full">
+                        <Input
+                          {...field}
+                          disabled={isPending}
+                          placeholder={!showPassword ? "********" : "Contraseña"}
+                          type={showPassword ? "text" : "password"}
+                        />
+                        {/* Add button with eye to watch */}
+                        <div
+                          className="absolute right-0 top-0 mt-2 mr-3 hover:opacity-90 cursor-pointer"
+                          onClick={onTogglePasswordVisibility}
+                        >
+                          <EyeIcon size={18} />
+                        </div>
+                      </div>
                     </FormControl>
                   </FormItem>
                 </FormControl>
@@ -161,7 +176,7 @@ export const RegisterForm = () => {
             className="w-full"
             disabled={isPending}
           >
-            Iniciar Sesion
+            Registrarse
           </Button>
         </form>
       </Form>
