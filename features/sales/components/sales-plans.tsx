@@ -36,7 +36,7 @@ const SalesPlans = ({
 
           ]}
           plan="monthly"
-          url="https://www.google.com"
+          url="https://www.patreon.com/checkout/CreativaAcademy"
         />
         {/* <CardPlan
           title="Anual"
