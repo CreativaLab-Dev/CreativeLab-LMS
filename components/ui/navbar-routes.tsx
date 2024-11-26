@@ -29,6 +29,7 @@ export const NavbarRoutes = ({
   const isSearchPage = pathname === "/search"
 
   const isUserTeacher = currentUser.teacherId || isAdmin
+  const buttonLabel = isAdmin ? "Modo Administrador" : "Modo Profesor"
 
   return (
     <>
@@ -55,7 +56,7 @@ export const NavbarRoutes = ({
               size='sm'
               variant='secondary'
             >
-              Modo Profesor
+              {buttonLabel}
             </Button>
           </Link>
         )}

@@ -16,7 +16,7 @@ const CardCustomPlan = () => {
           <div className="flex flex-col gap-y-2">
             <h2 className="text-xl font-bold">Ya pagaste?</h2>
             <p className="text-gray-500 text-sm">
-              Notificanos en el whatsaap de soporte para activar tu cuenta.
+              Si ya realizaste tu pago, notifícanos en el whatsaap de soporte para activar tu cuenta
             </p>
             <Button
               onClick={onClickContact}

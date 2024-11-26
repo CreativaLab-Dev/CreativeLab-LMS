@@ -33,6 +33,10 @@ const CourseCard = ({
             alt={title}
             src={imageUrl}
           />
+          {/* Label de premium */}
+          <div className="absolute top-2 right-2 bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-700 text-xs px-2 py-1 rounded-md font-bold">
+            PRO
+          </div>
         </div>
         <div className="flex flex-col pt-2">
           <div className="text-lg md:text-base font-medium group-hover:text-sky-700 transition line-clamp-2">

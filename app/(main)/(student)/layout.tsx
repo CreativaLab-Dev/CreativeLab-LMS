@@ -25,12 +25,14 @@ export default async function DashboardLayout({ children }: { children: React.Re
         <Navbar
           currentUser={currentUser}
           isPremium={!!membershipActive}
+          isAdmin={currentUser.isAdmin}
         />
       </div>
       <div className="hidden md:flex w-56 flex-col fixed inset-y-0">
         <Sidebar
           currentUser={currentUser}
           isPremium={!!membershipActive}
+          isAdmin={currentUser.isAdmin}
         />
       </div>
       <main className="md:pl-56 pt-16">

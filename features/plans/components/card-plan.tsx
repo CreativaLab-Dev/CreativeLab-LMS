@@ -54,7 +54,7 @@ const CardPlan = ({
   }
 
   return (
-    <div className="flex flex-col gapy-4">
+    <div className="flex flex-col sm:flex-row gap-y-4">
       <Card className={cn("w-[320px]", bgColor)}>
         <CardContent className="pt:10 md:pt-16">
           <p className={cn("text-xl md:text-3xl font-bold text-center py-4 md:py-6 text-gray-100", titleColor)}>
@@ -92,7 +92,7 @@ const CardPlan = ({
           </a>
         </CardFooter>
       </Card>
-      <div className="flex flex-col gap-4 px-4 md:px-8 mt-4 md:mt-10">
+      <div className="flex flex-col gap-4 px-4 md:px-8 mt-4 md:mt-10 max-w-[540px]">
         {
           features.map((feature, index) => (
             <div key={index} className="flex items-center gap-2 text-gray-800">
