@@ -1,8 +1,8 @@
 'use client';
 
-import { Edit2, Plus, Search } from "lucide-react";
+import { Edit2, Plus, Search, Trash } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { format } from 'date-fns';
 import qs from "query-string"
 
@@ -21,6 +21,9 @@ import { Badge } from "@/components/ui/badge";
 import { useDebounce } from "@/hooks/use-debounce";
 import { cn } from "@/lib/utils";
 import { MembershipWithStudent } from "../actions/get-memberships-list";
+import { useConfirm } from "@/hooks/use-confirm";
+import { deleteMembership } from "../actions/delete-membership";
+import { toast } from "sonner";
 
 interface MembershipsProps {
   memberships: MembershipWithStudent[]
@@ -38,6 +41,13 @@ const MembershipsList = ({
   const params = useSearchParams()
   const debouncedValue = useDebounce(search)
 
+  const [isPending, startTransition] = useTransition()
+
+  const [
+    ConfirmDialog,
+    ok
+  ] = useConfirm('Eliminar membresía', '¿Estás seguro de eliminar esta membresía?')
+
   useEffect(() => {
     const url = qs.stringifyUrl({
       url: urlPath,
@@ -49,6 +59,27 @@ const MembershipsList = ({
     }, { skipEmptyString: true, skipNull: true })
     router.push(url)
   }, [debouncedValue, router])
+
+  const onDelete = async (id: string) => {
+    const response = await ok()
+    if (!response) {
+      return
+    }
+
+    startTransition(() => {
+      deleteMembership(id)
+        .then((data) => {
+          if (data?.error) {
+            toast.error(data.error)
+            return
+          }
+          toast.success("Eliminado correctamente")
+          router.refresh()
+        })
+    })
+
+  }
+
   return (
     <>
       <div className="flex justify-between items-center mb-4">
@@ -69,6 +100,7 @@ const MembershipsList = ({
           size='sm'
           variant='primary'
           className='flex items-center px-3'
+          disabled={isPending}
           onClick={() => router.push('/teacher/memberships/new')}>
           <Plus size={15} />
           <span className='pl-2'>Membresia</span>
@@ -122,9 +154,21 @@ const MembershipsList = ({
                   <Button
                     variant="link"
                     size='sm'
+                    disabled={isPending}
                     className='text-green-400 px-2'
                     onClick={() => router.push(`/teacher/memberships/${membership.id}/edit`)}>
                     <Edit2 size={15} />
+                  </Button>
+
+                </TooltipContainer>
+                <TooltipContainer title='Eliminar'>
+                  <Button
+                    variant='link'
+                    size='sm'
+                    className='px-2 text-red-400'
+                    disabled={isPending}
+                    onClick={() => onDelete(membership.id)}>
+                    <Trash size={15} />
                   </Button>
                 </TooltipContainer>
               </TableCell>
@@ -135,6 +179,7 @@ const MembershipsList = ({
       {memberships.length > 0 && (
         <PaginationList result={pagination} path={'/teacher/memberships'} />
       )}
+      <ConfirmDialog />
     </>
   );
 }
