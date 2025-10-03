@@ -18,11 +18,12 @@ export default async function DashboardLayout({ children }: { children: React.Re
     return redirect('/auth/login');
   }
 
-  if (!currentUser.teacherId) {
-    return redirect('/');
-  }
+  // if (!currentUser.teacherId) {
+  //   return redirect('/');
+  // }
 
-  const membershipActive = await getMembershipActive(session.user.id);
+  // const membershipActive = await getMembershipActive(session.user.id);
+  const membershipActive = true;
 
   return (
     <div className="h-full">
