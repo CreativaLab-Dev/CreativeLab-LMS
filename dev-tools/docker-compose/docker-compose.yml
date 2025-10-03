@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  lms-app:
+    image: postgres:16
+    container_name: lms-app
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secret123
+      POSTGRES_DB: lmsdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - lms_app_data:/var/lib/postgresql/data
+
+volumes:
+  lms_app_data:

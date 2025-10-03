@@ -32,13 +32,12 @@ const DashboardPage = async () => {
 
   return (
     <div className="space-y-3 py-4 lg:py-8">
-      <HeaderPage
-        title="Dashboard"
-        description="Descubre todo lo que hemos preparado para ti."
-        bgColor="bg-gradient-to-r from-blue-500 to-blue-400"
-        icon="dashboard"
-        iconColor="text-white"
-      />
+      {/* Mensaje de bienvenida */}
+      <div className="px-2 md:px-6">
+        <h2>
+          Bienvenido de nuevo, {session.user.name}
+        </h2>
+      </div>
       <div className="px-2 md:px-6">
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-6 p-4">
           <div className="p-3 border border-blue-400 rounded-lg">
