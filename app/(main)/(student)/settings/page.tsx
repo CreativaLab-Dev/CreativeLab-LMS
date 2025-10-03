@@ -26,10 +26,10 @@ export default async function SettingPage() {
       />
       <div className="px-4 md:px-6 space-y-2">
         <CurrentPlan plan={planText} membership={membershipActive} />
-        {
+        {/* {
           !membershipActive ?
             <UpgradeButton /> : <ManageSubcription />
-        }
+        } */}
       </div>
     </div>
   );

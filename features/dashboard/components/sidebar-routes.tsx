@@ -22,7 +22,7 @@ const commonRoutes = [
 const studentRoutes = [
   {
     icon: Layout,
-    label: "Dashboard",
+    label: "Inicio",
     href: "/",
   },
   {
@@ -30,11 +30,11 @@ const studentRoutes = [
     label: "Cursos",
     href: "/search",
   },
-  {
-    icon: Calendar,
-    label: "Eventos",
-    href: "/events",
-  },
+  // {
+  //   icon: Calendar,
+  //   label: "Eventos",
+  //   href: "/events",
+  // },
   {
     icon: UserCircle,
     label: "Mentorias",
@@ -54,11 +54,11 @@ const teacherRoutes = [
     label: "Mis cursos",
     href: "/teacher/courses",
   },
-  {
-    icon: CalendarArrowUp,
-    label: "Eventos",
-    href: "/teacher/events",
-  },
+  // {
+  //   icon: CalendarArrowUp,
+  //   label: "Eventos",
+  //   href: "/teacher/events",
+  // },
   {
     icon: UserCircle,
     label: "Mentores",
@@ -118,7 +118,7 @@ const SidebarRoutes = ({
       </div>
 
       <div className="flex flex-col mb-4">
-        <div className="px-4 py-3">
+        {/* <div className="px-4 py-3">
           {!isTeacherPage && isPremium && (
             <div className="bg-gradient-to-r from-yellow-500 to-yellow-700 border-yellow-600 text-white border text-center px-2 py-2 text-xs flex items-center justify-center w-full rounded-lg shadow-lg">
               <Crown className="h-4 w-4 text-white mr-2" />
@@ -128,7 +128,7 @@ const SidebarRoutes = ({
             </div>
           )}
           {!isTeacherPage && !isPremium && <EnrollButton />}
-        </div>
+        </div> */}
         {!isTeacherPage && commonRoutes.map((route, index) => (
           <SidebarItem
             key={index}
