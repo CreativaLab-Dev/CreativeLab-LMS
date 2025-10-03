@@ -18,7 +18,7 @@ const CurrentPlan = ({
 
   return (
     <>
-      <p className="text-gray-500">
+      {/* <p className="text-gray-500">
         Tu plan actual es <strong className={cn(
           plan === 'Premium' ? 'text-sky-500' : 'text-gray-500'
         )}>
@@ -29,8 +29,10 @@ const CurrentPlan = ({
         <p className="text-gray-500 text-xs">
           Tu plan vence el {formattedDate}
         </p>
-      )}
-
+      )} */}
+      <p className="text-gray-400">
+        Estás accediendo a una prueba piloto. Algunas funciones pueden cambiar o estar limitadas.
+      </p>
     </>
   );
 }
